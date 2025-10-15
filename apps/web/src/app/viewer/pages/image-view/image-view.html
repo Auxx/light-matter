@@ -1,3 +1,5 @@
 <div class="image-container" [class]="fit()">
   <img [src]="imageUrl()" alt="" [style.zoom]="zoom()" />
 </div>
+
+<app-image-view-toolbar [fit]="fit()" (fitChange)="fit.set($event)"/>

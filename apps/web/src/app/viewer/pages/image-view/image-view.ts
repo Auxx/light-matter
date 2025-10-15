@@ -1,27 +1,26 @@
-import { DOCUMENT, NgOptimizedImage } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime, fromEvent, map, startWith } from 'rxjs';
+import { ImageViewToolbar } from '../../components/image-view-toolbar/image-view-toolbar';
 
 @Component({
   selector: 'app-image-view',
   imports: [
-    NgOptimizedImage
+    ImageViewToolbar
   ],
   templateUrl: './image-view.html',
   styleUrl: './image-view.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ImageView {
-  fit = input<'contain' | 'original'>('original');
+  readonly imageUrl = input('/sample-pic.jpg');
 
-  imageUrl = input('/sample-pic.jpg');
+  protected readonly fit = signal<'contain' | 'original'>('original');
 
-  backgroundImageUrl = computed(() => `url(${ this.imageUrl() })`);
+  protected readonly zoom = signal(1);
 
-  zoom = signal(1);
-
-  document = inject(DOCUMENT);
+  private readonly document = inject(DOCUMENT);
 
   constructor() {
     if (this.document.defaultView !== null) {

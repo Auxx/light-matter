@@ -1,3 +1,28 @@
+$default-color: #B0BEC5;
+$active-color: #ECEFF1;
+
 :host {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 16px 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: $default-color;
+  gap: 16px;
+}
+
+button {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: $default-color;
+
+  &.active {
+    color: $active-color;
+  }
 }
