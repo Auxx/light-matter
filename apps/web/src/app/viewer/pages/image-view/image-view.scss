@@ -1,0 +1,27 @@
+:host {
+  position: relative;
+  display: block;
+  height: 100%;
+  background: #000;
+}
+
+.image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  overflow: auto;
+
+  &.contain {
+    img {
+      flex: 1;
+      object-fit: contain;
+    }
+  }
+
+  &.original {
+    img {
+      object-fit: none;
+    }
+  }
+}
