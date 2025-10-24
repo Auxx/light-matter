@@ -71,8 +71,8 @@ export default class App {
       webPreferences: {
         contextIsolation: true,
         backgroundThrottling: false,
-        preload: join(__dirname, 'main.preload.js'),
-      },
+        preload: join(__dirname, 'main.preload.js')
+      }
     });
     App.mainWindow.setMenu(null);
     App.mainWindow.center();
@@ -99,18 +99,27 @@ export default class App {
   }
 
   private static loadMainWindow() {
+    const fileName = App.getImageFileName();
+    console.log('File name:', fileName);
+
     // load the index.html of the app.
+    console.log('isPackaged', App.application.isPackaged);
     if (!App.application.isPackaged) {
-      App.mainWindow.loadURL(`http://localhost:${rendererAppPort}`);
+      App.mainWindow.loadURL(`http://localhost:${ rendererAppPort }`);
     } else {
       App.mainWindow.loadURL(
         format({
           pathname: join(__dirname, '..', rendererAppName, 'index.html'),
           protocol: 'file:',
-          slashes: true,
+          slashes: true
         })
       );
     }
+  }
+
+  private static getImageFileName() {
+    const argCount = App.application.isPackaged ? 2 : 4;
+    return process.argv.length === argCount ? process.argv.pop() : null;
   }
 
   static main(app: Electron.App, browserWindow: typeof BrowserWindow) {

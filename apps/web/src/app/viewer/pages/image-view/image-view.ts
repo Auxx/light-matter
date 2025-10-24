@@ -16,7 +16,7 @@ import { ImageViewToolbar } from '../../components/image-view-toolbar/image-view
 export class ImageView {
   readonly imageUrl = input('sample-pic-3.jpg');
 
-  protected readonly fit = signal<'contain' | 'original'>('original');
+  protected readonly fit = signal<'contain' | 'original'>('contain');
 
   protected readonly zoom = signal(1);
 
