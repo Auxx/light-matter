@@ -1,11 +1,16 @@
-<button title="Fit to screen"
-        [class.active]="fit() === 'contain'"
-        (click)="fitChange.emit('contain')">
-  <lucide-icon [img]="FullscreenIcon" />
-</button>
+<!-- eslint-disable-next-line @angular-eslint/template/mouse-events-have-key-events -->
+<div class="container" (mouseover)="isVisible.set(true)" (mouseout)="isVisible.set(false)" [class.visible]="isVisible()">
 
-<button title="Original size"
-        [class.active]="fit() === 'original'"
-        (click)="fitChange.emit('original')">
-  <lucide-icon [img]="ImageIcon" />
-</button>
+  <button title="Fit to screen"
+          [class.active]="fit() === 'contain'"
+          (click)="fitChange.emit('contain')">
+    <lucide-icon [img]="FullscreenIcon" />
+  </button>
+
+  <button title="Original size"
+          [class.active]="fit() === 'original'"
+          (click)="fitChange.emit('original')">
+    <lucide-icon [img]="ImageIcon" />
+  </button>
+
+</div>

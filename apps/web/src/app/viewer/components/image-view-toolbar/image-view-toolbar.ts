@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
 import { FullscreenIcon, ImageIcon, LucideAngularModule } from 'lucide-angular';
 
 @Component({
@@ -14,6 +14,8 @@ export class ImageViewToolbar {
   readonly fit = input.required<'contain' | 'original'>();
 
   readonly fitChange = output<'contain' | 'original'>();
+
+  readonly isVisible = signal(false);
 
   protected readonly FullscreenIcon = FullscreenIcon;
   protected readonly ImageIcon = ImageIcon;
