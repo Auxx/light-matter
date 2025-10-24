@@ -2,7 +2,6 @@
   position: relative;
   display: block;
   height: 100%;
-  background: #000;
 }
 
 .image-container {
@@ -10,9 +9,9 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  overflow: auto;
 
   &.contain {
+
     img {
       object-fit: contain;
       width: 100%;
