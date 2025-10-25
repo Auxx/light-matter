@@ -1,3 +1,4 @@
 {
-  "$schema": "../../../../../node_modules/nx-electron/src/validation/maker.schema.json"
+  "$schema": "../../../../../node_modules/nx-electron/src/validation/maker.schema.json",
+  "productName": "light-matter"
 }
