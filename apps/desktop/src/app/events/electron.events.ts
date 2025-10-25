@@ -12,4 +12,6 @@ ipcMain.handle('get-app-version', () => environment.version);
 
 ipcMain.handle('isPackaged', () => App.application.isPackaged);
 
+ipcMain.handle('argv', () => process.argv);
+
 ipcMain.on('quit', (_, code) => app.exit(code));

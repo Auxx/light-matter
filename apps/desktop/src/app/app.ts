@@ -99,6 +99,8 @@ export default class App {
   }
 
   private static loadMainWindow() {
+    console.log('process.argv', process.argv);
+
     // load the index.html of the app.
     if (!App.application.isPackaged) {
       App.mainWindow.loadURL(`http://localhost:${ rendererAppPort }`);

@@ -4,7 +4,7 @@ import { Desktop } from 'internal-api';
 const api: Desktop = {
   getAppVersion: () => ipcRenderer.invoke('get-app-version'),
   platform: process.platform,
-  argv: process.argv,
+  argv: () => ipcRenderer.invoke('argv'),
   isPackaged: () => ipcRenderer.invoke('isPackaged')
 };
 
