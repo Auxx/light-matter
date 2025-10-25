@@ -1,4 +1,22 @@
 {
   "$schema": "../../../../../node_modules/nx-electron/src/validation/maker.schema.json",
-  "productName": "light-matter"
+  "productName": "light-matter",
+  "fileAssociations": [
+    {
+      "ext": [
+        "jpg",
+        "jpeg",
+        "png",
+        "gif",
+        "svg",
+        "webp",
+        "avif",
+        "bmp"
+      ],
+      "role": "Viewer"
+    }
+  ],
+  "nsis": {
+    "perMachine": true
+  }
 }
