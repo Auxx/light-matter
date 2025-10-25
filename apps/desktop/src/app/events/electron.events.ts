@@ -9,14 +9,14 @@ import { environment } from '../../environments/environment';
 import App from '../app';
 
 const supportedFileExtensions: string[] = [
-  '.jpg',
-  '.jpeg',
-  '.png',
-  '.gif',
-  '.svg',
-  '.webp',
-  '.avif',
-  '.bmp'
+  'jpg',
+  'jpeg',
+  'png',
+  'gif',
+  'svg',
+  'webp',
+  'avif',
+  'bmp'
 ];
 
 export default class ElectronEvents {
@@ -36,16 +36,35 @@ ipcMain.handle('openFolder', async (): Promise<FileListing> => {
 
   if (!result.canceled && result.filePaths.length > 0) {
     const folder = result.filePaths[0];
-    const contents = (await fs.readdir(folder))
-      .map(f => path.join(folder, f))
-      .filter(f => fsSync.lstatSync(f).isFile())
-      .filter(f => supportedFileExtensions.includes(path.extname(f).toLowerCase()));
 
     return {
       success: true,
       data: {
         folder,
-        files: contents
+        files: await readFolder(folder)
+      }
+    };
+  }
+
+  return { success: false };
+});
+
+ipcMain.handle('openFile', async (): Promise<FileListing> => {
+  const result = await dialog.showOpenDialog({
+    properties: [ 'openFile' ],
+    filters: [ { name: 'Images', extensions: supportedFileExtensions } ]
+  });
+
+  if (!result.canceled && result.filePaths.length > 0) {
+    const fileName = result.filePaths[0];
+    const folder = path.dirname(fileName);
+
+    return {
+      success: true,
+      data: {
+        folder,
+        files: await readFolder(folder),
+        selected: fileName
       }
     };
   }
@@ -54,3 +73,9 @@ ipcMain.handle('openFolder', async (): Promise<FileListing> => {
 });
 
 ipcMain.on('quit', (_, code) => app.exit(code));
+
+const readFolder = async (folder: string): Promise<string[]> =>
+  (await fs.readdir(folder))
+    .map(f => path.join(folder, f))
+    .filter(f => fsSync.lstatSync(f).isFile())
+    .filter(f => supportedFileExtensions.includes(path.extname(f).toLowerCase().replace('.', '')));

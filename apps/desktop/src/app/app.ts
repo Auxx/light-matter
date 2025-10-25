@@ -1,4 +1,6 @@
-import { BrowserWindow, shell, screen } from 'electron';
+import { BrowserWindow, shell, screen, protocol, net } from 'electron';
+import { appProtocol } from 'internal-api';
+import * as url from 'node:url';
 import { rendererAppName, rendererAppPort } from './constants';
 import { environment } from '../environments/environment';
 import { join } from 'path';
@@ -45,6 +47,11 @@ export default class App {
     // initialization and is ready to create browser windows.
     // Some APIs can only be used after this event occurs.
     if (rendererAppName) {
+      protocol.handle(
+        appProtocol,
+        request => net.fetch(url.pathToFileURL(decodeURIComponent(request.url.slice(`${ appProtocol }://`.length))).toString())
+      );
+
       App.initMainWindow();
       App.loadMainWindow();
     }
@@ -121,6 +128,8 @@ export default class App {
 
     App.BrowserWindow = browserWindow;
     App.application = app;
+
+    protocol.registerSchemesAsPrivileged([ { scheme: appProtocol, privileges: { bypassCSP: true } } ]);
 
     App.application.on('window-all-closed', App.onWindowAllClosed); // Quit when all windows are closed.
     App.application.on('ready', App.onReady); // App is ready to load data

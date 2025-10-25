@@ -7,6 +7,7 @@ const api: Desktop = {
   argv: () => ipcRenderer.invoke('argv'),
   isPackaged: () => ipcRenderer.invoke('isPackaged'),
   openFolder: () => ipcRenderer.invoke('openFolder'),
+  openFile: () => ipcRenderer.invoke('openFile')
 };
 
 contextBridge.exposeInMainWorld('desktop', api);

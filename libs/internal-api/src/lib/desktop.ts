@@ -6,11 +6,12 @@ export interface Desktop {
   argv: () => Promise<Arguments>;
   isPackaged: () => Promise<boolean>;
   openFolder: () => Promise<FileListing>;
+  openFile: () => Promise<FileListing>;
 }
 
 export interface Success<T> {
   success: true;
-  data:T;
+  data: T;
 }
 
 export interface Failure {
@@ -20,6 +21,9 @@ export interface Failure {
 export interface FileListingData {
   folder: string;
   files: string[];
+  selected?: string;
 }
 
 export type FileListing = Success<FileListingData> | Failure;
+
+export const appProtocol = 'atom';

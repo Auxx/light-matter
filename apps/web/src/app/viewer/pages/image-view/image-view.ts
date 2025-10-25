@@ -14,7 +14,7 @@ import { ImageViewToolbar } from '../../components/image-view-toolbar/image-view
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ImageView {
-  readonly imageUrl = input('sample-pic-3.jpg');
+  readonly imageUrl = input.required<string>();
 
   protected readonly fit = signal<'contain' | 'original'>('contain');
 
