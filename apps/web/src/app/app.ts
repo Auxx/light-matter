@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import 'internal-api';
 
 @Component({
   imports: [ RouterModule ],
