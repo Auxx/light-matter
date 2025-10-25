@@ -99,11 +99,7 @@ export default class App {
   }
 
   private static loadMainWindow() {
-    const fileName = App.getImageFileName();
-    console.log('File name:', fileName);
-
     // load the index.html of the app.
-    console.log('isPackaged', App.application.isPackaged);
     if (!App.application.isPackaged) {
       App.mainWindow.loadURL(`http://localhost:${ rendererAppPort }`);
     } else {
@@ -115,11 +111,6 @@ export default class App {
         })
       );
     }
-  }
-
-  private static getImageFileName() {
-    const argCount = App.application.isPackaged ? 2 : 4;
-    return process.argv.length === argCount ? process.argv.pop() : null;
   }
 
   static main(app: Electron.App, browserWindow: typeof BrowserWindow) {

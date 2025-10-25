@@ -1,10 +1,6 @@
-/**
- * This module is responsible on handling all the inter process communications
- * between the frontend to the electron backend.
- */
-
 import { app, ipcMain } from 'electron';
 import { environment } from '../../environments/environment';
+import App from '../app';
 
 export default class ElectronEvents {
   static bootstrapElectronEvents(): Electron.IpcMain {
@@ -12,14 +8,8 @@ export default class ElectronEvents {
   }
 }
 
-// Retrieve app version
-ipcMain.handle('get-app-version', (event) => {
-  console.log(`Fetching application version... [v${environment.version}]`);
+ipcMain.handle('get-app-version', () => environment.version);
 
-  return environment.version;
-});
+ipcMain.handle('isPackaged', () => App.application.isPackaged);
 
-// Handle App termination
-ipcMain.on('quit', (event, code) => {
-  app.exit(code);
-});
+ipcMain.on('quit', (_, code) => app.exit(code));
