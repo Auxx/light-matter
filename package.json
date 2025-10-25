@@ -26,6 +26,7 @@
     "@angular/router": "~20.3.0",
     "lucide-angular": "^0.545.0",
     "rxjs": "~7.8.0",
+    "yargs": "^18.0.0",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
