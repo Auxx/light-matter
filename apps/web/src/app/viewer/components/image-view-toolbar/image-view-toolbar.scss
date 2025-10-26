@@ -12,34 +12,49 @@ $disabled-color: var(--mat-sys-outline);
 .container {
   display: flex;
   align-items: center;
-  justify-content: center;
   background: rgba(0, 0, 0, 0.5);
   color: $default-color;
   gap: 16px;
-  padding: 16px 0;
-  opacity: 1;
+  padding: 16px 32px;
+  opacity: 0;
   transition: opacity 250ms ease-in-out;
 
-  button {
-    background: none;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    color: $default-color;
+  .file-name {
+    flex: 1;
+  }
 
-    lucide-icon {
-      display: block;
-    }
+  .actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
 
-    &.active {
-      color: $active-color;
-      cursor: default;
-    }
+    button {
+      background: none;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      color: $default-color;
 
-    &:disabled {
-      color: $disabled-color;
-      cursor: default;
+      lucide-icon {
+        display: block;
+      }
+
+      &.active {
+        color: $active-color;
+        cursor: default;
+      }
+
+      &:disabled {
+        color: $disabled-color;
+        cursor: default;
+      }
     }
+  }
+
+  .misc {
+    flex: 1;
+    text-align: right;
   }
 
   &.visible {

@@ -1,35 +1,51 @@
+@let image = imageElement();
+
 <!-- eslint-disable-next-line @angular-eslint/template/mouse-events-have-key-events -->
-<div class="container" (mouseover)="isVisible.set(true)" (mouseout)="isVisible.set(false)" [class.visible]="isVisible()">
+<div class="container" (mouseover)="isVisible.set(true)"
+     (mouseout)="isVisible.set(false)"
+     [class.visible]="isVisible()">
 
-  <button title="Back to Dashboard"
-          routerLink="/dashboard">
-    <lucide-icon [img]="ArrowBigLeftIcon" class="block-icon" />
-  </button>
+  <div class="file-name">
+    {{ fileName() | fileName }}
+  </div>
 
-  <app-vertical-divider/>
+  <div class="actions">
+    <button title="Back to Dashboard"
+            routerLink="/dashboard">
+      <lucide-icon [img]="ArrowBigLeftIcon" class="block-icon" />
+    </button>
 
-  <button title="Previous image"
-          [disabled]="prev() === -1"
-          (click)="navigatePrev.emit()">
-    <lucide-icon [img]="ChevronLeftIcon" class="block-icon" />
-  </button>
+    <app-vertical-divider />
 
-  <button title="Fit to screen"
-          [class.active]="fit() === 'contain'"
-          (click)="fitChange.emit('contain')">
-    <lucide-icon [img]="FullscreenIcon" class="block-icon" />
-  </button>
+    <button title="Previous image"
+            [disabled]="prev() === -1"
+            (click)="navigatePrev.emit()">
+      <lucide-icon [img]="ChevronLeftIcon" class="block-icon" />
+    </button>
 
-  <button title="Original size"
-          [class.active]="fit() === 'original'"
-          (click)="fitChange.emit('original')">
-    <lucide-icon [img]="ImageIcon" class="block-icon" />
-  </button>
+    <button title="Fit to screen"
+            [class.active]="fit() === 'contain'"
+            (click)="fitChange.emit('contain')">
+      <lucide-icon [img]="FullscreenIcon" class="block-icon" />
+    </button>
 
-  <button title="Next image"
-          [disabled]="next() === -1"
-          (click)="navigateNext.emit()">
-    <lucide-icon [img]="ChevronRightIcon" class="block-icon" />
-  </button>
+    <button title="Original size"
+            [class.active]="fit() === 'original'"
+            (click)="fitChange.emit('original')">
+      <lucide-icon [img]="ImageIcon" class="block-icon" />
+    </button>
+
+    <button title="Next image"
+            [disabled]="next() === -1"
+            (click)="navigateNext.emit()">
+      <lucide-icon [img]="ChevronRightIcon" class="block-icon" />
+    </button>
+  </div>
+
+  <div class="misc">
+    @if(image !== null) {
+      {{ image.width }} x {{ image.height }}
+    }
+  </div>
 
 </div>

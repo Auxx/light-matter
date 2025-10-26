@@ -3,10 +3,12 @@
 @if (state) {
   @if (state.isValid) {
     <div class="image-container" [class]="fit()">
-      <img [src]="state.selectedFileUrl" alt="" [style.zoom]="zoom()" />
+      <img [src]="state.selectedFileUrl" alt="" [style.zoom]="zoom()" #image />
     </div>
 
-    <app-image-view-toolbar [fit]="fit()"
+    <app-image-view-toolbar [fileName]="state.selectedFile"
+                            [imageElement]="imageSize()"
+                            [fit]="fit()"
                             [prev]="state.prev"
                             [next]="state.next"
                             (fitChange)="fit.set($event)"

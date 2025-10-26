@@ -57,7 +57,7 @@ export class ViewNavigator {
     updateSubject(
       this.state$,
       state => {
-        if (!state.isValid || state.prev < 0) {
+        if (!state.isValid || state.next < 0) {
           return state;
         }
 

@@ -9,13 +9,16 @@ import {
   LucideAngularModule
 } from 'lucide-angular';
 import { VerticalDivider } from '../../../system/components/vertical-divider/vertical-divider';
+import { FileNamePipe } from '../../pipes/file-name/file-name-pipe';
+import { ImageDetails } from './image-view-toolbar.types';
 
 @Component({
   selector: 'app-image-view-toolbar',
   imports: [
     LucideAngularModule,
     RouterLink,
-    VerticalDivider
+    VerticalDivider,
+    FileNamePipe
   ],
   templateUrl: './image-view-toolbar.html',
   styleUrl: './image-view-toolbar.scss',
@@ -23,6 +26,10 @@ import { VerticalDivider } from '../../../system/components/vertical-divider/ver
 })
 export class ImageViewToolbar {
   readonly fit = input.required<'contain' | 'original'>();
+
+  readonly fileName = input.required<string>();
+
+  readonly imageElement = input.required<ImageDetails | null>();
 
   readonly fitChange = output<'contain' | 'original'>();
 
