@@ -1,5 +1,18 @@
-<div class="image-container" [class]="fit()">
-  <img [src]="imageUrl()" alt="" [style.zoom]="zoom()" />
-</div>
+@let state = state$ | async;
 
-<app-image-view-toolbar [fit]="fit()" (fitChange)="fit.set($event)"/>
+@if (state) {
+  @if (state.isValid) {
+    <div class="image-container" [class]="fit()">
+      <img [src]="state.selectedFileUrl" alt="" [style.zoom]="zoom()" />
+    </div>
+
+    <app-image-view-toolbar [fit]="fit()"
+                            [prev]="state.prev"
+                            [next]="state.next"
+                            (fitChange)="fit.set($event)"
+                            (navigatePrev)="viewNavigator.prev()"
+                            (navigateNext)="viewNavigator.next()" />
+  } @else {
+    <div>Invalid state</div>
+  }
+}

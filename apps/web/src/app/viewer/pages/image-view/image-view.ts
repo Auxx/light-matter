@@ -1,20 +1,23 @@
-import { DOCUMENT } from '@angular/common';
+import { AsyncPipe, DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { debounceTime, fromEvent, map, startWith } from 'rxjs';
+import { Router } from '@angular/router';
+import { debounceTime, fromEvent, map, noop, startWith, tap } from 'rxjs';
 import { ImageViewToolbar } from '../../components/image-view-toolbar/image-view-toolbar';
+import { ViewNavigator } from '../../services/view-navigator/view-navigator';
 
 @Component({
   selector: 'app-image-view',
   imports: [
-    ImageViewToolbar
+    ImageViewToolbar,
+    AsyncPipe
   ],
   templateUrl: './image-view.html',
   styleUrl: './image-view.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ImageView {
-  readonly imageUrl = input.required<string>();
+  readonly viewNavigator = inject(ViewNavigator);
 
   protected readonly fit = signal<'contain' | 'original'>('contain');
 
@@ -22,7 +25,16 @@ export class ImageView {
 
   private readonly document = inject(DOCUMENT);
 
+  private readonly router = inject(Router);
+
+  readonly state$ = this.viewNavigator.state()
+    .pipe(tap(state => !state.isValid ? this.router.navigate([ 'dashboard' ]) : noop()));
+
   constructor() {
+    this.trackZoom();
+  }
+
+  private readonly trackZoom = () => {
     if (this.document.defaultView !== null) {
       const win = this.document.defaultView;
 
@@ -36,5 +48,5 @@ export class ImageView {
         )
         .subscribe(zoom => this.zoom.set(zoom));
     }
-  }
+  };
 }

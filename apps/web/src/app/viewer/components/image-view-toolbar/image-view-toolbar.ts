@@ -1,14 +1,25 @@
 import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
-import { FullscreenIcon, ImageIcon, LucideAngularModule } from 'lucide-angular';
+import { RouterLink } from '@angular/router';
+import {
+  ArrowBigLeftIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  FullscreenIcon,
+  ImageIcon,
+  LucideAngularModule
+} from 'lucide-angular';
+import { VerticalDivider } from '../../../system/components/vertical-divider/vertical-divider';
 
 @Component({
   selector: 'app-image-view-toolbar',
   imports: [
-    LucideAngularModule
+    LucideAngularModule,
+    RouterLink,
+    VerticalDivider
   ],
   templateUrl: './image-view-toolbar.html',
   styleUrl: './image-view-toolbar.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ImageViewToolbar {
   readonly fit = input.required<'contain' | 'original'>();
@@ -17,6 +28,17 @@ export class ImageViewToolbar {
 
   readonly isVisible = signal(false);
 
+  readonly prev = input(-1);
+
+  readonly next = input(-1);
+
+  readonly navigatePrev = output();
+
+  readonly navigateNext = output();
+
   protected readonly FullscreenIcon = FullscreenIcon;
   protected readonly ImageIcon = ImageIcon;
+  protected readonly ArrowBigLeftIcon = ArrowBigLeftIcon;
+  protected readonly ChevronLeftIcon = ChevronLeftIcon;
+  protected readonly ChevronRightIcon = ChevronRightIcon;
 }

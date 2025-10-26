@@ -1,5 +1,6 @@
-$default-color: #B0BEC5;
-$active-color: #ECEFF1;
+$default-color: var(--mat-sys-on-surface);
+$active-color: var(--mat-sys-on-primary-container);
+$disabled-color: var(--mat-sys-outline);
 
 :host {
   position: fixed;
@@ -16,7 +17,7 @@ $active-color: #ECEFF1;
   color: $default-color;
   gap: 16px;
   padding: 16px 0;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 250ms ease-in-out;
 
   button {
@@ -26,8 +27,18 @@ $active-color: #ECEFF1;
     cursor: pointer;
     color: $default-color;
 
+    lucide-icon {
+      display: block;
+    }
+
     &.active {
       color: $active-color;
+      cursor: default;
+    }
+
+    &:disabled {
+      color: $disabled-color;
+      cursor: default;
     }
   }
 
