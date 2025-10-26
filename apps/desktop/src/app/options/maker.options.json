@@ -18,5 +18,8 @@
   ],
   "nsis": {
     "perMachine": true
-  }
+  },
+  "electronLanguages": [
+    "en-GB"
+  ]
 }
