@@ -8,9 +8,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
 
   &.contain {
+    height: 100%;
 
     img {
       object-fit: contain;
@@ -20,6 +20,8 @@
   }
 
   &.original {
+    min-height: 100%;
+
     img {
       object-fit: none;
     }
