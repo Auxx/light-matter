@@ -58,13 +58,16 @@ export class ImageView {
       if (imageRef !== undefined) {
         this.imageSub = fromEvent(imageRef.nativeElement, 'load')
           .pipe(takeUntilDestroyed(this.destroyRef))
-          .subscribe(event => this.imageSize.set(
-            event.target instanceof HTMLImageElement
-              ? {
-                width: event.target.naturalWidth,
-                height: event.target.naturalHeight
-              }
-              : null));
+          .subscribe(event =>
+            this.imageSize.set(
+              event.target instanceof HTMLImageElement
+                ? {
+                  width: event.target.naturalWidth,
+                  height: event.target.naturalHeight
+                }
+                : null
+            )
+          );
       }
     });
   }

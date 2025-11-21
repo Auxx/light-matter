@@ -82,7 +82,7 @@ export class ViewNavigator {
 
   private readonly ensureSelection = (files: string[], file?: string): {
     selectedIndex: number;
-    selectedFile: string
+    selectedFile: string;
   } => {
     const index = this.findSelectedIndex(files, file);
 
@@ -91,5 +91,5 @@ export class ViewNavigator {
       : { selectedIndex: index, selectedFile: files[index] };
   };
 
-  private readonly url = (selectedFile: string): string => `${ appProtocol }://${ encodeURIComponent(selectedFile) }`;
+  private readonly url = (selectedFile: string): string => `${appProtocol}://${encodeURIComponent(selectedFile)}`;
 }

@@ -7,7 +7,7 @@ describe('ImageViewToolbar', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ImageViewToolbar],
+      imports: [ ImageViewToolbar ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ImageViewToolbar);
