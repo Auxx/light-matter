@@ -31,7 +31,5 @@ export class Dashboard {
 
     this.viewNavigator.setFiles(result.data.files, result.data.selected);
     await this.router.navigate([ '/view' ]);
-
-    //   await this.router.navigate([ '/view', `${ appProtocol }://${ encodeURIComponent(fileName) }` ]);
   };
 }

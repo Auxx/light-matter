@@ -1,4 +1,4 @@
-import { app, dialog, ipcMain } from 'electron';
+import { app, dialog, ipcMain, IpcMainInvokeEvent } from 'electron';
 import { FileListing } from 'internal-api';
 import * as fsSync from 'node:fs';
 import * as fs from 'node:fs/promises';
@@ -70,6 +70,19 @@ ipcMain.handle('openFile', async (): Promise<FileListing> => {
   }
 
   return { success: false };
+});
+
+ipcMain.handle('openFileFromArgs', async (_: IpcMainInvokeEvent, fileName: string): Promise<FileListing> => {
+  const folder = path.dirname(fileName);
+
+  return {
+    success: true,
+    data: {
+      folder,
+      files: await readFolder(folder),
+      selected: fileName
+    }
+  };
 });
 
 ipcMain.on('quit', (_, code) => app.exit(code));

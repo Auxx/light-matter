@@ -7,6 +7,7 @@ export interface Desktop {
   isPackaged: () => Promise<boolean>;
   openFolder: () => Promise<FileListing>;
   openFile: () => Promise<FileListing>;
+  openFileFromArgs:(fileName: string) => Promise<FileListing>;
 }
 
 export interface Success<T> {

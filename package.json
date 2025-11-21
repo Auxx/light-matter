@@ -13,7 +13,7 @@
     "nxe:package:app": "nx run desktop:make --prepackageOnly",
     "nxe:make:app": "nx run desktop:make",
     "make:prod": "nx run web:build:production && nx run desktop:build:production && nx run desktop:make",
-    "start:with-args": "cd dist/executables/win-unpacked && light-matter.exe 'C:\\Users\\Aleks\\Downloads\\ec-aura-onboard.jpg'"
+    "start:with-args": "cd dist/executables/win-unpacked && light-matter.exe \"C:\\Users\\Aleks\\Desktop\\hdr photos\\IMGP8056.jpg\""
   },
   "private": true,
   "dependencies": {
