@@ -67,14 +67,19 @@ export default class App {
 
   private static initMainWindow() {
     const workAreaSize = screen.getPrimaryDisplay().workAreaSize;
-    const width = Math.min(1280, workAreaSize.width || 1280);
-    const height = Math.min(720, workAreaSize.height || 720);
+
+    // const width = Math.min(1280, workAreaSize.width || 1280);
+    // const height = Math.min(720, workAreaSize.height || 720);
+
+    const width = Math.round(workAreaSize.width * 0.8);
+    const height = Math.round(workAreaSize.height * 0.8);
 
     // Create the browser window.
     App.mainWindow = new BrowserWindow({
       width: width,
       height: height,
       show: false,
+      title: 'Light Matter',
       webPreferences: {
         contextIsolation: true,
         backgroundThrottling: false,
@@ -87,7 +92,7 @@ export default class App {
     // if main window is ready to show, close the splash window and show the main window
     App.mainWindow.once('ready-to-show', () => {
       App.mainWindow.show();
-      App.mainWindow.webContents.openDevTools();
+      // App.mainWindow.webContents.openDevTools();
     });
 
     // handle all external redirects in a new browser window
