@@ -17,6 +17,10 @@
   },
   "private": true,
   "dependencies": {
+    "tslib": "^2.3.0",
+    "yargs": "^18.0.0"
+  },
+  "devDependencies": {
     "@angular/cdk": "^20.2.10",
     "@angular/common": "~20.3.0",
     "@angular/compiler": "~20.3.0",
@@ -28,10 +32,7 @@
     "@angular/router": "~20.3.0",
     "lucide-angular": "^0.545.0",
     "rxjs": "~7.8.0",
-    "yargs": "^18.0.0",
-    "zone.js": "~0.15.0"
-  },
-  "devDependencies": {
+    "zone.js": "~0.15.0",
     "@angular-devkit/core": "~20.3.0",
     "@angular-devkit/schematics": "~20.3.0",
     "@angular/build": "~20.3.0",
@@ -68,7 +69,6 @@
     "prettier": "^2.6.2",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
-    "tslib": "^2.3.0",
     "typescript": "~5.9.2",
     "typescript-eslint": "^8.40.0"
   }

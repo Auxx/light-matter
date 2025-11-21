@@ -17,7 +17,9 @@
     }
   ],
   "nsis": {
-    "perMachine": true
+    "perMachine": true,
+    "allowToChangeInstallationDirectory": true,
+    "oneClick": false
   },
   "win": {
     "icon": "./apps/desktop/src/assets/icon.ico"
