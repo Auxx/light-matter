@@ -6,6 +6,9 @@
     "format": "dprint fmt",
     "format:check": "dprint check",
     "prepare": "husky",
+    "lint": "nx run-many --all --target=lint",
+    "make:prod": "nx run web:build:production && nx run desktop:build:production && nx run desktop:make",
+    "start:with-args": "cd dist/executables/win-unpacked && \"Light Matter.exe\" \"C:\\Users\\Aleks\\Desktop\\hdr photos\\IMGP8056.jpg\"",
     "postinstall": "electron-builder install-app-deps",
     "nxe:build:frontend": "nx build web",
     "nxe:build:backend": "nx build desktop",
@@ -14,10 +17,7 @@
     "nxe:test:frontend": "nx test web",
     "nxe:test:backend": "nx test desktop",
     "nxe:package:app": "nx run desktop:make --prepackageOnly",
-    "nxe:make:app": "nx run desktop:make",
-    "make:prod": "nx run web:build:production && nx run desktop:build:production && nx run desktop:make",
-    "lint": "nx run-many --all --target=lint",
-    "start:with-args": "cd dist/executables/win-unpacked && \"Light Matter.exe\" \"C:\\Users\\Aleks\\Desktop\\hdr photos\\IMGP8056.jpg\""
+    "nxe:make:app": "nx run desktop:make"
   },
   "private": true,
   "dependencies": {
@@ -57,7 +57,7 @@
     "@typescript-eslint/utils": "^8.40.0",
     "angular-eslint": "^20.3.0",
     "dprint": "^0.50.2",
-    "electron": "^38.4.0",
+    "electron": "^39.2.3",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^10.0.0",
     "husky": "^9.1.7",
