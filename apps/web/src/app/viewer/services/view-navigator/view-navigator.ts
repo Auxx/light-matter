@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { appProtocol } from 'internal-api';
-import { BehaviorSubject, filter, map, take } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { updateSubject } from '../../../rx-tools';
-import { defaultViewNavigatorState, ViewNavigatorState, ViewNavigatorValidState } from './view-navigator.types';
+import { defaultViewNavigatorState, ViewNavigatorState } from './view-navigator.types';
 
 @Injectable({ providedIn: 'root' })
 export class ViewNavigator {
