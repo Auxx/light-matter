@@ -80,6 +80,7 @@ export default class App {
       height: height,
       show: false,
       title: 'Light Matter',
+      icon: '/assets/icon.ico',
       webPreferences: {
         contextIsolation: true,
         backgroundThrottling: false,
