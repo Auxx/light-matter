@@ -9,6 +9,7 @@
     "lint": "nx run-many --all --target=lint",
     "test": "nx run-many --all --target=test --codeCoverage",
     "test:ci": "nx run-many --all --target=test --configuration=ci --parallel=3 --runInBand --ci --code-coverage --coverageReporters=lcov",
+    "build:ci": "nx run-many --all --target=build",
     "make:prod": "nx run web:build:production && nx run desktop:build:production && nx run desktop:make",
     "start:with-args": "cd dist/executables/win-unpacked && \"Light Matter.exe\" \"C:\\Users\\Aleks\\Desktop\\hdr photos\\IMGP8056.jpg\"",
     "postinstall": "electron-builder install-app-deps",

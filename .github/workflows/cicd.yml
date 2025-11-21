@@ -23,5 +23,5 @@ jobs:
       - run: npm ci --prefer-offline --no-audit --ignore-scripts
       - run: npm run format:check
       - run: npm run lint
-      - run: npm run make:prod
+      - run: npm run build:ci
       - run: npm run test:ci
