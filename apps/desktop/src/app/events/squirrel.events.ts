@@ -2,9 +2,9 @@
  * This module is responsible on handling all the setup events that is submitted by squirrel.
  */
 
-import { app } from 'electron';
 import { spawn } from 'child_process';
-import { resolve, join, basename } from 'path';
+import { app } from 'electron';
+import { basename, join, resolve } from 'path';
 import { environment } from '../../environments/environment';
 
 export default class SquirrelEvents {
@@ -33,13 +33,13 @@ export default class SquirrelEvents {
       case '--squirrel-install':
       case '--squirrel-updated':
         // Install desktop and start menu shortcuts
-        SquirrelEvents.update(['--createShortcut', SquirrelEvents.exeName]);
+        SquirrelEvents.update([ '--createShortcut', SquirrelEvents.exeName ]);
 
         return true;
 
       case '--squirrel-uninstall':
         // Remove desktop and start menu shortcuts
-        SquirrelEvents.update(['--removeShortcut', SquirrelEvents.exeName]);
+        SquirrelEvents.update([ '--removeShortcut', SquirrelEvents.exeName ]);
 
         return true;
 
@@ -66,7 +66,7 @@ export default class SquirrelEvents {
         'close',
         () => setTimeout(app.quit, 1000)
       );
-    } catch (error) {
+    } catch (_: unknown) {
       setTimeout(app.quit, 1000);
     }
   }

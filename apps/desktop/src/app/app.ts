@@ -1,10 +1,10 @@
-import { BrowserWindow, shell, screen, protocol, net } from 'electron';
+import { BrowserWindow, net, protocol, screen, shell } from 'electron';
 import { appProtocol } from 'internal-api';
 import * as url from 'node:url';
-import { rendererAppName, rendererAppPort } from './constants';
-import { environment } from '../environments/environment';
 import { join } from 'path';
 import { format } from 'url';
+import { environment } from '../environments/environment';
+import { rendererAppName, rendererAppPort } from './constants';
 
 export default class App {
   // Keep a global reference of the window object, if you don't, the window will
@@ -15,8 +15,7 @@ export default class App {
 
   public static isDevelopmentMode() {
     const isEnvironmentSet: boolean = 'ELECTRON_IS_DEV' in process.env;
-    const getFromEnvironment: boolean =
-      parseInt(process.env.ELECTRON_IS_DEV, 10) === 1;
+    const getFromEnvironment: boolean = parseInt(process.env.ELECTRON_IS_DEV, 10) === 1;
 
     return isEnvironmentSet ? getFromEnvironment : !environment.production;
   }
@@ -34,7 +33,7 @@ export default class App {
     App.mainWindow = null;
   }
 
-  private static onRedirect(event: any, url: string) {
+  private static onRedirect(event: Event, url: string) {
     if (url !== App.mainWindow.webContents.getURL()) {
       // this is a normal external redirect, open it in a new browser window
       event.preventDefault();
@@ -49,7 +48,8 @@ export default class App {
     if (rendererAppName) {
       protocol.handle(
         appProtocol,
-        request => net.fetch(url.pathToFileURL(decodeURIComponent(request.url.slice(`${ appProtocol }://`.length))).toString())
+        request =>
+          net.fetch(url.pathToFileURL(decodeURIComponent(request.url.slice(`${appProtocol}://`.length))).toString())
       );
 
       App.initMainWindow();
@@ -114,7 +114,7 @@ export default class App {
   private static loadMainWindow() {
     // load the index.html of the app.
     if (!App.application.isPackaged) {
-      App.mainWindow.loadURL(`http://localhost:${ rendererAppPort }`);
+      App.mainWindow.loadURL(`http://localhost:${rendererAppPort}`);
     } else {
       App.mainWindow.loadURL(
         format({

@@ -7,7 +7,7 @@ describe('VerticalDivider', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [VerticalDivider],
+      imports: [ VerticalDivider ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(VerticalDivider);

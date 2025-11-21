@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { appProtocol } from 'internal-api';
-import { BehaviorSubject, filter, map, take } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { updateSubject } from '../../../rx-tools';
-import { defaultViewNavigatorState, ViewNavigatorState, ViewNavigatorValidState } from './view-navigator.types';
+import { defaultViewNavigatorState, ViewNavigatorState } from './view-navigator.types';
 
 @Injectable({ providedIn: 'root' })
 export class ViewNavigator {
@@ -82,7 +82,7 @@ export class ViewNavigator {
 
   private readonly ensureSelection = (files: string[], file?: string): {
     selectedIndex: number;
-    selectedFile: string
+    selectedFile: string;
   } => {
     const index = this.findSelectedIndex(files, file);
 
@@ -91,5 +91,5 @@ export class ViewNavigator {
       : { selectedIndex: index, selectedFile: files[index] };
   };
 
-  private readonly url = (selectedFile: string): string => `${ appProtocol }://${ encodeURIComponent(selectedFile) }`;
+  private readonly url = (selectedFile: string): string => `${appProtocol}://${encodeURIComponent(selectedFile)}`;
 }

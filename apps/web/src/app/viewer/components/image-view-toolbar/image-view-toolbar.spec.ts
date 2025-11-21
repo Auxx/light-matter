@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { ImageViewToolbar } from './image-view-toolbar';
 
 describe('ImageViewToolbar', () => {
@@ -7,11 +8,15 @@ describe('ImageViewToolbar', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ImageViewToolbar],
+      imports: [ ImageViewToolbar ],
+      providers: [ provideRouter([]) ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ImageViewToolbar);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('fit', 'contain');
+    fixture.componentRef.setInput('fileName', '');
+    fixture.componentRef.setInput('imageElement', null);
     fixture.detectChanges();
   });
 

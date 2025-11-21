@@ -1,16 +1,15 @@
 import { app, autoUpdater, dialog, MessageBoxOptions } from 'electron';
-import { platform, arch } from 'os';
-import { updateServerUrl } from '../constants';
+import { arch, platform } from 'os';
 import App from '../app';
+import { updateServerUrl } from '../constants';
 
 export default class UpdateEvents {
   // initialize auto update service - most be invoked only in production
   static initAutoUpdateService() {
-    const platform_arch =
-      platform() === 'win32' ? platform() : platform() + '_' + arch();
+    const platform_arch = platform() === 'win32' ? platform() : platform() + '_' + arch();
     const version = app.getVersion();
     const feed: Electron.FeedURLOptions = {
-      url: `${updateServerUrl}/update/${platform_arch}/${version}`,
+      url: `${updateServerUrl}/update/${platform_arch}/${version}`
     };
 
     if (!App.isDevelopmentMode()) {
@@ -31,18 +30,19 @@ export default class UpdateEvents {
 
 autoUpdater.on(
   'update-downloaded',
-  (event, releaseNotes, releaseName, releaseDate) => {
+  (_event, releaseNotes, releaseName, _releaseDate) => {
     const dialogOpts: MessageBoxOptions = {
       type: 'info' as const,
-      buttons: ['Restart', 'Later'],
+      buttons: [ 'Restart', 'Later' ],
       title: 'Application Update',
       message: process.platform === 'win32' ? releaseNotes : releaseName,
-      detail:
-        'A new version has been downloaded. Restart the application to apply the updates.',
+      detail: 'A new version has been downloaded. Restart the application to apply the updates.'
     };
 
-    dialog.showMessageBox(dialogOpts).then((returnValue) => {
-      if (returnValue.response === 0) autoUpdater.quitAndInstall();
+    dialog.showMessageBox(dialogOpts).then(returnValue => {
+      if (returnValue.response === 0) {
+        autoUpdater.quitAndInstall();
+      }
     });
   }
 );
@@ -63,7 +63,7 @@ autoUpdater.on('before-quit-for-update', () => {
   console.log('Application update is about to begin...\n');
 });
 
-autoUpdater.on('error', (message) => {
+autoUpdater.on('error', message => {
   console.error('There was a problem updating the application');
   console.error(message, '\n');
 });

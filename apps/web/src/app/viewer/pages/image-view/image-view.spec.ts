@@ -7,7 +7,7 @@ describe('ImageView', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ImageView],
+      imports: [ ImageView ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ImageView);

@@ -3,7 +3,7 @@ import { CanActivateFn, Router } from '@angular/router';
 import 'internal-api';
 import { ViewNavigator } from '../../../viewer/services/view-navigator/view-navigator';
 
-export const startupGuard: CanActivateFn = async (route, state) => {
+export const startupGuard: CanActivateFn = async () => {
   const router = inject(Router);
   const viewNavigator = inject(ViewNavigator);
 
