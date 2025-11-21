@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
+    "format": "dprint fmt",
+    "format:check": "dprint check",
     "postinstall": "electron-builder install-app-deps",
     "nxe:build:frontend": "nx build web",
     "nxe:build:backend": "nx build desktop",
