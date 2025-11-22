@@ -24,3 +24,7 @@ jobs:
       - run: npm ci --prefer-offline --no-audit --ignore-scripts
       - run: npm run make:prod
       - run: dir
+      - uses: actions/upload-artifact@v4
+        with:
+          name: 'Light Matter Installer'
+          path: 'dist/executables/Light Matter Setup*.exe'
