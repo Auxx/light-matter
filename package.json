@@ -1,6 +1,6 @@
 {
   "name": "@light-matter/source",
-  "version": "0.0.2-alpha.2",
+  "version": "0.0.2",
   "license": "MIT",
   "scripts": {
     "format": "dprint fmt",
