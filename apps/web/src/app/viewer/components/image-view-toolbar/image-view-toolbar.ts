@@ -4,9 +4,10 @@ import {
   ArrowBigLeftIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  ExpandIcon,
   FullscreenIcon,
-  ImageIcon,
-  LucideAngularModule
+  LucideAngularModule,
+  Minimize2Icon
 } from 'lucide-angular';
 import { VerticalDivider } from '../../../system/components/vertical-divider/vertical-divider';
 import { FileNamePipe } from '../../pipes/file-name/file-name-pipe';
@@ -39,13 +40,18 @@ export class ImageViewToolbar {
 
   readonly next = input(-1);
 
+  readonly isFullScreen = input.required();
+
   readonly navigatePrev = output();
 
   readonly navigateNext = output();
 
+  readonly toggleFullScreen = output();
+
   protected readonly FullscreenIcon = FullscreenIcon;
-  protected readonly ImageIcon = ImageIcon;
   protected readonly ArrowBigLeftIcon = ArrowBigLeftIcon;
   protected readonly ChevronLeftIcon = ChevronLeftIcon;
   protected readonly ChevronRightIcon = ChevronRightIcon;
+  protected readonly Minimize2Icon = Minimize2Icon;
+  protected readonly ExpandIcon = ExpandIcon;
 }

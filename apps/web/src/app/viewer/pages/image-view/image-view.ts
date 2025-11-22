@@ -14,13 +14,15 @@ import { Router } from '@angular/router';
 import { debounceTime, fromEvent, map, noop, startWith, Subscription, tap } from 'rxjs';
 import { ImageViewToolbar } from '../../components/image-view-toolbar/image-view-toolbar';
 import { ImageDetails } from '../../components/image-view-toolbar/image-view-toolbar.types';
+import { FileNamePipe } from '../../pipes/file-name/file-name-pipe';
 import { ViewNavigator } from '../../services/view-navigator/view-navigator';
 
 @Component({
   selector: 'app-image-view',
   imports: [
     ImageViewToolbar,
-    AsyncPipe
+    AsyncPipe,
+    FileNamePipe
   ],
   templateUrl: './image-view.html',
   styleUrl: './image-view.scss',
@@ -41,6 +43,8 @@ export class ImageView {
   protected readonly imageSize = signal<ImageDetails | null>(null);
 
   private readonly document = inject(DOCUMENT);
+
+  protected readonly isFullScreen = signal<boolean>(this.document.fullscreenElement !== null);
 
   private readonly router = inject(Router);
 
@@ -71,6 +75,16 @@ export class ImageView {
       }
     });
   }
+
+  readonly toggleFullScreen = async () => {
+    if (this.document.fullscreenElement !== null) {
+      await this.document.exitFullscreen();
+    } else {
+      await this.document.documentElement.requestFullscreen();
+    }
+
+    this.isFullScreen.set(this.document.fullscreenElement !== null);
+  };
 
   private readonly trackZoom = () => {
     if (this.document.defaultView !== null) {

@@ -3,7 +3,11 @@
 @if (state) {
   @if (state.isValid) {
     <div class="image-container" [class]="fit()">
-      <img [src]="state.selectedFileUrl" alt="" [style.zoom]="zoom()" #image />
+      <img #image
+           [alt]="state.selectedFile | fileName"
+           [style.zoom]="zoom()"
+           [src]="state.selectedFileUrl"
+           (dblclick)="toggleFullScreen()" />
     </div>
 
     <app-image-view-toolbar [fileName]="state.selectedFile"
@@ -11,9 +15,11 @@
                             [fit]="fit()"
                             [prev]="state.prev"
                             [next]="state.next"
+                            [isFullScreen]="isFullScreen()"
                             (fitChange)="fit.set($event)"
                             (navigatePrev)="viewNavigator.prev()"
-                            (navigateNext)="viewNavigator.next()" />
+                            (navigateNext)="viewNavigator.next()"
+                            (toggleFullScreen)="toggleFullScreen()" />
   } @else {
     <div>Invalid state</div>
   }
