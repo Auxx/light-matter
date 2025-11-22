@@ -17,7 +17,7 @@
 
     <app-vertical-divider />
 
-    <button title="Previous image"
+    <button title="Previous image (Left)"
             [disabled]="prev() === -1"
             (click)="navigatePrev.emit()">
       <lucide-icon [img]="ChevronLeftIcon" class="block-icon" />
@@ -35,7 +35,7 @@
       <lucide-icon [img]="ExpandIcon" class="block-icon" />
     </button>
 
-    <button title="Next image"
+    <button title="Next image (Right)"
             [disabled]="next() === -1"
             (click)="navigateNext.emit()">
       <lucide-icon [img]="ChevronRightIcon" class="block-icon" />
@@ -43,7 +43,7 @@
 
     <app-vertical-divider />
 
-    <button title="Toggle full screen mode"
+    <button title="Toggle full screen mode (F)"
             [class.active]="isFullScreen()"
             (click)="toggleFullScreen.emit()">
       <lucide-icon [img]="FullscreenIcon" class="block-icon" />
