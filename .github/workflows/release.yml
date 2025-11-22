@@ -4,14 +4,12 @@ on:
   workflow_dispatch:
 
   push:
-    branches:
-      - 'master'
     tags:
       - '*'
 
 jobs:
   build:
-    name: Build app installer
+    name: Build and release
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v6
@@ -23,8 +21,10 @@ jobs:
           cache: 'npm'
       - run: npm ci --prefer-offline --no-audit --ignore-scripts
       - run: npm run make:prod
-      - run: dir
-      - uses: actions/upload-artifact@v4
+#      - uses: actions/upload-artifact@v4
+#        with:
+#          name: 'Light Matter Installer'
+#          path: 'dist/executables/Light Matter Setup*.exe'
+      - uses: softprops/action-gh-release@v2
         with:
-          name: 'Light Matter Installer'
-          path: 'dist/executables/Light Matter Setup*.exe'
+          files: 'dist/executables/Light Matter Setup*.exe'
