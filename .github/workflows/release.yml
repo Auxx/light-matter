@@ -1,0 +1,25 @@
+name: Release a new version
+on:
+  workflow_dispatch:
+
+  push:
+    branches:
+      - 'master'
+    tags:
+      - *
+
+jobs:
+  build:
+    name: Build app installer
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: 'npm'
+      - run: npm ci --prefer-offline --no-audit --ignore-scripts
+      - run: npm run make:prod
+      - run: dir
