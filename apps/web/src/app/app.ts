@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -8,4 +9,11 @@ import { RouterModule } from '@angular/router';
   styleUrl: './app.scss'
 })
 export class App {
+  title = inject(Title);
+
+  constructor() {
+    this.setAppTitle().then();
+  }
+
+  setAppTitle = async () => this.title.setTitle(`Light Matter v${await window.desktop.getAppVersion()}`);
 }
