@@ -26,13 +26,13 @@
     <button title="Fit to screen"
             [class.active]="fit() === 'contain'"
             (click)="fitChange.emit('contain')">
-      <lucide-icon [img]="FullscreenIcon" class="block-icon" />
+      <lucide-icon [img]="Minimize2Icon" class="block-icon" />
     </button>
 
     <button title="Original size"
             [class.active]="fit() === 'original'"
             (click)="fitChange.emit('original')">
-      <lucide-icon [img]="ImageIcon" class="block-icon" />
+      <lucide-icon [img]="ExpandIcon" class="block-icon" />
     </button>
 
     <button title="Next image"
@@ -40,10 +40,18 @@
             (click)="navigateNext.emit()">
       <lucide-icon [img]="ChevronRightIcon" class="block-icon" />
     </button>
+
+    <app-vertical-divider />
+
+    <button title="Toggle full screen mode"
+            [class.active]="isFullScreen()"
+            (click)="toggleFullScreen.emit()">
+      <lucide-icon [img]="FullscreenIcon" class="block-icon" />
+    </button>
   </div>
 
   <div class="misc">
-    @if(image !== null) {
+    @if (image !== null) {
       {{ image.width }} x {{ image.height }}
     }
   </div>

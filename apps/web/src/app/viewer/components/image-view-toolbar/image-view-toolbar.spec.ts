@@ -17,6 +17,7 @@ describe('ImageViewToolbar', () => {
     fixture.componentRef.setInput('fit', 'contain');
     fixture.componentRef.setInput('fileName', '');
     fixture.componentRef.setInput('imageElement', null);
+    fixture.componentRef.setInput('isFullScreen', false);
     fixture.detectChanges();
   });
 
