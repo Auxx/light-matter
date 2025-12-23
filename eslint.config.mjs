@@ -5,7 +5,11 @@ export default [
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
   {
-    ignores: ['**/dist'],
+    ignores: [
+      '**/dist',
+      '**/vite.config.*.timestamp*',
+      '**/vitest.config.*.timestamp*',
+    ],
   },
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
@@ -38,14 +42,14 @@ export default [
     ],
     // Override or add rules here
     rules: {
-      '@typescript-eslint/no-explicit-any': [ 'error' ],
+      '@typescript-eslint/no-explicit-any': ['error'],
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
-          'argsIgnorePattern': '^_',
-          'caughtErrorsIgnorePattern': '^_'
-        }
-      ]
+          argsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
     },
   },
 ];

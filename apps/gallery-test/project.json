@@ -1,0 +1,9 @@
+{
+  "name": "gallery-test",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/gallery-test/src",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project gallery-test --web",
+  "targets": {}
+}

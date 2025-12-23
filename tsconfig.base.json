@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@hexmode/theme-darkbox": ["libs/themes/darkbox/src/index.ts"],
       "internal-api": ["libs/internal-api/src/index.ts"]
     }
   },
