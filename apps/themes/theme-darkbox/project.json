@@ -1,0 +1,91 @@
+{
+  "name": "theme-darkbox",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "tdb",
+  "sourceRoot": "apps/themes/theme-darkbox/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/themes/theme-darkbox",
+        "browser": "apps/themes/theme-darkbox/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/themes/theme-darkbox/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/themes/theme-darkbox/public"
+          }
+        ],
+        "styles": ["apps/themes/theme-darkbox/src/styles.scss"]
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "4kb",
+              "maximumError": "8kb"
+            }
+          ],
+          "outputHashing": "none",
+          "namedChunks": false
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "continuous": true,
+      "executor": "@angular/build:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "theme-darkbox:build:production"
+        },
+        "development": {
+          "buildTarget": "theme-darkbox:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular/build:extract-i18n",
+      "options": {
+        "buildTarget": "theme-darkbox:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/themes/theme-darkbox/jest.config.ts",
+        "tsConfig": "apps/themes/theme-darkbox/tsconfig.spec.json"
+      }
+    },
+    "serve-static": {
+      "continuous": true,
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "theme-darkbox:build",
+        "staticFilePath": "dist/apps/themes/theme-darkbox/browser",
+        "spa": true
+      }
+    }
+  }
+}

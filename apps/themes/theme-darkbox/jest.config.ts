@@ -1,8 +1,8 @@
 export default {
-  displayName: 'darkbox',
+  displayName: 'theme-darkbox',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: [ '<rootDir>/src/test-setup.ts' ],
-  coverageDirectory: '../../../coverage/libs/themes/darkbox',
+  coverageDirectory: '../../../coverage/apps/themes/theme-darkbox',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
