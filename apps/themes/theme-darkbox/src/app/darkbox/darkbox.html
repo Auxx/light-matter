@@ -1,3 +1,13 @@
+@if(isEmpty()) {
+  <p class="message">
+    No images found.
+  </p>
+}@else {
+  <div class="viewer">
+    <img [src]="selectedImage()" alt="">
+  </div>
+}
+
 <div class="source-content" #wrapper>
   <ng-content />
 </div>

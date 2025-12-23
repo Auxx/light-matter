@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, contentChildren, effect, ElementRef, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, ElementRef, signal, viewChild } from '@angular/core';
 
 @Component({
   selector: 'tdb-darkbox',
@@ -8,14 +8,24 @@ import { ChangeDetectionStrategy, Component, contentChildren, effect, ElementRef
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Darkbox {
-  private readonly content = contentChildren('img');
+  private readonly view = viewChild.required<ElementRef<HTMLDivElement>>('wrapper');
 
-  private readonly view = viewChild<ElementRef<HTMLDivElement>>('wrapper');
+  protected readonly images = computed(() =>
+    Array
+      .from(this.view().nativeElement.children)
+      .map(element => element.getAttribute('src'))
+      .filter(url => url !== null)
+  );
+
+  protected readonly isEmpty = computed(() => this.images().length === 0);
+
+  protected readonly selectedIndex = signal(0);
+
+  protected readonly selectedImage = computed(() => this.images()[this.selectedIndex()]);
 
   constructor() {
     effect(() => {
-      console.log('CONTENT', this.content());
-      console.log('view', this.view()?.nativeElement.children);
+      console.log(this.images());
     });
   }
 }
