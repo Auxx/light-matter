@@ -1,10 +1,15 @@
-@if(isEmpty()) {
+@if (isEmpty()) {
   <p class="message">
     No images found.
   </p>
-}@else {
+} @else {
   <div class="viewer">
     <img [src]="selectedImage()" alt="">
+  </div>
+
+  <div class="control-strip" [class.hidden]="isHidden$ | async">
+    <button [disabled]="!hasPrev()">&lsaquo;</button>
+    <button [disabled]="!hasNext()">&rsaquo;</button>
   </div>
 }
 

@@ -28,3 +28,46 @@
 .message {
   color: #EEE;
 }
+
+.control-strip {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 32px;
+  box-sizing: border-box;
+  transform: translateY(-50%);
+  transition: opacity 250ms ease-in-out;
+
+  &.hidden {
+    //opacity: 0;
+  }
+
+  button {
+    border: none;
+    background: #37474F;
+    color: #ECEFF1;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    font-family: sans-serif;
+    font-size: 32px;
+    font-weight: bold;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    border-radius: 8px;
+    cursor: pointer;
+
+    &:disabled {
+      background: #455A64;
+      color: #CFD8DC;
+      cursor: default;
+    }
+  }
+}
