@@ -1,6 +1,5 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, ElementRef, signal, viewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged, map, merge, shareReplay, startWith, Subject, take, tap } from 'rxjs';
 import { hasTouchSupport } from '../utils/touch-detection';
 
@@ -20,18 +19,29 @@ import { hasTouchSupport } from '../utils/touch-detection';
 export class Darkbox {
   private readonly view = viewChild.required<ElementRef<HTMLDivElement>>('wrapper');
 
+  protected readonly selectedIndex = signal(0);
+
+  protected readonly hidingIndex = signal(-1);
+
+  protected readonly showingIndex = signal(-1);
+
+  protected readonly direction = signal<'left' | 'right'>('left');
+
   protected readonly images = computed(() =>
     Array
       .from(this.view().nativeElement.children)
       .map(element => element.getAttribute('src'))
       .filter(url => url !== null)
+      .map((url, index) => ({
+        url,
+        showing: this.showingIndex() === index,
+        hiding: this.hidingIndex() === index,
+        hidden: (this.hidingIndex() !== index && this.selectedIndex() !== index)
+          || (this.hidingIndex() !== -1 && this.selectedIndex() === index)
+      }))
   );
 
   protected readonly isEmpty = computed(() => this.images().length === 0);
-
-  protected readonly selectedIndex = signal(0);
-
-  protected readonly selectedImage = computed(() => this.images()[this.selectedIndex()]);
 
   protected readonly hasPrev = computed(() => this.selectedIndex() > 0);
 
@@ -58,12 +68,6 @@ export class Darkbox {
       shareReplay(1)
     );
 
-  constructor() {
-    this.isHidden$
-      .pipe(takeUntilDestroyed())
-      .subscribe(isHidden => console.log('isHidden', isHidden));
-  }
-
   protected readonly onMouseMove = () => {
     if (this.hasTouchSupport) {
       return;
@@ -81,5 +85,28 @@ export class Darkbox {
           ? this.showTrigger$.next()
           : this.hideTrigger$.next()
       );
+  };
+
+  protected readonly onPrev = () => {
+    this.direction.set('right');
+    this.hidingIndex.set(this.selectedIndex());
+    this.selectedIndex.update(value => value - 1);
+  };
+
+  protected readonly onNext = () => {
+    this.direction.set('left');
+    this.hidingIndex.set(this.selectedIndex());
+    this.selectedIndex.update(value => value + 1);
+  };
+
+  protected readonly onAnimationEnd = (event: AnimationEvent) => {
+    if (event.target instanceof HTMLImageElement) {
+      if (event.target.classList.contains('hiding')) {
+        this.showingIndex.set(this.selectedIndex());
+        this.hidingIndex.set(-1);
+      } else if (event.target.classList.contains('showing')) {
+        this.showingIndex.set(-1);
+      }
+    }
   };
 }

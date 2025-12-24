@@ -18,6 +18,90 @@
     object-fit: contain;
     max-width: 100%;
     max-height: 100%;
+
+    &.hidden {
+      display: none;
+    }
+
+    &.hiding.left {
+      opacity: 0;
+      animation: hide-image-left 200ms;
+    }
+
+    &.hiding.right {
+      opacity: 0;
+      animation: hide-image-right 200ms;
+    }
+
+    &.showing.left {
+      opacity: 0;
+      animation: show-image-left 200ms;
+    }
+
+    &.showing.right {
+      opacity: 0;
+      animation: show-image-right 200ms;
+    }
+  }
+}
+
+@keyframes show-image-left {
+  0% {
+    transform: translateX(200px) scale(0.8);
+  }
+
+  5% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes show-image-right {
+  0% {
+    transform: translateX(-200px) scale(0.8);
+  }
+
+  5% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes hide-image-left {
+  0% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+
+  95% {
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(-200px) scale(0.8);
+  }
+}
+
+@keyframes hide-image-right {
+  0% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+
+  95% {
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(200px) scale(0.8);
   }
 }
 
@@ -42,7 +126,7 @@
   transition: opacity 250ms ease-in-out;
 
   &.hidden {
-    //opacity: 0;
+    opacity: 0;
   }
 
   button {

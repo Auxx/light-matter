@@ -4,12 +4,31 @@
   </p>
 } @else {
   <div class="viewer">
-    <img [src]="selectedImage()" alt="">
+
+    @for (image of images(); let index = $index; track image.url) {
+      @if (image !== null) {
+        <img [src]="image.url"
+             alt=""
+             [class.showing]="image.showing"
+             [class.hiding]="image.hiding"
+             [class.hidden]="image.hidden"
+             [class]="direction()"
+             (animationend)="onAnimationEnd($event)">
+      }
+    }
+
   </div>
 
   <div class="control-strip" [class.hidden]="isHidden$ | async">
-    <button [disabled]="!hasPrev()">&lsaquo;</button>
-    <button [disabled]="!hasNext()">&rsaquo;</button>
+    <button [disabled]="!hasPrev()"
+            (click)="onPrev()">
+      &lsaquo;
+    </button>
+
+    <button [disabled]="!hasNext()"
+            (click)="onNext()">
+      &rsaquo;
+    </button>
   </div>
 }
 
