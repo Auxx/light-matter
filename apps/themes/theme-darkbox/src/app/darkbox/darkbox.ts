@@ -13,7 +13,7 @@ import { hasTouchSupport } from '../utils/touch-detection';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '(mousemove)': 'onMouseMove()',
-    '(touchstart)': 'onTap()'
+    '(touchstart)': 'onTap($event)'
   }
 })
 export class Darkbox {
@@ -77,7 +77,11 @@ export class Darkbox {
     this.hideTrigger$.next();
   };
 
-  protected readonly onTap = () => {
+  protected readonly onTap = (event: Event) => {
+    if (event.target instanceof HTMLButtonElement) {
+      return;
+    }
+
     this.isHidden$
       .pipe(take(1))
       .subscribe(isHidden =>
