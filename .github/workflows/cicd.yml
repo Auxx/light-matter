@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [ "24.11.1" ]
+        node-version: [ "24.14.0" ]
 
     steps:
       - uses: actions/checkout@v6
@@ -20,6 +20,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+      - run: npm -v
       - run: npm ci --prefer-offline --no-audit --ignore-scripts
       - run: npm run format:check
       - run: npm run lint
