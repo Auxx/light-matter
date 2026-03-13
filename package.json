@@ -6,7 +6,7 @@
     "format": "dprint fmt",
     "format:check": "dprint check",
     "prepare": "husky",
-    "lint": "nx run-many --all --target=lint",
+    "lint": "nx run-many --all --target=lint --no-tui",
     "test": "nx run-many --all --target=test --codeCoverage",
     "test:ci": "nx run-many --all --target=test --configuration=ci --parallel=3 --runInBand --ci --code-coverage --coverageReporters=lcov",
     "build:ci": "nx run-many --all --target=build",
