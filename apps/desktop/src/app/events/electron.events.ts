@@ -11,6 +11,7 @@ import App from '../app';
 const supportedFileExtensions: string[] = [
   'jpg',
   'jpeg',
+  'jxl',
   'png',
   'gif',
   'svg',
