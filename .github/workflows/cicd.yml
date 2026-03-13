@@ -20,7 +20,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      - run: npm -v
       - run: npm ci --prefer-offline --no-audit --ignore-scripts
       - run: npm run format:check
       - run: npm run lint
