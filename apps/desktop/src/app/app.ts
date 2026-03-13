@@ -140,6 +140,9 @@ export default class App {
 
     protocol.registerSchemesAsPrivileged([ { scheme: appProtocol, privileges: { bypassCSP: true } } ]);
 
+    app.commandLine.appendSwitch('enable-features', 'JXLImageFormat');
+    app.commandLine.appendArgument('enable-experimental-web-platform-features');
+
     App.application.on('window-all-closed', App.onWindowAllClosed); // Quit when all windows are closed.
     App.application.on('ready', App.onReady); // App is ready to load data
     App.application.on('activate', App.onActivate); // App is activated
