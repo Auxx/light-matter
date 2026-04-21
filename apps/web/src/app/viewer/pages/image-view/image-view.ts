@@ -125,6 +125,7 @@ export class ImageView {
 
           case 'f':
           case 'F':
+          case 'F11':
             this.toggleFullScreen().then();
             break;
         }
