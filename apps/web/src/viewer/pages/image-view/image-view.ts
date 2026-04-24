@@ -33,7 +33,7 @@ export class ImageView {
   readonly viewNavigator = inject(ViewNavigator);
 
   readonly state$ = this.viewNavigator.state()
-    .pipe(tap(state => !state.isValid ? this.router.navigate([ 'dashboard' ]) : noop()));
+    .pipe(tap(state => !state.isValid ? this.router.navigate([ 'welcome' ]) : noop()));
 
   protected readonly fit = signal<'contain' | 'original'>('contain');
 
