@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "Feature",
+  "title": "Feature",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of a new feature",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use for the new feature?"
+    },
+    "project": {
+      "type": "string",
+      "description": "The project in which to create the feature.",
+      "x-priority": "important",
+      "x-prompt": "Which project the feature should be generated in?"
+    }
+  },
+  "required": ["name", "project"]
+}

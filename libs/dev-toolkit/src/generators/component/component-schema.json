@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "Component",
+  "title": "Component",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of a new component",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use for the new component?"
+    },
+    "project": {
+      "type": "string",
+      "description": "The project in which to create the component.",
+      "x-priority": "important",
+      "x-prompt": "Which project the component should be generated in?"
+    },
+    "feature": {
+      "type": "string",
+      "description": "The feature in which to create the component.",
+      "x-priority": "important",
+      "x-prompt": "Which feature the component should be generated in?"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["component", "page", "dialog"],
+      "description": "Type of the component to generate",
+      "default": "component",
+      "x-prompt": "What type of component would you like to generate?"
+    }
+  },
+  "required": ["name", "project", "feature", "type"]
+}

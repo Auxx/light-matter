@@ -1,0 +1,15 @@
+{
+  "name": "@lmgm/dev-toolkit",
+  "version": "0.0.1",
+  "private": true,
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "generators": "./generators.json",
+  "dependencies": {
+    "@nx/angular": "22.5.4",
+    "@nx/devkit": "22.5.4",
+    "tslib": "^2.3.0",
+    "ts-morph": "^28.0.0"
+  }
+}
