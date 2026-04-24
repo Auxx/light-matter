@@ -22,9 +22,9 @@ export class IpcRegistry {
     // Nothing to do here yet
   }
 
-  readonly registerMethod = <T>(name: string, proto: T, methodName: string) => {
+  readonly registerMethod = <T>(handlerName: string, proto: T, methodName: string) => {
     this.hangingMethods.push({
-      handlerName: name,
+      handlerName,
       proto,
       methodName
     });
