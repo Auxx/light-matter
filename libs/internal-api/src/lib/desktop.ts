@@ -1,10 +1,19 @@
 import { Arguments } from 'yargs';
+import { FileInfo } from './fs';
 
 export interface Desktop {
-  getAppVersion: () => Promise<string>;
-  platform: string;
-  argv: () => Promise<Arguments>;
-  isPackaged: () => Promise<boolean>;
+  ProcessManager: {
+    getAppVersion: () => Promise<string>;
+    isPackaged: () => Promise<boolean>;
+    getPlatform: () => Promise<string>;
+    argv: () => Promise<Arguments>;
+  };
+
+  FileSystem: {
+    join: (...paths: string[]) => Promise<string>;
+    readDir: (path: string) => Promise<FileInfo[]>;
+  };
+
   openFolder: () => Promise<FileListing>;
   openFile: () => Promise<FileListing>;
   openFileFromArgs: (fileName: string) => Promise<FileListing>;
@@ -26,5 +35,7 @@ export interface FileListingData {
 }
 
 export type FileListing = Success<FileListingData> | Failure;
+
+export type ApiResponse<T> = Success<T> | Failure;
 
 export const appProtocol = 'atom';

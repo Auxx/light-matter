@@ -94,7 +94,9 @@ export default class App {
     App.mainWindow.once('ready-to-show', () => {
       App.mainWindow.show();
 
+      // In dev mode - show DevTools and minimise the window to avoid interruptions on app reloads after file saves.
       if (!App.application.isPackaged) {
+        App.mainWindow.minimize();
         App.mainWindow.webContents.openDevTools();
       }
     });

@@ -8,7 +8,7 @@ export const startupGuard: CanActivateFn = async () => {
   const viewNavigator = inject(ViewNavigator);
 
   // const isPackaged = await window.desktop.isPackaged();
-  const argv = await window.desktop.argv();
+  const argv = await window.desktop.ProcessManager.argv();
 
   if (argv._.length === 1 && typeof argv._[0] === 'string') {
     const result = await window.desktop.openFileFromArgs(argv._[0]);

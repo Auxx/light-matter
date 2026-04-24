@@ -15,5 +15,5 @@ export class App {
     this.setAppTitle().then();
   }
 
-  setAppTitle = async () => this.title.setTitle(`Light Matter v${await window.desktop.getAppVersion()}`);
+  setAppTitle = async () => this.title.setTitle(`Light Matter v${await window.desktop.ProcessManager.getAppVersion()}`);
 }
