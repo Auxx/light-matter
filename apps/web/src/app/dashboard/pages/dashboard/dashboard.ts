@@ -19,6 +19,10 @@ export class Dashboard {
 
   private readonly viewNavigator = inject(ViewNavigator);
 
+  constructor() {
+    window.desktop.test().then();
+  }
+
   readonly openFolder = async () => await this.processResult(await window.desktop.openFolder());
 
   readonly openFile = async () => await this.processResult(await window.desktop.openFile());

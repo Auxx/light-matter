@@ -2,12 +2,15 @@ import { Arguments } from 'yargs';
 
 export interface Desktop {
   getAppVersion: () => Promise<string>;
-  platform: string;
-  argv: () => Promise<Arguments>;
   isPackaged: () => Promise<boolean>;
+  getPlatform: () => Promise<string>;
+  argv: () => Promise<Arguments>;
+
   openFolder: () => Promise<FileListing>;
   openFile: () => Promise<FileListing>;
   openFileFromArgs: (fileName: string) => Promise<FileListing>;
+
+  test: () => Promise<void>;
 }
 
 export interface Success<T> {
