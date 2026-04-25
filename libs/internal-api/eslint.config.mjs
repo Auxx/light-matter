@@ -3,6 +3,9 @@ import baseConfig from '../../eslint.config.mjs';
 export default [
   ...baseConfig,
   {
+    ignores: ['libs/internal-api/src/models'],
+  },
+  {
     files: ['**/*.json'],
     rules: {
       '@nx/dependency-checks': [
