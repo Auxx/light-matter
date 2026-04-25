@@ -27,7 +27,7 @@ export class FileSystem {
       const result = await readFile(path, 'utf-8');
       return { success: true, data: JSON.parse(result) };
     } catch (_) {
-      return { success: false, errorMessage: `Failed to read file ${location}.` };
+      return { success: false, errorMessage: `Failed to read file ${path}.` };
     }
   };
 
