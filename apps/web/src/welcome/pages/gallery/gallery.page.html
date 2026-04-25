@@ -1,1 +1,5 @@
 <p>app-gallery works!</p>
+
+@let locations = locations$ | async | default:[];
+
+<pre>{{ locations | json }}</pre>
