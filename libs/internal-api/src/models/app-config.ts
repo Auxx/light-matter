@@ -1,9 +1,10 @@
 import * as __typia_transform__createStandardSchema from 'typia/lib/internal/_createStandardSchema';
 import * as __typia_transform__validateReport from 'typia/lib/internal/_validateReport';
 export interface AppConfig {
-  gallery: {
-    locations: string[];
-  };
+  gallery: AppConfigGallery;
+}
+export interface AppConfigGallery {
+  locations: string[];
 }
 export const isAppConfig = (() => {
   const _io0 = (input: any): boolean =>
@@ -21,11 +22,11 @@ export const validateAppConfig = (() => {
     [
       ('object' === typeof input.gallery && null !== input.gallery || _report(_exceptionable, {
           path: _path + '.gallery',
-          expected: '__type',
+          expected: 'AppConfigGallery',
           value: input.gallery
         })) && _vo1(input.gallery, _path + '.gallery', true && _exceptionable) || _report(_exceptionable, {
           path: _path + '.gallery',
-          expected: '__type',
+          expected: 'AppConfigGallery',
           value: input.gallery
         })
     ].every((flag: boolean) => flag);

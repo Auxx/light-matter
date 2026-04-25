@@ -44,6 +44,8 @@ export type ApiResponse<T> = Success<T> | Failure;
 
 export const appProtocol = 'atom';
 
+export const appConfigName = 'light-matter.config.json';
+
 export type SystemPath =
   | 'home'
   | 'appData'

@@ -1,9 +1,11 @@
 import typia from 'typia';
 
 export interface AppConfig {
-  gallery: {
-    locations: string[];
-  };
+  gallery: AppConfigGallery;
+}
+
+export interface AppConfigGallery {
+  locations: string[];
 }
 
 export const isAppConfig = typia.createIs<AppConfig>();
