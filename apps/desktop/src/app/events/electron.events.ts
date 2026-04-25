@@ -50,7 +50,7 @@ ipcMain.handle('openFolder', async (): Promise<FileListing> => {
     };
   }
 
-  return { success: false };
+  return { success: false, errorMessage: '' };
 });
 
 ipcMain.handle('openFile', async (): Promise<FileListing> => {
@@ -73,7 +73,7 @@ ipcMain.handle('openFile', async (): Promise<FileListing> => {
     };
   }
 
-  return { success: false };
+  return { success: false, errorMessage: '' };
 });
 
 ipcMain.handle('openFileFromArgs', async (_: IpcMainInvokeEvent, fileName: string): Promise<FileListing> => {

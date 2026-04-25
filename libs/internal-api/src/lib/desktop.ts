@@ -7,11 +7,14 @@ export interface Desktop {
     isPackaged: () => Promise<boolean>;
     getPlatform: () => Promise<string>;
     argv: () => Promise<Arguments>;
+    getSystemPaths: () => Promise<SystemPathMapping>;
   };
 
   FileSystem: {
     join: (...paths: string[]) => Promise<string>;
     readDir: (path: string) => Promise<FileInfo[]>;
+    readJson: <T>(path: string) => Promise<ApiResponse<T>>;
+    writeJson: <T>(path: string, data: T) => Promise<ApiResponse<undefined>>;
   };
 
   openFolder: () => Promise<FileListing>;
@@ -26,6 +29,7 @@ export interface Success<T> {
 
 export interface Failure {
   success: false;
+  errorMessage: string;
 }
 
 export interface FileListingData {
@@ -39,3 +43,19 @@ export type FileListing = Success<FileListingData> | Failure;
 export type ApiResponse<T> = Success<T> | Failure;
 
 export const appProtocol = 'atom';
+
+export type SystemPath =
+  | 'home'
+  | 'appData'
+  | 'userData'
+  | 'temp'
+  | 'exe'
+  | 'desktop'
+  | 'documents'
+  | 'downloads'
+  | 'music'
+  | 'pictures'
+  | 'videos'
+  | 'recent';
+
+export type SystemPathMapping = Record<SystemPath, string>;

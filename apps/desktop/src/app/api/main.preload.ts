@@ -6,12 +6,15 @@ const api: Desktop = {
     getAppVersion: () => ipcRenderer.invoke('ProcessManager.getAppVersion'),
     isPackaged: () => ipcRenderer.invoke('ProcessManager.isPackaged'),
     getPlatform: () => ipcRenderer.invoke('ProcessManager.getPlatform'),
-    argv: () => ipcRenderer.invoke('ProcessManager.argv')
+    argv: () => ipcRenderer.invoke('ProcessManager.argv'),
+    getSystemPaths: () => ipcRenderer.invoke('ProcessManager.getSystemPaths')
   },
 
   FileSystem: {
     join: (...paths: string[]) => ipcRenderer.invoke('FileSystem.join', ...paths),
-    readDir: (path: string) => ipcRenderer.invoke('FileSystem.readDir', path)
+    readDir: (path: string) => ipcRenderer.invoke('FileSystem.readDir', path),
+    readJson: (path: string) => ipcRenderer.invoke('FileSystem.readJson', path),
+    writeJson: <T>(path: string, data: T) => ipcRenderer.invoke('FileSystem.writeJson', path, data)
   },
 
   // TODO: Deprecated methods, should be moved into a handler class in the future

@@ -140,6 +140,8 @@ export default class App {
     App.BrowserWindow = browserWindow;
     App.application = app;
 
+    App.application.setPath('userData', join(App.application.getPath('appData'), 'light-matter'));
+
     protocol.registerSchemesAsPrivileged([ { scheme: appProtocol, privileges: { bypassCSP: true } } ]);
 
     app.commandLine.appendSwitch('enable-features', 'JXLImageFormat');
