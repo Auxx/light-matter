@@ -1,13 +1,24 @@
 import typia from 'typia';
 
-export interface AppConfig {
-  gallery: AppConfigGallery;
+export interface AppConfigV1 {
+  version: 1;
+  gallery: AppConfigV1Gallery;
+  system: AppConfigV1System;
 }
 
-export interface AppConfigGallery {
+export interface AppConfigV1Gallery {
   locations: string[];
 }
 
-export const isAppConfig = typia.createIs<AppConfig>();
+export interface AppConfigV1System {
+  bounds?: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  };
+}
 
-export const validateAppConfig = typia.createValidate<AppConfig>();
+export const isAppConfig = typia.createIs<AppConfigV1>();
+
+export const validateAppConfig = typia.createValidate<AppConfigV1>();

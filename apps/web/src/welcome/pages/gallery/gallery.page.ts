@@ -1,5 +1,6 @@
 import { AsyncPipe, JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { LocationListingComponent } from '../../../gallery/components/location-listing/location-listing.component';
 import { GalleryLocations } from '../../../gallery/services/gallery-locations/gallery-locations';
 import { DefaultPipe } from '../../../system/pipes/default/default.pipe';
 
@@ -8,7 +9,8 @@ import { DefaultPipe } from '../../../system/pipes/default/default.pipe';
   imports: [
     AsyncPipe,
     DefaultPipe,
-    JsonPipe
+    JsonPipe,
+    LocationListingComponent
   ],
   templateUrl: './gallery.page.html',
   styleUrl: './gallery.page.scss',

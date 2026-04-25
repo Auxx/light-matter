@@ -22,6 +22,7 @@ export default class App {
 
   private static onWindowAllClosed() {
     if (process.platform !== 'darwin') {
+      console.log('onWindowAllClosed');
       App.application.quit();
     }
   }
@@ -106,6 +107,11 @@ export default class App {
     // App.mainWindow.webContents.on('new-window', (event, url, frameName, disposition, options) => {
     //     App.onRedirect(event, url);
     // });
+
+    App.mainWindow.on('close', () => {
+      console.log('onClose!', App.mainWindow.getBounds());
+      console.log('display', screen.getDisplayMatching(App.mainWindow.getBounds()));
+    });
 
     // Emitted when the window is closed.
     App.mainWindow.on('closed', () => {
