@@ -7,8 +7,19 @@ import { updateSubject } from '../../../rx-tools';
 export class Configuration {
   private readonly config$ = new ReplaySubject<AppConfig>(1);
 
+  private _defaultConfig?: AppConfig;
+
+  private _configPath?: string;
+
   constructor() {
-    this.init().then();
+    this.init()
+      .then(() => {
+        this.config$.subscribe(config => {
+          if (this._configPath !== undefined) {
+            window.desktop.FileSystem.writeJson(this._configPath, config).then();
+          }
+        });
+      });
   }
 
   readonly config = () => this.config$.asObservable();
@@ -23,13 +34,12 @@ export class Configuration {
 
   private readonly init = async () => {
     const paths = await window.desktop.ProcessManager.getSystemPaths();
-    const defaultConfig = this.defaultConfig(paths);
-    const configPath = await window.desktop.FileSystem.join(paths.userData, appConfigName);
-    const existing = await window.desktop.FileSystem.readJson<AppConfig | unknown>(configPath);
+    this._defaultConfig = this.defaultConfig(paths);
+    this._configPath = await window.desktop.FileSystem.join(paths.userData, appConfigName);
+    const existing = await window.desktop.FileSystem.readJson<AppConfig | unknown>(this._configPath);
 
     if (!existing.success || !isAppConfig(existing.data)) {
-      this.config$.next(defaultConfig);
-      await window.desktop.FileSystem.writeJson(configPath, defaultConfig);
+      this.config$.next(this._defaultConfig);
       return;
     }
 
