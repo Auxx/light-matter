@@ -11,6 +11,7 @@ export interface AppConfigV1Gallery {
 }
 
 export interface AppConfigV1System {
+  minimiseOnStart: boolean;
   bounds?: {
     x: number;
     y: number;

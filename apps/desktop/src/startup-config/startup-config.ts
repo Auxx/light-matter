@@ -5,12 +5,15 @@ import { join } from 'node:path';
 
 export class StartupConfig {
   private _bounds: Electron.Rectangle | null = null;
+  private _minimiseOnStart = false;
 
   constructor(private readonly app: Electron.App) {
     this.init();
   }
 
   readonly bounds = () => this._bounds;
+
+  readonly minimiseOnStart = () => this._minimiseOnStart;
 
   readonly configPath = () => join(this.app.getPath('userData'), appConfigName);
 
@@ -47,10 +50,10 @@ export class StartupConfig {
       return;
     }
 
-    this.getBounds(json);
+    this.parseConfig(json);
   };
 
-  private readonly getBounds = (config: unknown) => {
+  private readonly parseConfig = (config: unknown) => {
     this._bounds = null;
 
     if (!(config instanceof Object)) {
@@ -62,6 +65,8 @@ export class StartupConfig {
     if (!(system instanceof Object)) {
       return;
     }
+
+    this._minimiseOnStart = system.minimiseOnStart === true;
 
     const x = system.bounds?.x;
     const y = system.bounds?.y;

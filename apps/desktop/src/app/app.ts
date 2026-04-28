@@ -100,7 +100,10 @@ export default class App {
 
       // In dev mode - show DevTools and minimise the window to avoid interruptions on app reloads after file saves.
       if (!App.application.isPackaged) {
-        App.mainWindow.minimize();
+        if (App.startupConfig.minimiseOnStart()) {
+          App.mainWindow.minimize();
+        }
+
         App.mainWindow.webContents.openDevTools();
       }
     });
