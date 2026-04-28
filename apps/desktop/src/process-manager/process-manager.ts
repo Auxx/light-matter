@@ -31,6 +31,7 @@ export class ProcessManager {
     music: App.application.getPath('music'),
     pictures: App.application.getPath('pictures'),
     videos: App.application.getPath('videos'),
-    recent: App.application.getPath('recent')
+    recent: App.application.getPath('recent'),
+    appConfig: App.startupConfig.configPath()
   });
 }

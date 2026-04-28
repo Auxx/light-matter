@@ -58,6 +58,7 @@ export type SystemPath =
   | 'music'
   | 'pictures'
   | 'videos'
-  | 'recent';
+  | 'recent'
+  | 'appConfig';
 
 export type SystemPathMapping = Record<SystemPath, string>;

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { appConfigName, AppConfigV1, AppConfigV1Gallery, isAppConfig, SystemPathMapping } from 'internal-api';
+import { AppConfigV1, AppConfigV1Gallery, isAppConfig, SystemPathMapping } from 'internal-api';
 import { ReplaySubject } from 'rxjs';
 import { updateSubject } from '../../../rx-tools';
 
@@ -35,7 +35,7 @@ export class Configuration {
   private readonly init = async () => {
     const paths = await window.desktop.ProcessManager.getSystemPaths();
     this._defaultConfig = this.defaultConfig(paths);
-    this._configPath = await window.desktop.FileSystem.join(paths.userData, appConfigName);
+    this._configPath = paths.appConfig;
     const existing = await window.desktop.FileSystem.readJson<AppConfigV1 | unknown>(this._configPath);
 
     if (!existing.success || !isAppConfig(existing.data)) {
