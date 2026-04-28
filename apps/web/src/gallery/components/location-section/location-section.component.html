@@ -1,7 +1,13 @@
+@let locs = locations();
+
 <ul>
-  <li>
-    <app-location-element icon="folder_open" [level]="1">
-      Pictures
-    </app-location-element>
-  </li>
+  @for (location of locs; track location) {
+    <li>
+      <app-location-element icon="folder_open"
+                            [level]="1"
+                            [description]="location">
+        {{ location | locationName }}
+      </app-location-element>
+    </li>
+  }
 </ul>

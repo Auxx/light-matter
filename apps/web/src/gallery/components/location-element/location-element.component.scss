@@ -22,3 +22,16 @@
     background-color: var(--mat-sys-surface-container-high);
   }
 }
+
+.label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.prefix {
+  flex-shrink: 0;
+}
+
+.action {
+  flex-shrink: 0;
+}

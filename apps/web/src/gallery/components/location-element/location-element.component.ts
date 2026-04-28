@@ -13,11 +13,14 @@ import { MatIcon } from '@angular/material/icon';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[style.--level]': 'level()',
-    '[class.root]': 'level() === 0'
+    '[class.root]': 'level() === 0',
+    '[attr.title]': 'description()'
   }
 })
 export class LocationElementComponent {
   readonly icon = input.required<string>();
 
   readonly level = input.required<number>();
+
+  readonly description = input<string | null>();
 }

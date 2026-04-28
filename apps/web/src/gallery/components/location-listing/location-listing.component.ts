@@ -1,12 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { LocationElementComponent } from '../location-element/location-element.component';
 import { LocationSectionComponent } from '../location-section/location-section.component';
 
 @Component({
   selector: 'app-location-listing',
   imports: [
-    MatIcon,
     LocationSectionComponent,
     LocationElementComponent
   ],
@@ -15,4 +13,5 @@ import { LocationSectionComponent } from '../location-section/location-section.c
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LocationListingComponent {
+  readonly locations = input.required<string[]>();
 }

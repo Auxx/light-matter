@@ -1,7 +1,8 @@
 @let locations = locations$ | async | default:[];
 
 <app-dual-pane>
-  <app-location-listing class="secondary"/>
+  <app-location-listing class="secondary" [locations]="locations"/>
+
   <div class="primary">
     <pre>{{ locations | json }}</pre>
   </div>
