@@ -21,6 +21,7 @@ export class LocationListingComponent {
   readonly locations = input.required<string[]>();
 
   readonly onAddLocation = () => {
+    // TODO Implement system dialog call to open a folder
     console.log('onAddLocation');
   };
 }

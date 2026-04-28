@@ -22,6 +22,7 @@ export class LocationSectionComponent {
   readonly locations = input.required<string[]>();
 
   readonly onRemoveLocation = (data: string) => {
+    // TODO Add confirmation dialog
     console.log('onRemoveLocation', data);
   };
 }
