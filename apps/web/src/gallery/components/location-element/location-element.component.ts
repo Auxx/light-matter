@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-location-element',
   imports: [
     MatIcon,
-    MatIconButton
+    MatIconButton,
+    MatMenuTrigger
   ],
   templateUrl: './location-element.component.html',
   styleUrl: './location-element.component.scss',
@@ -23,4 +25,6 @@ export class LocationElementComponent {
   readonly level = input.required<number>();
 
   readonly description = input<string | null>();
+
+  readonly menu = input<MatMenu | null>(null);
 }
