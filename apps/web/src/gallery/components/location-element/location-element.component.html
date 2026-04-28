@@ -8,6 +8,7 @@
 
 <button matIconButton
         class="action"
-        [matMenuTriggerFor]="menu()">
+        [matMenuTriggerFor]="menu()"
+        [matMenuTriggerData]="{ data: menuData() }">
   <mat-icon fontIcon="more_vert" class="small" />
 </button>

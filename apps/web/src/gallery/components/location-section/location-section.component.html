@@ -5,9 +5,20 @@
     <li>
       <app-location-element icon="folder_open"
                             [level]="1"
-                            [description]="location">
+                            [description]="location"
+                            [menu]="sectionMenu"
+                            [menuData]="location">
         {{ location | locationName }}
       </app-location-element>
     </li>
   }
 </ul>
+
+<mat-menu #sectionMenu>
+  <ng-template matMenuContent let-data="data">
+    <button mat-menu-item (click)="onRemoveLocation(data)">
+      <mat-icon fontIcon="folder_delete" />
+      <span>Remove</span>
+    </button>
+  </ng-template>
+</mat-menu>

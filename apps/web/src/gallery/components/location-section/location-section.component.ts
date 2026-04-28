@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { MatMenu, MatMenuContent, MatMenuItem } from '@angular/material/menu';
 import { LocationNamePipe } from '../../../ui/pipes/location-name/location-name.pipe';
 import { LocationElementComponent } from '../location-element/location-element.component';
 
@@ -6,7 +8,11 @@ import { LocationElementComponent } from '../location-element/location-element.c
   selector: 'app-location-section',
   imports: [
     LocationElementComponent,
-    LocationNamePipe
+    LocationNamePipe,
+    MatIcon,
+    MatMenu,
+    MatMenuItem,
+    MatMenuContent
   ],
   templateUrl: './location-section.component.html',
   styleUrl: './location-section.component.scss',
@@ -14,4 +20,8 @@ import { LocationElementComponent } from '../location-element/location-element.c
 })
 export class LocationSectionComponent {
   readonly locations = input.required<string[]>();
+
+  readonly onRemoveLocation = (data: string) => {
+    console.log('onRemoveLocation', data);
+  };
 }

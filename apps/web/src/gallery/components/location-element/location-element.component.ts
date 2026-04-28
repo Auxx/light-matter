@@ -19,7 +19,7 @@ import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
     '[attr.title]': 'description()'
   }
 })
-export class LocationElementComponent {
+export class LocationElementComponent<T> {
   readonly icon = input.required<string>();
 
   readonly level = input.required<number>();
@@ -27,4 +27,6 @@ export class LocationElementComponent {
   readonly description = input<string | null>();
 
   readonly menu = input<MatMenu | null>(null);
+
+  readonly menuData = input<T | null>(null);
 }
