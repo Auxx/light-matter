@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { LocationListingComponent } from '../../../gallery/components/location-listing/location-listing.component';
 import { GalleryLocations } from '../../../gallery/services/gallery-locations/gallery-locations';
 import { DefaultPipe } from '../../../system/pipes/default/default.pipe';
+import { DualPaneComponent } from '../../../ui/components/dual-pane/dual-pane.component';
 
 @Component({
   selector: 'app-gallery',
@@ -10,7 +11,8 @@ import { DefaultPipe } from '../../../system/pipes/default/default.pipe';
     AsyncPipe,
     DefaultPipe,
     JsonPipe,
-    LocationListingComponent
+    LocationListingComponent,
+    DualPaneComponent
   ],
   templateUrl: './gallery.page.html',
   styleUrl: './gallery.page.scss',

@@ -1,18 +1,16 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { LocationElementComponent } from '../location-element/location-element.component';
-import { LocationSectionComponent } from '../location-section/location-section.component';
 
 @Component({
-  selector: 'app-location-listing',
+  selector: 'app-location-section',
   imports: [
     MatIcon,
-    LocationSectionComponent,
     LocationElementComponent
   ],
-  templateUrl: './location-listing.component.html',
-  styleUrl: './location-listing.component.scss',
+  templateUrl: './location-section.component.html',
+  styleUrl: './location-section.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LocationListingComponent {
+export class LocationSectionComponent {
 }

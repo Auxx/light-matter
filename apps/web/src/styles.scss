@@ -47,3 +47,21 @@ html, body {
 .block-icon {
   display: block;
 }
+
+.mat-icon {
+  &.small {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+ul, li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.spacer {
+  flex: 1;
+}

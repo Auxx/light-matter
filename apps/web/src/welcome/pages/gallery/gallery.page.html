@@ -1,7 +1,8 @@
-<p>app-gallery works!</p>
-
 @let locations = locations$ | async | default:[];
 
-<pre>{{ locations | json }}</pre>
-
-<app-location-listing/>
+<app-dual-pane>
+  <app-location-listing class="secondary"/>
+  <div class="primary">
+    <pre>{{ locations | json }}</pre>
+  </div>
+</app-dual-pane>

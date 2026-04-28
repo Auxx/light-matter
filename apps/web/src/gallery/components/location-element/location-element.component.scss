@@ -1,0 +1,23 @@
+:host {
+  --mat-icon-button-state-layer-size: 30px;
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  height: 32px;
+  margin: 0;
+  padding: 0 8px 0 calc(16px + var(--level) * 32px);
+
+  font-size: 14px;
+  border-radius: 7px;
+  cursor: pointer;
+
+  &.root {
+    font-weight: bold;
+  }
+
+  &:hover {
+    background-color: var(--mat-sys-surface-container-high);
+  }
+}

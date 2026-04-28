@@ -1,0 +1,28 @@
+:host {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 30% 16px 1fr;
+}
+
+.primary {
+  padding: 4px;
+}
+
+.secondary {
+  margin: 16px 0;
+  background-color: var(--mat-sys-surface-container-low);
+  border-radius: 0 12px 12px 0;
+  padding: 4px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: col-resize;
+  color: var(--mat-sys-on-secondary-fixed-variant);
+
+  mat-icon {
+    font-size: 16px;
+  }
+}
