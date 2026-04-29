@@ -17,6 +17,10 @@ const api: Desktop = {
     writeJson: <T>(path: string, data: T) => ipcRenderer.invoke('FileSystem.writeJson', path, data)
   },
 
+  Dialogs: {
+    openFolder: () => ipcRenderer.invoke('Dialogs.openFolder')
+  },
+
   // TODO: Deprecated methods, should be moved into a handler class in the future
   openFolder: () => ipcRenderer.invoke('openFolder'),
   openFile: () => ipcRenderer.invoke('openFile'),

@@ -17,6 +17,10 @@ export interface Desktop {
     writeJson: <T>(path: string, data: T) => Promise<ApiResponse<undefined>>;
   };
 
+  Dialogs: {
+    openFolder: () => Promise<ApiResponse<string>>;
+  };
+
   openFolder: () => Promise<FileListing>;
   openFile: () => Promise<FileListing>;
   openFileFromArgs: (fileName: string) => Promise<FileListing>;
