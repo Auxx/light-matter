@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { appProtocol } from 'internal-api';
 import { BehaviorSubject } from 'rxjs';
 import { updateSubject } from '../../../rx-tools';
+import { imageUrl } from '../../utils/image-url';
 import { defaultViewNavigatorState, ViewNavigatorState } from './view-navigator.types';
 
 @Injectable({ providedIn: 'root' })
@@ -24,7 +24,7 @@ export class ViewNavigator {
       isValid: true,
       files,
       selectedFile,
-      selectedFileUrl: this.url(selectedFile),
+      selectedFileUrl: imageUrl(selectedFile),
       selectedIndex: selectedIndex,
       prev: selectedIndex - 1,
       next: selectedIndex + 1 >= files.length ? -1 : selectedIndex + 1
@@ -46,7 +46,7 @@ export class ViewNavigator {
           ...state,
           selectedIndex,
           selectedFile,
-          selectedFileUrl: this.url(selectedFile),
+          selectedFileUrl: imageUrl(selectedFile),
           prev: selectedIndex - 1,
           next: selectedIndex + 1 >= state.files.length ? -1 : selectedIndex + 1
         };
@@ -68,7 +68,7 @@ export class ViewNavigator {
           ...state,
           selectedIndex,
           selectedFile,
-          selectedFileUrl: this.url(selectedFile),
+          selectedFileUrl: imageUrl(selectedFile),
           prev: selectedIndex - 1,
           next: selectedIndex + 1 >= state.files.length ? -1 : selectedIndex + 1
         };
@@ -90,6 +90,4 @@ export class ViewNavigator {
       ? { selectedIndex: 0, selectedFile: files[0] }
       : { selectedIndex: index, selectedFile: files[index] };
   };
-
-  private readonly url = (selectedFile: string): string => `${appProtocol}://${encodeURIComponent(selectedFile)}`;
 }

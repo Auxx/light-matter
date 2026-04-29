@@ -1,3 +1,17 @@
 :host {
   display: block;
 }
+
+.images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+
+  app-thumbnail {
+    width: 192px;
+    height: 128px;
+    background: var(--mat-sys-surface-container-highest);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+}
