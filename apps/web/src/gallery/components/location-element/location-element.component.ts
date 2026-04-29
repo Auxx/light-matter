@@ -1,14 +1,16 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
+import { StopPropagation } from '../../../ui/directives/stop-propagation/stop-propagation';
 
 @Component({
   selector: 'app-location-element',
   imports: [
     MatIcon,
     MatIconButton,
-    MatMenuTrigger
+    MatMenuTrigger,
+    StopPropagation
   ],
   templateUrl: './location-element.component.html',
   styleUrl: './location-element.component.scss',
@@ -16,7 +18,9 @@ import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
   host: {
     '[style.--level]': 'level()',
     '[class.root]': 'level() === 0',
-    '[attr.title]': 'description()'
+    '[class.selected]': 'selected()',
+    '[attr.title]': 'description()',
+    '(click)': 'onSelect()'
   }
 })
 export class LocationElementComponent<T> {
@@ -24,9 +28,15 @@ export class LocationElementComponent<T> {
 
   readonly level = input.required<number>();
 
+  readonly selected = input.required<boolean>();
+
   readonly description = input<string | null>();
 
   readonly menu = input<MatMenu | null>(null);
 
   readonly menuData = input<T | null>(null);
+
+  readonly clicked = output();
+
+  readonly onSelect = () => this.clicked.emit();
 }

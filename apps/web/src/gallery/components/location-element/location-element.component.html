@@ -9,6 +9,7 @@
 <button matIconButton
         class="action"
         [matMenuTriggerFor]="menu()"
-        [matMenuTriggerData]="{ data: menuData() }">
+        [matMenuTriggerData]="{ data: menuData() }"
+        appStopPropagation>
   <mat-icon fontIcon="more_vert" class="small" />
 </button>

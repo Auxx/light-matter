@@ -1,10 +1,13 @@
 <app-location-element icon="desktop_windows"
                       [level]="0"
-                      [menu]="rootMenu">
+                      [menu]="rootMenu"
+                      [selected]="false">
   My PC
 </app-location-element>
 
-<app-location-section [locations]="locations()" />
+<app-location-section [locations]="locations()"
+                      [selectedLocation]="selectedLocation()"
+                      (clicked)="this.locationClicked.emit($event)" />
 
 <mat-menu #rootMenu>
   <button mat-menu-item (click)="onAddLocation()">

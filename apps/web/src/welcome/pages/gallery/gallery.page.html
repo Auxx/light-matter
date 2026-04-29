@@ -1,9 +1,14 @@
 @let locations = locations$ | async | default:[];
+@let selected = selectedLocation();
 
 <app-dual-pane>
-  <app-location-listing class="secondary" [locations]="locations"/>
+  <app-location-listing class="secondary"
+                        [locations]="locations"
+                        [selectedLocation]="selectedLocation()"
+                        (locationClicked)="onLocationSelected($event)" />
 
   <div class="primary">
+    <pre>{{ selected }}</pre>
     <pre>{{ locations | json }}</pre>
   </div>
 </app-dual-pane>

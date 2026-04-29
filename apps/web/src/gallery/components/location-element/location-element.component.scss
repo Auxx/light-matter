@@ -18,6 +18,10 @@
     cursor: default;
   }
 
+  &.selected {
+    background-color: var(--mat-sys-surface-container-highest);
+  }
+
   &:hover {
     background-color: var(--mat-sys-surface-container-high);
   }

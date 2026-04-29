@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuContent, MatMenuItem } from '@angular/material/menu';
@@ -23,6 +23,10 @@ import { LocationElementComponent } from '../location-element/location-element.c
 })
 export class LocationSectionComponent {
   readonly locations = input.required<string[]>();
+
+  readonly selectedLocation = input<string | null>('');
+
+  readonly clicked = output<string>();
 
   private readonly galleryLocations = inject(GalleryLocations);
 

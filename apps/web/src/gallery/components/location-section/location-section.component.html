@@ -1,4 +1,5 @@
 @let locs = locations();
+@let selected = selectedLocation();
 
 <ul>
   @for (location of locs; track location) {
@@ -7,7 +8,9 @@
                             [level]="1"
                             [description]="location"
                             [menu]="sectionMenu"
-                            [menuData]="location">
+                            [menuData]="location"
+                            [selected]="selected === location"
+                            (clicked)="clicked.emit(location)">
         {{ location | locationName }}
       </app-location-element>
     </li>
