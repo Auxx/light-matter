@@ -1,7 +1,10 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuContent, MatMenuItem } from '@angular/material/menu';
+import { ConfirmationDialogComponent } from '../../../ui/components/confirmation-dialog/confirmation-dialog.component';
 import { LocationNamePipe } from '../../../ui/pipes/location-name/location-name.pipe';
+import { GalleryLocations } from '../../services/gallery-locations/gallery-locations';
 import { LocationElementComponent } from '../location-element/location-element.component';
 
 @Component({
@@ -21,8 +24,18 @@ import { LocationElementComponent } from '../location-element/location-element.c
 export class LocationSectionComponent {
   readonly locations = input.required<string[]>();
 
-  readonly onRemoveLocation = (data: string) => {
-    // TODO Add confirmation dialog
-    console.log('onRemoveLocation', data);
-  };
+  private readonly galleryLocations = inject(GalleryLocations);
+
+  private readonly dialog = inject(MatDialog);
+
+  readonly onRemoveLocation = (data: string) =>
+    ConfirmationDialogComponent
+      .open(
+        this.dialog,
+        {
+          title: 'Confirm location removal',
+          description: `Are you sure you want to remove "${data}" from gallery locations?`
+        }
+      )
+      .subscribe(() => this.galleryLocations.removeLocation(data));
 }
