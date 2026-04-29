@@ -15,6 +15,7 @@ export interface Desktop {
     readDir: (path: string) => Promise<FileInfo[]>;
     readJson: <T>(path: string) => Promise<ApiResponse<T>>;
     writeJson: <T>(path: string, data: T) => Promise<ApiResponse<undefined>>;
+    readGalleryLocation: (path: string) => Promise<ApiResponse<FileInfo[]>>;
   };
 
   Dialogs: {
@@ -66,3 +67,15 @@ export type SystemPath =
   | 'appConfig';
 
 export type SystemPathMapping = Record<SystemPath, string>;
+
+export const supportedFileExtensions = [
+  'jpg',
+  'jpeg',
+  'jxl',
+  'png',
+  'gif',
+  'svg',
+  'webp',
+  'avif',
+  'bmp'
+];

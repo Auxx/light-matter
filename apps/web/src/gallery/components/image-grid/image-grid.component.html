@@ -1,0 +1,18 @@
+@let currentLocation = location();
+@let folderList = folders();
+
+<h1>
+  @if(currentLocation===null) {
+    No location selected
+  } @else {
+    {{ currentLocation }}
+  }
+</h1>
+
+<div class="wrapper">
+  @if(folderList.length > 0) {
+    <app-folders [contents]="folderList" />
+  }
+
+  <app-images [contents]="files()" />
+</div>

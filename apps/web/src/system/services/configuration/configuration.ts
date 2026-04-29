@@ -1,10 +1,13 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AppConfigV1, AppConfigV1Gallery, isAppConfig, SystemPathMapping } from 'internal-api';
 import { ReplaySubject } from 'rxjs';
+import { FileSystem } from '../../../ipc/file-system';
 import { updateSubject } from '../../../rx-tools';
 
 @Injectable({ providedIn: 'root' })
 export class Configuration {
+  private readonly fileSystem = inject(FileSystem);
+
   private readonly config$ = new ReplaySubject<AppConfigV1>(1);
 
   private _defaultConfig?: AppConfigV1;
@@ -16,7 +19,7 @@ export class Configuration {
       .then(() => {
         this.config$.subscribe(config => {
           if (this._configPath !== undefined) {
-            window.desktop.FileSystem.writeJson(this._configPath, config).then();
+            this.fileSystem.writeJson(this._configPath, config).then();
           }
         });
       });
@@ -36,7 +39,7 @@ export class Configuration {
     const paths = await window.desktop.ProcessManager.getSystemPaths();
     this._defaultConfig = this.defaultConfig(paths);
     this._configPath = paths.appConfig;
-    const existing = await window.desktop.FileSystem.readJson<AppConfigV1 | unknown>(this._configPath);
+    const existing = await this.fileSystem.readJson<AppConfigV1 | unknown>(this._configPath);
 
     if (!existing.success || !isAppConfig(existing.data)) {
       this.config$.next(this._defaultConfig);

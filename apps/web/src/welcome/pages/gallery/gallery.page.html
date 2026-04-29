@@ -4,11 +4,10 @@
 <app-dual-pane>
   <app-location-listing class="secondary"
                         [locations]="locations"
-                        [selectedLocation]="selectedLocation()"
+                        [selectedLocation]="selected"
                         (locationClicked)="onLocationSelected($event)" />
 
-  <div class="primary">
-    <pre>{{ selected }}</pre>
-    <pre>{{ locations | json }}</pre>
-  </div>
+  <app-image-grid class="primary"
+                  [location]="selected"
+                  [contents]="contents()" />
 </app-dual-pane>

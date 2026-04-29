@@ -1,5 +1,5 @@
 import { app, dialog, ipcMain, IpcMainInvokeEvent } from 'electron';
-import { FileListing } from 'internal-api';
+import { FileListing, supportedFileExtensions } from 'internal-api';
 import * as fsSync from 'node:fs';
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
@@ -7,18 +7,6 @@ import { Dialogs } from '../../dialogs/dialogs';
 import { FileSystem } from '../../file-system/file-system';
 import { ProcessManager } from '../../process-manager/process-manager';
 import { IpcRegistry } from '../decorators/ipc-registry';
-
-const supportedFileExtensions: string[] = [
-  'jpg',
-  'jpeg',
-  'jxl',
-  'png',
-  'gif',
-  'svg',
-  'webp',
-  'avif',
-  'bmp'
-];
 
 export default class ElectronEvents {
   static bootstrapElectronEvents(): Electron.IpcMain {
