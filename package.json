@@ -1,10 +1,11 @@
 {
   "name": "@light-matter/source",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "MIT",
   "scripts": {
     "format": "dprint fmt",
     "format:check": "dprint check",
+    "typia": "typia generate --input libs/internal-api/src/typia --output libs/internal-api/src/models --project libs/internal-api/tsconfig.lib.json",
     "prepare": "husky",
     "lint": "nx run-many --all --target=lint --no-tui",
     "test": "nx run-many --all --target=test --codeCoverage",
@@ -45,6 +46,7 @@
     "@angular/router": "21.2.4",
     "@eslint/js": "10.0.1",
     "@nx/angular": "22.5.4",
+    "@nx/devkit": "^22.5.4",
     "@nx/eslint": "22.5.4",
     "@nx/eslint-plugin": "22.5.4",
     "@nx/jest": "22.5.4",
@@ -75,9 +77,11 @@
     "nx-electron": "22.0.0",
     "rxjs": "7.8.2",
     "ts-jest": "29.4.6",
+    "ts-morph": "^28.0.0",
     "ts-node": "10.9.2",
     "typescript": "5.9.3",
     "typescript-eslint": "8.57.0",
+    "typia": "12.0.2",
     "zone.js": "0.16.1"
   },
   "overrides": {

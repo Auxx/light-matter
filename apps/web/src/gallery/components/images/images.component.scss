@@ -1,0 +1,28 @@
+:host {
+  display: block;
+}
+
+.images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  container-type: inline-size;
+
+  app-thumbnail {
+    width: 608px;
+    height: 405px;
+    background: var(--mat-sys-surface-container-highest);
+    border-radius: 8px;
+    overflow: hidden;
+
+    @container (max-width: 1800px) {
+      width: 400px;
+      height: 267px;
+    }
+
+    @container (max-width: 900px) {
+      width: 192px;
+      height: 128px;
+    }
+  }
+}

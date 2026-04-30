@@ -1,0 +1,12 @@
+@let images = contents();
+
+@if (images.length === 0) {
+  <p>No images found in this folder.</p>
+} @else {
+  <div class="images">
+    @for (image of images; track image.name) {
+      <app-thumbnail [image]="image"
+                     (clicked)="onThumbnailClick($event)" />
+    }
+  </div>
+}

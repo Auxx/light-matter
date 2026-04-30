@@ -1,0 +1,19 @@
+<app-location-element icon="desktop_windows"
+                      [level]="0"
+                      [menu]="rootMenu"
+                      [selected]="false">
+  My PC
+</app-location-element>
+
+<app-location-section [locations]="locations()"
+                      [selectedLocation]="selectedLocation()"
+                      (clicked)="this.locationClicked.emit($event)" />
+
+<mat-menu #rootMenu>
+  <button mat-menu-item (click)="onAddLocation()">
+    <mat-icon fontIcon="create_new_folder" />
+    <span>Add new location</span>
+  </button>
+</mat-menu>
+
+

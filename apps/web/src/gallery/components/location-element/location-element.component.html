@@ -1,0 +1,15 @@
+<mat-icon [fontIcon]="icon()" class="small prefix" />
+
+<div class="label">
+  <ng-content />
+</div>
+
+<div class="spacer"></div>
+
+<button matIconButton
+        class="action"
+        [matMenuTriggerFor]="menu()"
+        [matMenuTriggerData]="{ data: menuData() }"
+        appStopPropagation>
+  <mat-icon fontIcon="more_vert" class="small" />
+</button>

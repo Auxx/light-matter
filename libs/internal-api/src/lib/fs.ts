@@ -4,4 +4,5 @@ export interface FileInfo {
   parent: string;
   ext: string;
   isDirectory: boolean;
+  createdAt: number;
 }

@@ -4,6 +4,7 @@ import * as url from 'node:url';
 import { join } from 'path';
 import { format } from 'url';
 import { environment } from '../environments/environment';
+import { StartupConfig } from '../startup-config/startup-config';
 import { rendererAppName, rendererAppPort } from './constants';
 
 export default class App {
@@ -12,6 +13,8 @@ export default class App {
   static mainWindow: Electron.BrowserWindow;
   static application: Electron.App;
   static BrowserWindow;
+
+  static startupConfig: StartupConfig;
 
   public static isDevelopmentMode() {
     const isEnvironmentSet: boolean = 'ELECTRON_IS_DEV' in process.env;
@@ -68,14 +71,15 @@ export default class App {
   private static initMainWindow() {
     const workAreaSize = screen.getPrimaryDisplay().workAreaSize;
 
-    // const width = Math.min(1280, workAreaSize.width || 1280);
-    // const height = Math.min(720, workAreaSize.height || 720);
+    const bounds = App.startupConfig.bounds();
 
-    const width = Math.round(workAreaSize.width * 0.8);
-    const height = Math.round(workAreaSize.height * 0.8);
+    const width = bounds === null ? Math.round(workAreaSize.width * 0.8) : bounds.width;
+    const height = bounds === null ? Math.round(workAreaSize.height * 0.8) : bounds.height;
 
     // Create the browser window.
     App.mainWindow = new BrowserWindow({
+      x: bounds === null ? undefined : bounds.x,
+      y: bounds === null ? undefined : bounds.y,
       width: width,
       height: height,
       show: false,
@@ -96,7 +100,10 @@ export default class App {
 
       // In dev mode - show DevTools and minimise the window to avoid interruptions on app reloads after file saves.
       if (!App.application.isPackaged) {
-        App.mainWindow.minimize();
+        if (App.startupConfig.minimiseOnStart()) {
+          App.mainWindow.minimize();
+        }
+
         App.mainWindow.webContents.openDevTools();
       }
     });
@@ -106,6 +113,10 @@ export default class App {
     // App.mainWindow.webContents.on('new-window', (event, url, frameName, disposition, options) => {
     //     App.onRedirect(event, url);
     // });
+
+    App.mainWindow.on('close', () => {
+      App.startupConfig.saveBounds(App.mainWindow.getBounds());
+    });
 
     // Emitted when the window is closed.
     App.mainWindow.on('closed', () => {
@@ -139,6 +150,9 @@ export default class App {
 
     App.BrowserWindow = browserWindow;
     App.application = app;
+
+    App.application.setPath('userData', join(App.application.getPath('appData'), 'light-matter'));
+    App.startupConfig = new StartupConfig(app);
 
     protocol.registerSchemesAsPrivileged([ { scheme: appProtocol, privileges: { bypassCSP: true } } ]);
 

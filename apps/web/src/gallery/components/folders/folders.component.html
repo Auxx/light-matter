@@ -1,0 +1,12 @@
+<ul>
+  @for (item of contents(); track item.name) {
+    <li>
+      <button (click)="clicked.emit(item)">
+        <span class="spacer"></span>
+        <mat-icon fontIcon="folder" />
+        <span class="spacer"></span>
+        <span class="label">{{ item.name }}</span>
+      </button>
+    </li>
+  }
+</ul>

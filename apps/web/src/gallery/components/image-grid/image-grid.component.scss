@@ -1,0 +1,36 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 14px 0;
+}
+
+.wrapper {
+  overflow-y: auto;
+  padding-right: 16px;
+}
+
+mat-icon {
+  transform: rotate(0deg);
+  transition: transform 250ms ease-in-out;
+
+  &.show-folders {
+    transform: rotate(180deg);
+  }
+}
+
+.expander {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: opacity 250ms ease-in-out;
+
+  .expander-wrapper {
+    overflow: hidden;
+  }
+
+  &.show-folders {
+    opacity: 1;
+    grid-template-rows: 1fr;
+  }
+}

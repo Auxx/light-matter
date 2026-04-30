@@ -47,3 +47,45 @@ html, body {
 .block-icon {
   display: block;
 }
+
+.mat-icon {
+  &.small {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+ul, li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.spacer {
+  flex: 1;
+}
+
+h1 {
+  display: flex;
+  align-items: center;
+  margin: 0 0 32px 0;
+  font-weight: normal;
+  font-size: 18px;
+  gap: 16px;
+  height: 40px;
+  flex-shrink: 0;
+
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+
+    &.header {
+    }
+
+    &.action {
+      font-size: 12px;
+    }
+  }
+}

@@ -1,0 +1,22 @@
+@if (isLoading()) {
+  <div class="message">
+    <p>Loading...</p>
+  </div>
+}
+
+@if (hasError()) {
+  <div class="message">
+    <p>Failed to load an image</p>
+  </div>
+}
+
+<button [title]="image().name"
+        (click)="clicked.emit(image())">
+
+  <img #imageTag
+       loading="lazy"
+       [alt]="image().name"
+       [style.zoom]="zoom()"
+       [src]="url()" />
+
+</button>
