@@ -8,6 +8,8 @@
                         (locationClicked)="onLocationSelected($event)" />
 
   <app-image-grid class="primary"
-                  [location]="selected"
-                  [contents]="contents()" />
+                  [selectedPath]="selectedPath()"
+                  [contents]="contents()"
+                  (folderPushed)="onFolderPush($event)"
+                  (folderPopped)="onFolderPop()" />
 </app-dual-pane>

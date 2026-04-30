@@ -1,17 +1,46 @@
-@let currentLocation = location();
+@let path = selectedPath();
 @let folderList = folders();
+@let foldersVisible = showFolders();
 
 <h1>
-  @if(currentLocation===null) {
-    No location selected
+  @if (path.length > 1) {
+    <button matIconButton
+            (click)="folderPopped.emit()">
+      <mat-icon fontIcon="arrow_back" />
+    </button>
+  }
+
+  @if (path.length === 0) {
+    <span class="header">No location selected</span>
   } @else {
-    {{ currentLocation }}
+    <span>{{ path[ path.length - 1 ] }}</span>
+  }
+
+  <div class="spacer"></div>
+
+  @if (folderList.length > 0) {
+    <span class="action">
+      @if (foldersVisible) {
+        Hide sub-folders
+      } @else {
+        Show sub-folders
+      }
+    </span>
+    <button matIconButton
+            (click)="toggleFolders()">
+      <mat-icon fontIcon="arrow_drop_down" [class.show-folders]="foldersVisible" />
+    </button>
   }
 </h1>
 
 <div class="wrapper">
-  @if(folderList.length > 0) {
-    <app-folders [contents]="folderList" />
+  @if (folderList.length > 0) {
+    <div class="expander" [class.show-folders]="foldersVisible">
+      <div class="expander-wrapper">
+        <app-folders [contents]="folderList"
+                     (clicked)="folderPushed.emit($event)" />
+      </div>
+    </div>
   }
 
   <app-images [contents]="files()" />

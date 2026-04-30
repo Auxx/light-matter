@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { FileInfo } from 'internal-api';
 
@@ -13,4 +13,6 @@ import { FileInfo } from 'internal-api';
 })
 export class FoldersComponent {
   readonly contents = input.required<FileInfo[]>();
+
+  readonly clicked = output<FileInfo>();
 }

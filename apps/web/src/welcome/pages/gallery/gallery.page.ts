@@ -1,6 +1,7 @@
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, resource, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, resource, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FileInfo } from 'internal-api';
 import { filter } from 'rxjs';
 import { ImageGridComponent } from '../../../gallery/components/image-grid/image-grid.component';
 import { LocationListingComponent } from '../../../gallery/components/location-listing/location-listing.component';
@@ -31,14 +32,17 @@ export class GalleryPage {
 
   readonly selectedLocation = signal<string | null>(null);
 
+  readonly selectedPath = signal<string[]>([]);
+
   readonly galleryResource = resource({
-    params: () => ({ path: this.selectedLocation() }),
+    params: () => ({ path: this.selectedPath() }),
     loader: async ({ params }) => {
-      if (params.path === null) {
+      if (params.path.length === 0) {
         return [];
       }
 
-      const response = await this.fileSystem.readGalleryLocation(params.path);
+      const { path } = params;
+      const response = await this.fileSystem.readGalleryLocation(path[path.length - 1]);
 
       if (!response.success) {
         return [];
@@ -60,12 +64,21 @@ export class GalleryPage {
         takeUntilDestroyed(),
         filter(locations => locations.length > 0)
       )
-      .subscribe(locations =>
-        this.selectedLocation() === null
-          ? this.selectedLocation.set(locations[0])
-          : undefined
-      );
+      .subscribe(locations => {
+        if (this.selectedLocation() === null) {
+          this.selectedLocation.set(locations[0]);
+        }
+      });
+
+    effect(() => {
+      const selectedLocation = this.selectedLocation();
+      this.selectedPath.set(selectedLocation === null ? [] : [ selectedLocation ]);
+    });
   }
 
   readonly onLocationSelected = (location: string) => this.selectedLocation.set(location);
+
+  readonly onFolderPush = (item: FileInfo) => this.selectedPath.update(path => path.concat(item.path));
+
+  readonly onFolderPop = () => this.selectedPath.update(path => path.toSpliced(-1));
 }

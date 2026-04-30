@@ -67,7 +67,24 @@ ul, li {
 }
 
 h1 {
+  display: flex;
+  align-items: center;
   margin: 0 0 32px 0;
   font-weight: normal;
   font-size: 18px;
+  gap: 16px;
+  height: 40px;
+  flex-shrink: 0;
+
+  span {
+    &.header {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-wrap: nowrap;
+    }
+
+    &.action {
+      font-size: 12px;
+    }
+  }
 }

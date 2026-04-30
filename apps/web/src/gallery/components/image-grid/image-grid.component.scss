@@ -9,3 +9,26 @@
   overflow-y: auto;
   padding-right: 16px;
 }
+
+mat-icon {
+  transform: rotate(0deg);
+  transition: transform 250ms ease-in-out;
+
+  &.show-folders {
+    transform: rotate(180deg);
+  }
+}
+
+.expander {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 250ms ease-in-out;
+
+  .expander-wrapper {
+    overflow: hidden;
+  }
+
+  &.show-folders {
+    grid-template-rows: 1fr;
+  }
+}
