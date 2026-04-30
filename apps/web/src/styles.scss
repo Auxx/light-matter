@@ -77,10 +77,11 @@ h1 {
   flex-shrink: 0;
 
   span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+
     &.header {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      text-wrap: nowrap;
     }
 
     &.action {

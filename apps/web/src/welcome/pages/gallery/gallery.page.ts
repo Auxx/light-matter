@@ -1,12 +1,9 @@
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, effect, inject, resource, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FileInfo } from 'internal-api';
-import { filter } from 'rxjs';
 import { ImageGridComponent } from '../../../gallery/components/image-grid/image-grid.component';
 import { LocationListingComponent } from '../../../gallery/components/location-listing/location-listing.component';
-import { GalleryLocations } from '../../../gallery/services/gallery-locations/gallery-locations';
-import { FileSystem } from '../../../ipc/file-system';
+import { GalleryState } from '../../../gallery/services/gallery-state/gallery-state';
 import { DefaultPipe } from '../../../system/pipes/default/default.pipe';
 import { DualPaneComponent } from '../../../ui/components/dual-pane/dual-pane.component';
 
@@ -24,57 +21,15 @@ import { DualPaneComponent } from '../../../ui/components/dual-pane/dual-pane.co
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GalleryPage {
-  private readonly galleryLocations = inject(GalleryLocations);
+  private readonly galleryState = inject(GalleryState);
 
-  private readonly fileSystem = inject(FileSystem);
+  readonly locations$ = this.galleryState.locations$;
 
-  readonly locations$ = this.galleryLocations.locations();
+  readonly selectedLocation = this.galleryState.selectedLocation;
 
-  readonly selectedLocation = signal<string | null>(null);
+  readonly selectedPath = this.galleryState.selectedPath;
 
-  readonly selectedPath = signal<string[]>([]);
-
-  readonly galleryResource = resource({
-    params: () => ({ path: this.selectedPath() }),
-    loader: async ({ params }) => {
-      if (params.path.length === 0) {
-        return [];
-      }
-
-      const { path } = params;
-      const response = await this.fileSystem.readGalleryLocation(path[path.length - 1]);
-
-      if (!response.success) {
-        return [];
-      }
-
-      return response.data;
-    }
-  });
-
-  readonly contents = computed(() =>
-    this.galleryResource.hasValue()
-      ? this.galleryResource.value()
-      : []
-  );
-
-  constructor() {
-    this.locations$
-      .pipe(
-        takeUntilDestroyed(),
-        filter(locations => locations.length > 0)
-      )
-      .subscribe(locations => {
-        if (this.selectedLocation() === null) {
-          this.selectedLocation.set(locations[0]);
-        }
-      });
-
-    effect(() => {
-      const selectedLocation = this.selectedLocation();
-      this.selectedPath.set(selectedLocation === null ? [] : [ selectedLocation ]);
-    });
-  }
+  readonly contents = this.galleryState.contents;
 
   readonly onLocationSelected = (location: string) => this.selectedLocation.set(location);
 

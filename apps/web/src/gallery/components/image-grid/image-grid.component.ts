@@ -1,8 +1,8 @@
-import { JsonPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { FileInfo } from 'internal-api';
+import { GalleryState } from '../../services/gallery-state/gallery-state';
 import { FoldersComponent } from '../folders/folders.component';
 import { ImagesComponent } from '../images/images.component';
 
@@ -11,7 +11,6 @@ import { ImagesComponent } from '../images/images.component';
   imports: [
     FoldersComponent,
     ImagesComponent,
-    JsonPipe,
     MatIconButton,
     MatIcon
   ],
@@ -20,6 +19,8 @@ import { ImagesComponent } from '../images/images.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ImageGridComponent {
+  private readonly galleryState = inject(GalleryState);
+
   readonly contents = input.required<FileInfo[]>();
 
   readonly selectedPath = input.required<string[]>();
@@ -28,7 +29,7 @@ export class ImageGridComponent {
 
   readonly files = computed(() => this.contents().filter(file => !file.isDirectory));
 
-  readonly showFolders = signal(false);
+  readonly showFolders = this.galleryState.showFolders;
 
   readonly folderPushed = output<FileInfo>();
 
