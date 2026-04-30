@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, computed, effect, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { FileInfo } from 'internal-api';
 import { FileNamePipe } from '../../../viewer/pipes/file-name/file-name-pipe';
+import { ViewNavigator } from '../../../viewer/services/view-navigator/view-navigator';
 import { imageUrl } from '../../../viewer/utils/image-url';
 
 @Component({
@@ -14,6 +16,10 @@ import { imageUrl } from '../../../viewer/utils/image-url';
 })
 export class ThumbnailComponent {
   readonly image = input.required<FileInfo>();
+
+  readonly router = inject(Router);
+
+  readonly viewNavigator = inject(ViewNavigator);
 
   readonly url = computed(() => imageUrl(this.image().path));
 
@@ -41,6 +47,15 @@ export class ThumbnailComponent {
       this.imageTag();
     });
   }
+
+  protected readonly viewImage = async () => {
+    const result = await window.desktop.openFileFromArgs(this.image().path);
+
+    if (result.success) {
+      this.viewNavigator.setFiles(result.data.files, result.data.selected);
+      await this.router.navigate([ '/view' ]);
+    }
+  };
 
   private readonly onLoad = () => {
     this.imageTag().removeEventListener('load', this.onLoad);
