@@ -22,13 +22,15 @@ mat-icon {
 .expander {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 250ms ease-in-out;
+  opacity: 0;
+  transition: opacity 250ms ease-in-out;
 
   .expander-wrapper {
     overflow: hidden;
   }
 
   &.show-folders {
+    opacity: 1;
     grid-template-rows: 1fr;
   }
 }
