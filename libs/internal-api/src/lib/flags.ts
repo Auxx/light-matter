@@ -11,7 +11,7 @@ export function setPackagedMode(flag: boolean) {
 export function flags(): Flags {
   return isPackaged
     ? {
-      enableGalleryMode: false
+      enableGalleryMode: true
     }
     : {
       enableGalleryMode: true
