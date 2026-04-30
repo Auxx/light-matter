@@ -55,7 +55,9 @@ export class Configuration {
       gallery: {
         locations: [ paths.pictures ]
       },
-      system: {}
+      system: {
+        minimiseOnStart: false
+      }
     };
   };
 }

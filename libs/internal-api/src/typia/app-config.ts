@@ -20,6 +20,4 @@ export interface AppConfigV1System {
   };
 }
 
-export const isAppConfig = typia.createIs<AppConfigV1>();
-
-export const validateAppConfig = typia.createValidate<AppConfigV1>();
+export const isAppConfig: (input: unknown) => input is AppConfigV1 = typia.createIs<AppConfigV1>();
