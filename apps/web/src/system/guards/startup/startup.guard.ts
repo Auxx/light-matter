@@ -19,5 +19,5 @@ export const startupGuard: CanActivateFn = async () => {
     }
   }
 
-  return router.createUrlTree([ 'dashboard' ]);
+  return router.createUrlTree([ '/welcome' ]);
 };
