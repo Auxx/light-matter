@@ -13,7 +13,9 @@
 <button [title]="image().name"
         (click)="clicked.emit(image())">
 
-  <img [alt]="image().name"
+  <img #imageTag
+       loading="lazy"
+       [alt]="image().name"
        [style.zoom]="zoom()"
        [src]="url()" />
 

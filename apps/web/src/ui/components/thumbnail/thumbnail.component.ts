@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component, computed, effect, input, output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  ElementRef,
+  input,
+  output,
+  signal,
+  viewChild
+} from '@angular/core';
 import { FileInfo } from 'internal-api';
 import { imageUrl } from '../../../viewer/utils/image-url';
 
@@ -20,30 +30,28 @@ export class ThumbnailComponent {
 
   readonly clicked = output<FileInfo>();
 
+  protected readonly imageRef = viewChild<string, ElementRef<HTMLImageElement>>('imageTag', { read: ElementRef });
+
   // TODO Add zoom tracking service
   protected readonly zoom = signal(1);
-
-  readonly imageTag = computed(() => {
-    const img = new Image();
-
-    img.addEventListener('load', this.onLoad);
-    img.addEventListener('error', this.onError);
-    img.src = this.url();
-
-    return img;
-  });
 
   constructor() {
     effect(() => {
       this.hasError.set(false);
       this.isLoading.set(true);
-      this.imageTag();
+
+      const img = this.imageRef()?.nativeElement;
+
+      if (img === undefined) {
+        return;
+      }
+
+      img.addEventListener('load', this.onLoad);
+      img.addEventListener('error', this.onError);
     });
   }
 
   private readonly onLoad = () => {
-    console.log('LOAD');
-    this.imageTag().removeEventListener('load', this.onLoad);
     this.isLoading.set(false);
     this.hasError.set(false);
   };
@@ -51,7 +59,6 @@ export class ThumbnailComponent {
   private readonly onError = (event: ErrorEvent) => {
     console.log('onError', event);
 
-    this.imageTag().removeEventListener('error', this.onError);
     this.isLoading.set(false);
     this.hasError.set(true);
   };
