@@ -11,7 +11,7 @@
 }
 
 <button [title]="image().name"
-        (click)="viewImage()">
+        (click)="clicked.emit(image())">
 
   <img [alt]="image().name"
        [style.zoom]="zoom()"

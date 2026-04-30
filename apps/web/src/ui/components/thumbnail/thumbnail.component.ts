@@ -1,15 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, computed, effect, input, output, signal } from '@angular/core';
 import { FileInfo } from 'internal-api';
-import { FileNamePipe } from '../../../viewer/pipes/file-name/file-name-pipe';
-import { ViewNavigator } from '../../../viewer/services/view-navigator/view-navigator';
 import { imageUrl } from '../../../viewer/utils/image-url';
 
 @Component({
   selector: 'app-thumbnail',
-  imports: [
-    FileNamePipe
-  ],
+  imports: [],
   templateUrl: './thumbnail.component.html',
   styleUrl: './thumbnail.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -17,15 +12,13 @@ import { imageUrl } from '../../../viewer/utils/image-url';
 export class ThumbnailComponent {
   readonly image = input.required<FileInfo>();
 
-  readonly router = inject(Router);
-
-  readonly viewNavigator = inject(ViewNavigator);
-
   readonly url = computed(() => imageUrl(this.image().path));
 
   readonly isLoading = signal<boolean>(true);
 
   readonly hasError = signal<boolean>(false);
+
+  readonly clicked = output<FileInfo>();
 
   // TODO Add zoom tracking service
   protected readonly zoom = signal(1);
@@ -48,16 +41,8 @@ export class ThumbnailComponent {
     });
   }
 
-  protected readonly viewImage = async () => {
-    const result = await window.desktop.openFileFromArgs(this.image().path);
-
-    if (result.success) {
-      this.viewNavigator.setFiles(result.data.files, result.data.selected);
-      await this.router.navigate([ '/view' ]);
-    }
-  };
-
   private readonly onLoad = () => {
+    console.log('LOAD');
     this.imageTag().removeEventListener('load', this.onLoad);
     this.isLoading.set(false);
     this.hasError.set(false);

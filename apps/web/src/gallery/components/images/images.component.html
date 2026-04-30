@@ -5,7 +5,8 @@
 } @else {
   <div class="images">
     @for (image of images; track image.name) {
-      <app-thumbnail [image]="image" />
+      <app-thumbnail [image]="image"
+                     (clicked)="onThumbnailClick($event)" />
     }
   </div>
 }
