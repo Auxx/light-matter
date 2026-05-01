@@ -30,6 +30,6 @@ jobs:
 #          path: 'dist/executables/Light Matter Setup*.exe'
       - uses: softprops/action-gh-release@v2
         with:
-          files:
-            - 'dist/executables/Light Matter Setup*.exe'
-            - 'dist/executables/Light Matter *.appx'
+          files: |
+            'dist/executables/Light Matter Setup*.exe'
+            'dist/executables/Light Matter *.appx'
