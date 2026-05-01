@@ -24,12 +24,8 @@ jobs:
       - run: npm ci --prefer-offline --no-audit --ignore-scripts
       - run: npm run make:prod
       - run: npm run make:prod-appx
-#      - uses: actions/upload-artifact@v4
-#        with:
-#          name: 'Light Matter Installer'
-#          path: 'dist/executables/Light Matter Setup*.exe'
-      - uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v3
         with:
           files: |
-            'dist/executables/Light Matter Setup*.exe'
-            'dist/executables/Light Matter *.appx'
+            dist/executables/*.exe
+            dist/executables/*.appx
