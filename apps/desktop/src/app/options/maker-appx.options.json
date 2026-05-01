@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../../../node_modules/nx-electron/src/validation/maker.schema.json",
+  "productName": "Light Matter",
+  "fileAssociations": [
+    {
+      "ext": [
+        "jpg",
+        "jpeg",
+        "jxl",
+        "png",
+        "gif",
+        "svg",
+        "webp",
+        "avif",
+        "bmp"
+      ],
+      "role": "Viewer"
+    }
+  ],
+  "appx": {
+    "applicationId": "hexmode.org.LightMatter",
+    "identityName": "62205hexmode.org.LightMatter",
+    "displayName": "Light Matter",
+    "publisher": "CN=A139D0AB-B22F-434F-A983-4845D29D550E",
+    "publisherDisplayName": "hexmode.org"
+  },
+  "win": {
+    "icon": "./apps/desktop/src/assets/icon.ico",
+    "target": "appx"
+  },
+  "electronLanguages": [
+    "en-GB"
+  ]
+}
