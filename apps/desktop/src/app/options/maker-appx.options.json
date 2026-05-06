@@ -17,6 +17,9 @@
       "role": "Viewer"
     }
   ],
+  "directories": {
+    "buildResources": "./apps/desktop/src/assets"
+  },
   "appx": {
     "applicationId": "hexmode.org.LightMatter",
     "identityName": "62205hexmode.org.LightMatter",
