@@ -22,7 +22,8 @@ jobs:
           node-version: "24.14.0"
           cache: 'npm'
       - run: npm ci --prefer-offline --no-audit --ignore-scripts
-      - run: npm run make:prod
+      - run: npm run build:all
+      - run: npm run make:prod-nsis
       - run: npm run make:prod-appx
       - uses: softprops/action-gh-release@v3
         with:
