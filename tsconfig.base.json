@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "internal-api": ["libs/internal-api/src/index.ts"],
-      "@lmgm/dev-toolkit": ["libs/dev-toolkit/src/index.ts"]
+      "@lmgm/dev-toolkit": ["libs/dev-toolkit/src/index.ts"],
+      "@light-matter/ui": ["libs/ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
