@@ -1,0 +1,18 @@
+:host {
+  --icon-color: var(--mat-sys-on-surface);
+
+  display: block;
+
+  ::ng-deep {
+    svg {
+      width: 24px;
+
+      path {
+        fill: var(--icon-color);
+        stroke: var(--icon-color);
+        stroke-width: 0.5px;
+      }
+    }
+  }
+}
+

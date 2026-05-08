@@ -1,6 +1,8 @@
 @let locations = locations$ | async | default:[];
 @let selected = selectedLocation();
 
+<app-icon icon="zoomFit"/>
+
 <app-dual-pane>
   <app-location-listing class="secondary"
                         [locations]="locations"
@@ -12,4 +14,5 @@
                   [contents]="contents()"
                   (folderPushed)="onFolderPush($event)"
                   (folderPopped)="onFolderPop()" />
+
 </app-dual-pane>
