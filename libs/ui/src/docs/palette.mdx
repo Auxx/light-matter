@@ -1,4 +1,5 @@
-import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs/blocks';
+import { Meta, ColorPalette, ColorItem, Story } from '@storybook/addon-docs/blocks';
+import * as PalettePreviewStories from './components/palette-preview/palette-preview.component.stories';
 
 <Meta title="Documentation/Palette" />
 
@@ -41,3 +42,5 @@ import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs/blocks';
     } }
   />
 </ColorPalette>
+
+<Story of={ PalettePreviewStories.Primary } />

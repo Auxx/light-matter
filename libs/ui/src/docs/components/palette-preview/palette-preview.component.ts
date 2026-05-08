@@ -8,4 +8,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PalettePreviewComponent {
+  protected readonly variants = [ 'default', 'accent', 'warn' ];
+
+  protected readonly heights = [ 'lowest', 'low', 'medium', 'high', 'highest' ];
 }

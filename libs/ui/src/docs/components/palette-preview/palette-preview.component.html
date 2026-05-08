@@ -1,1 +1,12 @@
-<p>ui-palette-preview works!</p>
+@for (variant of variants; track variant) {
+  <div class="variant">
+    @for (height of heights; track height) {
+      <div class="height"
+           [style.--background]="`var(--surface-${variant}-${height})`"
+           [style.--foreground]="`var(--content-${variant}-${height})`">
+        <div class="label">{{ `--surface-${variant}-${height}` }}</div>
+        <div class="label">{{ `--content-${variant}-${height}` }}</div>
+      </div>
+    }
+  </div>
+}

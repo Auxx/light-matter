@@ -1,34 +1,64 @@
 :root {
-  --default-hue: 228;
   --default-chroma: 0.005;
+  --default-hue: 228;
 
-  --accent-hue: 64;
   --accent-chroma: 0.17;
+  --accent-hue: 64;
 
-  --warn-hue: 22;
   --warn-chroma: 0.13;
+  --warn-hue: 22;
 
-  --default-color: oklch(0.4541 0.0304 228.62);
+  --default-color: oklch(0.45 0.03 228);
   --accent-color: oklch(0.77 0.17 64);
   --warn-color: oklch(0.7 0.13 22);
+
+  // Surface colours
+  --surface-default-base: oklch(0.5 0.005 var(--default-hue));
+  --surface-accent-base: oklch(0.5 0.02 var(--accent-hue));
+  --surface-warn-base: oklch(0.5 0.036 var(--warn-hue));
 
   --surface-default-lowest: #000;
   --surface-accent-lowest: #000;
   --surface-warn-lowest: #000;
 
-  --surface-default-low: oklch(0.18 var(--default-chroma) var(--default-hue));
-  --surface-accent-low: oklch(0.12 0.02 var(--accent-hue));
-  --surface-warn-low: oklch(0.09 0.036 var(--warn-hue));
+  --surface-default-low: oklch(from var(--surface-default-base) 0.18 c h);
+  --surface-accent-low: oklch(from var(--surface-accent-base) 0.12 c h);
+  --surface-warn-low: oklch(from var(--surface-warn-base) 0.09 c h);
 
-  --surface-default-medium: oklch(0.22 var(--default-chroma) var(--default-hue));
-  --surface-accent-medium: oklch(0.22 0.02 var(--accent-hue));
-  --surface-warn-medium: oklch(0.22 0.036 var(--warn-hue));
+  --surface-default-medium: oklch(from var(--surface-default-base) 0.22 c h);
+  --surface-accent-medium: oklch(from var(--surface-accent-base) 0.22 c h);
+  --surface-warn-medium: oklch(from var(--surface-warn-base) 0.22 c h);
 
-  --surface-default-high: oklch(0.26 var(--default-chroma) var(--default-hue));
-  --surface-accent-high: oklch(0.26 0.02 var(--accent-hue));
-  --surface-warn-high: oklch(0.26 0.036 var(--warn-hue));
+  --surface-default-high: oklch(from var(--surface-default-base) 0.26 c h);
+  --surface-accent-high: oklch(from var(--surface-accent-base) 0.26 c h);
+  --surface-warn-high: oklch(from var(--surface-warn-base) 0.26 c h);
 
-  --surface-default-highest: oklch(0.30 var(--default-chroma) var(--default-hue));
-  --surface-accent-highest: oklch(0.30 0.02 var(--accent-hue));
-  --surface-warn-highest: oklch(0.30 0.036 var(--warn-hue));
+  --surface-default-highest: oklch(from var(--surface-default-base) 0.30 c h);
+  --surface-accent-highest: oklch(from var(--surface-accent-base) 0.30 c h);
+  --surface-warn-highest: oklch(from var(--surface-warn-base) 0.30 c h);
+
+  // Content colours
+  --content-default-base: oklch(0.5 0.005 var(--default-hue));
+  --content-accent-base: oklch(0.5 0.02 var(--accent-hue));
+  --content-warn-base: oklch(0.5 0.036 var(--warn-hue));
+
+  --content-default-lowest: oklch(from var(--content-default-base) 0.88 c h);
+  --content-accent-lowest: oklch(from var(--content-accent-base) 0.88 c h);
+  --content-warn-lowest: oklch(from var(--content-warn-base) 0.88 c h);
+
+  --content-default-low: oklch(from var(--content-default-base) 0.90 c h);
+  --content-accent-low: oklch(from var(--content-accent-base) 0.90 c h);
+  --content-warn-low: oklch(from var(--content-warn-base) 0.90 c h);
+
+  --content-default-medium: oklch(from var(--content-default-base) 0.92 c h);
+  --content-accent-medium: oklch(from var(--content-accent-base) 0.92 c h);
+  --content-warn-medium: oklch(from var(--content-warn-base) 0.92 c h);
+
+  --content-default-high: oklch(from var(--content-default-base) 0.94 c h);
+  --content-accent-high: oklch(from var(--content-accent-base) 0.94 c h);
+  --content-warn-high: oklch(from var(--content-warn-base) 0.94 c h);
+
+  --content-default-highest: oklch(from var(--content-default-base) 0.96 c h);
+  --content-accent-highest: oklch(from var(--content-accent-base) 0.96 c h);
+  --content-warn-highest: oklch(from var(--content-warn-base) 0.96 c h);
 }
