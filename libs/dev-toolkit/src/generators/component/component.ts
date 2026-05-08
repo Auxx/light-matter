@@ -25,7 +25,7 @@ const lastRun: LastRun = {
 export async function componentGenerator(tree: Tree, options: ComponentGeneratorSchema) {
   const feature = featurePath(tree, options.project, options.feature);
   if (!tree.exists(feature) || tree.isFile(feature)) {
-    console.log(`Feature "${options.name}" does not exist.`);
+    console.log(`Feature "${options.feature}" does not exist.`);
     lastRun.success = false;
     return;
   }
