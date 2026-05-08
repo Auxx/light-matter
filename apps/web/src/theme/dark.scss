@@ -1,0 +1,22 @@
+:root {
+  --default-hue: 228;
+  --default-chroma: 0.005;
+
+  --accent-hue: 64;
+  --accent-chroma: 0.17;
+
+  --warn-hue: 22;
+  --warn-chroma: 0.13;
+
+  --default-color: oklch(0.4541 0.0304 228.62);
+  --accent-color: oklch(0.77 0.17 64);
+  --warn-color: oklch(0.7 0.13 22);
+
+  --surface-default-lowest: #000;
+  --surface-accent-lowest: #000;
+  --surface-warn-lowest: #000;
+
+  --surface-default-low: oklch(0.18 var(--default-chroma) var(--default-hue));
+  --surface-accent-low: oklch(0.12 0.02 var(--accent-hue));
+  --surface-warn-low: oklch(0.09 0.036 var(--warn-hue));
+}

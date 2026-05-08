@@ -1,7 +1,13 @@
 @let locations = locations$ | async | default:[];
 @let selected = selectedLocation();
 
-<app-icon icon="zoomFit"/>
+<div class="tester">
+  <app-icon icon="zoomFit" />
+</div>
+
+<div class="tester2">
+  <app-icon icon="zoomFit" />
+</div>
 
 <app-dual-pane>
   <app-location-listing class="secondary"

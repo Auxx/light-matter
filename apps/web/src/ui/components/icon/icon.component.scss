@@ -1,11 +1,20 @@
 :host {
+  --icon-size-x-small: 8px;
+  --icon-size-small: 12px;
+  --icon-size-medium: 16px;
+  --icon-size-large: 24px;
+  --icon-size-x-large: 32px;
+
   --icon-color: var(--mat-sys-on-surface);
+  --icon-size: var(--icon-size-medium, 16px);
 
   display: block;
 
   ::ng-deep {
     svg {
-      width: 24px;
+      display: block;
+      width: var(--icon-size);
+      height: var(--icon-size);
 
       path {
         fill: var(--icon-color);
