@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { allSizes, Size } from '../../../content/types/size.types';
 import { allVariants, Variant } from '../../../content/types/variant.types';
 import { allButtonTypes, ButtonType } from '../../types/button.types';
@@ -25,6 +25,8 @@ export class ActionButtonComponent {
   readonly size = input<Size>(allSizes[0]);
 
   readonly disabled = input(false);
+
+  readonly pressed = output();
 
   protected readonly color = computed(() => `var(--element-${this.variant()}-low)`);
 }

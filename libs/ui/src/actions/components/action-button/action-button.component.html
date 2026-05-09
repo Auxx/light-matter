@@ -1,5 +1,6 @@
 <button [type]="type()"
-        [disabled]="disabled()">
+        [disabled]="disabled()"
+        (click)="pressed.emit()">
 
   <ng-content></ng-content>
 
