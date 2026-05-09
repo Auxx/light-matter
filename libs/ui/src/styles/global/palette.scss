@@ -61,4 +61,25 @@
   --content-default-highest: oklch(from var(--content-default-base) 0.96 c h);
   --content-accent-highest: oklch(from var(--content-accent-base) 0.96 c h);
   --content-warn-highest: oklch(from var(--content-warn-base) 0.96 c h);
+
+  // Element colours
+  --element-default-lowest: oklch(0.962891 0.01875 228);
+  --element-accent-lowest: oklch(0.97 0.02 64);
+  --element-warn-lowest: oklch(0.97 0.02 22);
+
+  --element-default-low: oklch(0.91 0.05 228);
+  --element-accent-low: oklch(0.92 0.05 64);
+  --element-warn-low: oklch(0.92 0.05 22);
+
+  --element-default-medium: oklch(0.85 0.08 228);
+  --element-accent-medium: oklch(0.86 0.08 64);
+  --element-warn-medium: oklch(0.86 0.08 22);
+
+  --element-default-high: oklch(0.78 0.12 228);
+  --element-accent-high: oklch(0.79 0.12 64);
+  --element-warn-high: oklch(0.8 0.12 22);
+
+  --element-default-highest: oklch(0.69 0.17 228);
+  --element-accent-highest: oklch(0.72 0.17 64);
+  --element-warn-highest: oklch(0.72 0.17 22);
 }

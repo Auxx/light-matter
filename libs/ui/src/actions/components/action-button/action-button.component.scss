@@ -1,0 +1,53 @@
+:host {
+  display: block;
+  width: fit-content;
+  height: fit-content;
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    border: none;
+    background: none;
+    outline: none;
+    color: var(--color);
+    cursor: pointer;
+    padding: 0 16px;
+
+    font-family: var(--text-font-family);
+    font-size: var(--text-font-size);
+
+    transition: color 250ms ease-in-out;
+  }
+
+  &.size-small {
+    button {
+      height: 24px;
+    }
+  }
+
+  &.size-medium {
+    button {
+      height: 32px;
+    }
+  }
+
+  &.size-large {
+    button {
+      height: 48px;
+    }
+  }
+
+  &:hover {
+    button {
+      color: oklch(from var(--color) calc(l - 0.07) calc(c + 0.05) h);
+    }
+  }
+
+  &.disabled {
+    button {
+      color: color(from var(--color) / 0.4);
+    }
+  }
+}

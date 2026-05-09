@@ -1,1 +1,11 @@
 @use "global/palette";
+@use "global/typography";
+
+body {
+  color-scheme: dark;
+  background: var(--surface-default-low);
+  color: var(--content-default-low);
+
+  font-family: var(--text-font-family);
+  font-size: var(--text-font-size);
+}
