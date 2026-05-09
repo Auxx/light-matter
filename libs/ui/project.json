@@ -11,7 +11,10 @@
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {
         "project": "libs/ui/ng-package.json",
-        "tsConfig": "libs/ui/tsconfig.lib.json"
+        "tsConfig": "libs/ui/tsconfig.lib.json",
+        "loader": {
+          ".svg": "text"
+        }
       },
       "configurations": {
         "production": {
