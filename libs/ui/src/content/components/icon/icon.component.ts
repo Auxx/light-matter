@@ -7,7 +7,7 @@ export const allIconSizes = [ 'medium', 'small', 'x-small', 'large', 'x-large' ]
 export type IconSize = typeof allIconSizes[number];
 
 @Component({
-  selector: 'app-icon',
+  selector: 'ui-icon',
   imports: [],
   template: ``,
   styleUrl: './icon.component.scss',

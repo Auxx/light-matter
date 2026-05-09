@@ -6,7 +6,6 @@ import { LocationListingComponent } from '../../../gallery/components/location-l
 import { GalleryState } from '../../../gallery/services/gallery-state/gallery-state';
 import { DefaultPipe } from '../../../system/pipes/default/default.pipe';
 import { DualPaneComponent } from '../../../ui/components/dual-pane/dual-pane.component';
-import { IconComponent } from '../../../ui/components/icon/icon.component';
 
 @Component({
   selector: 'app-gallery',
@@ -15,8 +14,7 @@ import { IconComponent } from '../../../ui/components/icon/icon.component';
     DefaultPipe,
     LocationListingComponent,
     DualPaneComponent,
-    ImageGridComponent,
-    IconComponent
+    ImageGridComponent
   ],
   templateUrl: './gallery.page.html',
   styleUrl: './gallery.page.scss',
