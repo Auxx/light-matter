@@ -64,3 +64,13 @@ export const Primary: Story = {
     };
   }
 };
+
+export const BasicIcon: Story = {
+  render: props => {
+    return {
+      props,
+      template: `
+      <ui-icon icon="folder"/>`
+    };
+  }
+};

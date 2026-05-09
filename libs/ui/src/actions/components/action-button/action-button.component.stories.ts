@@ -1,4 +1,5 @@
-import { Meta, StoryObj } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
+import { IconComponent } from '../../../content/components/icon/icon.component';
 import { allSizes } from '../../../content/types/size.types';
 import { allVariants } from '../../../content/types/variant.types';
 import { allButtonTypes } from '../../types/button.types';
@@ -7,6 +8,9 @@ import { ActionButtonComponent } from './action-button.component';
 const meta: Meta<ActionButtonComponent> = {
   component: ActionButtonComponent,
   title: 'Components/Actions/ActionButton',
+  decorators: [
+    moduleMetadata({ imports: [ IconComponent ] })
+  ],
 
   args: {
     variant: 'default',
@@ -68,6 +72,43 @@ export const Primary: Story = {
         [type]="type"
         [disabled]="disabled">
         Click me
+      </ui-action-button>`
+    };
+  }
+};
+
+export const BasicButton: Story = {
+  render: props => {
+    return {
+      props,
+      template: `
+      <ui-action-button>
+        Cancel
+      </ui-action-button>`
+    };
+  }
+};
+
+export const AccentButton: Story = {
+  render: props => {
+    return {
+      props,
+      template: `
+      <ui-action-button variant="accent">
+        Save
+      </ui-action-button>`
+    };
+  }
+};
+
+export const ButtonWithIcon: Story = {
+  render: props => {
+    return {
+      props,
+      template: `
+      <ui-action-button>
+        <ui-icon icon="info"/>
+        Info
       </ui-action-button>`
     };
   }
