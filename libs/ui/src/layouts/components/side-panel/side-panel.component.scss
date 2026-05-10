@@ -1,0 +1,46 @@
+:host {
+  flex: 1;
+  display: grid;
+  grid-template-columns: var(--side-panel-width) 16px 1fr;
+  grid-template-rows: 100%;
+
+  overflow: hidden;
+
+  background: var(--surface-default-low);
+
+  .side-panel {
+    overflow: hidden;
+    padding: 4px;
+    margin: 16px 0;
+
+    background-color: var(--surface-default-medium);
+    border-radius: 0 12px 12px 0;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--content-accent-low);
+    cursor: default;
+
+    ui-icon {
+    }
+  }
+
+  .content {
+    overflow: hidden;
+    padding: 4px 0 4px 4px;
+    margin: 16px 0;
+  }
+
+  &.resizable {
+    .divider {
+      cursor: col-resize;
+    }
+  }
+
+  &.hidden {
+    grid-template-columns: 1fr;
+  }
+}

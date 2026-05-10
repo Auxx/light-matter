@@ -26,6 +26,8 @@ import infoFilled from '@fluentui/svg-icons/icons/info_16_filled.svg';
 import info from '@fluentui/svg-icons/icons/info_16_regular.svg';
 import moreHorizontal from '@fluentui/svg-icons/icons/more_horizontal_16_regular.svg';
 import moreVertical from '@fluentui/svg-icons/icons/more_vertical_16_regular.svg';
+import reorderDotsVertical from '@fluentui/svg-icons/icons/re_order_dots_vertical_16_regular.svg';
+import reorderVertical from '@fluentui/svg-icons/icons/re_order_vertical_16_regular.svg';
 import zoomFitFilled from '@fluentui/svg-icons/icons/zoom_fit_16_filled.svg';
 import zoomFit from '@fluentui/svg-icons/icons/zoom_fit_16_regular.svg';
 import zoomInFilled from '@fluentui/svg-icons/icons/zoom_in_16_filled.svg';
@@ -67,44 +69,48 @@ export const allIcons = [
   'zoomOut',
   'zoomOutFilled',
   'zoomFit',
-  'zoomFitFilled'
+  'zoomFitFilled',
+  'reorderVertical',
+  'reorderDotsVertical'
 ] as const;
 
 export type IconName = typeof allIcons[number];
 
 export const iconMapping: Record<IconName, string> = {
-  add: add,
-  addFilled: addFilled,
-  addCircle: addCircle,
-  addCircleFilled: addCircleFilled,
-  desktop: desktop,
-  desktopFilled: desktopFilled,
-  folderAdd: folderAdd,
-  folderAddFilled: folderAddFilled,
-  folder: folder,
-  folderFilled: folderFilled,
-  folderProhibited: folderProhibited,
-  folderProhibitedFilled: folderProhibitedFilled,
-  chevronDown: chevronDown,
-  chevronUp: chevronUp,
-  chevronLeft: chevronLeft,
-  chevronRight: chevronRight,
-  moreVertical: moreVertical,
-  moreHorizontal: moreHorizontal,
-  arrowCircleLeft: arrowCircleLeft,
-  arrowCircleRight: arrowCircleRight,
-  arrowCircleUp: arrowCircleUp,
-  arrowCircleDown: arrowCircleDown,
-  arrowCircleLeftFilled: arrowCircleLeftFilled,
-  arrowCircleRightFilled: arrowCircleRightFilled,
-  arrowCircleUpFilled: arrowCircleUpFilled,
-  arrowCircleDownFilled: arrowCircleDownFilled,
-  info: info,
-  infoFilled: infoFilled,
-  zoomIn: zoomIn,
-  zoomInFilled: zoomInFilled,
-  zoomOut: zoomOut,
-  zoomOutFilled: zoomOutFilled,
-  zoomFit: zoomFit,
-  zoomFitFilled: zoomFitFilled
+  add,
+  addFilled,
+  addCircle,
+  addCircleFilled,
+  desktop,
+  desktopFilled,
+  folderAdd,
+  folderAddFilled,
+  folder,
+  folderFilled,
+  folderProhibited,
+  folderProhibitedFilled,
+  chevronDown,
+  chevronUp,
+  chevronLeft,
+  chevronRight,
+  moreVertical,
+  moreHorizontal,
+  arrowCircleLeft,
+  arrowCircleRight,
+  arrowCircleUp,
+  arrowCircleDown,
+  arrowCircleLeftFilled,
+  arrowCircleRightFilled,
+  arrowCircleUpFilled,
+  arrowCircleDownFilled,
+  info,
+  infoFilled,
+  zoomIn,
+  zoomInFilled,
+  zoomOut,
+  zoomOutFilled,
+  zoomFit,
+  zoomFitFilled,
+  reorderVertical,
+  reorderDotsVertical
 };

@@ -1,0 +1,15 @@
+@if (!hidden()) {
+  <div class="side-panel">
+    <ng-content select="aside" />
+  </div>
+
+  <div class="divider" (mousedown)="onMouseDown($event)">
+    @if (resizable()) {
+      <ui-icon icon="reorderVertical" />
+    }
+  </div>
+}
+
+<div class="content">
+  <ng-content />
+</div>
