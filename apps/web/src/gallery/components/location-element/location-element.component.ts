@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
+import { IconComponent, IconName } from '@light-matter/ui';
 import { StopPropagation } from '../../../ui/directives/stop-propagation/stop-propagation';
 
 @Component({
@@ -10,7 +11,8 @@ import { StopPropagation } from '../../../ui/directives/stop-propagation/stop-pr
     MatIcon,
     MatIconButton,
     MatMenuTrigger,
-    StopPropagation
+    StopPropagation,
+    IconComponent
   ],
   templateUrl: './location-element.component.html',
   styleUrl: './location-element.component.scss',
@@ -24,7 +26,7 @@ import { StopPropagation } from '../../../ui/directives/stop-propagation/stop-pr
   }
 })
 export class LocationElementComponent<T> {
-  readonly icon = input.required<string>();
+  readonly icon = input.required<IconName>();
 
   readonly level = input.required<number>();
 

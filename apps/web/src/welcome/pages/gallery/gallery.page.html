@@ -1,16 +1,15 @@
 @let locations = locations$ | async | default:[];
 @let selected = selectedLocation();
 
-<app-dual-pane>
-  <app-location-listing class="secondary"
-                        [locations]="locations"
-                        [selectedLocation]="selected"
-                        (locationClicked)="onLocationSelected($event)" />
+<ui-side-panel>
+  <aside>
+    <app-location-listing [locations]="locations"
+                          [selectedLocation]="selected"
+                          (locationClicked)="onLocationSelected($event)" />
+  </aside>
 
-  <app-image-grid class="primary"
-                  [selectedPath]="selectedPath()"
+  <app-image-grid [selectedPath]="selectedPath()"
                   [contents]="contents()"
                   (folderPushed)="onFolderPush($event)"
                   (folderPopped)="onFolderPop()" />
-
-</app-dual-pane>
+</ui-side-panel>
