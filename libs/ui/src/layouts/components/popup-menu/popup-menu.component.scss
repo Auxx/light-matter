@@ -1,0 +1,10 @@
+:host {
+  display: flex;
+  flex-direction: column;
+
+  padding: 4px;
+
+  background: var(--surface-default-highest);
+  border-radius: 4px;
+  overflow: hidden;
+}

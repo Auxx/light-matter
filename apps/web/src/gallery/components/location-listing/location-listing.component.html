@@ -10,11 +10,11 @@
                       (clicked)="this.locationClicked.emit($event)" />
 
 <ng-template #rootMenu>
-  <div cdkMenu>
+  <ui-popup-menu cdkMenu>
     <ui-action-button cdkMenuItem
                       (pressed)="onAddLocation()">
       <ui-icon icon="folderAdd" />
       <ui-text>Add new location</ui-text>
     </ui-action-button>
-  </div>
+  </ui-popup-menu>
 </ng-template>
