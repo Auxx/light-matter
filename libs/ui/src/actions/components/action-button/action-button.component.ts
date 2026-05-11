@@ -14,7 +14,8 @@ import { allButtonTypes, ButtonType } from '../../types/button.types';
     '[class.size-small]': 'size() === "small"',
     '[class.size-medium]': 'size() === "medium"',
     '[class.size-large]': 'size() === "large"',
-    '[style.--color]': 'color()'
+    '[style.--color]': 'color()',
+    '[style.--highlight-color]': 'highlightColor()'
   }
 })
 export class ActionButtonComponent {
@@ -29,4 +30,6 @@ export class ActionButtonComponent {
   readonly pressed = output();
 
   protected readonly color = computed(() => `var(--element-${this.variant()}-low)`);
+
+  protected readonly highlightColor = computed(() => `var(--surface-${this.variant()}-high)`);
 }

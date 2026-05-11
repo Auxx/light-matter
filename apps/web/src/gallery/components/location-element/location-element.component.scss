@@ -13,17 +13,19 @@
   border-radius: 7px;
   cursor: pointer;
 
+  transition: background-color 250ms ease-in-out;
+
   &.root {
     font-weight: bold;
     cursor: default;
   }
 
-  &.selected {
-    background-color: var(--mat-sys-surface-container-highest);
+  &:hover {
+    background-color: var(--surface-accent-high);
   }
 
-  &:hover {
-    background-color: var(--mat-sys-surface-container-high);
+  &.selected {
+    background-color: var(--surface-accent-highest);
   }
 }
 

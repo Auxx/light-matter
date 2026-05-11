@@ -3,6 +3,15 @@
   width: fit-content;
   height: fit-content;
 
+  &.cdk-menu-item {
+    border-radius: 2px;
+    transition: background-color 250ms ease-in-out;
+
+    &:hover {
+      background-color: var(--highlight-color);
+    }
+  }
+
   button {
     display: flex;
     align-items: center;
