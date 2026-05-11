@@ -17,11 +17,21 @@
   }
 </ul>
 
-<mat-menu #sectionMenu>
-  <ng-template matMenuContent let-data="data">
-    <button mat-menu-item (click)="onRemoveLocation(data)">
-      <mat-icon fontIcon="folder_delete" />
-      <span>Remove</span>
-    </button>
-  </ng-template>
-</mat-menu>
+<ng-template #sectionMenu let-data="data">
+  <div cdkMenu>
+    <ui-action-button cdkMenuItem
+                      (pressed)="onRemoveLocation(data)">
+      <ui-icon icon="folderProhibited" />
+      <ui-text>Remove</ui-text>
+    </ui-action-button>
+  </div>
+</ng-template>
+
+<!--<mat-menu #sectionMenu>-->
+<!--  <ng-template matMenuContent let-data="data">-->
+<!--    <button mat-menu-item (click)="onRemoveLocation(data)">-->
+<!--      <mat-icon fontIcon="folder_delete" />-->
+<!--      <span>Remove</span>-->
+<!--    </button>-->
+<!--  </ng-template>-->
+<!--</mat-menu>-->

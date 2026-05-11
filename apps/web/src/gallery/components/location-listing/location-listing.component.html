@@ -9,11 +9,12 @@
                       [selectedLocation]="selectedLocation()"
                       (clicked)="this.locationClicked.emit($event)" />
 
-<mat-menu #rootMenu>
-  <button mat-menu-item (click)="onAddLocation()">
-    <mat-icon fontIcon="create_new_folder" />
-    <span>Add new location</span>
-  </button>
-</mat-menu>
-
-
+<ng-template #rootMenu>
+  <div cdkMenu>
+    <ui-action-button cdkMenuItem
+                      (pressed)="onAddLocation()">
+      <ui-icon icon="folderAdd" />
+      <ui-text>Add new location</ui-text>
+    </ui-action-button>
+  </div>
+</ng-template>

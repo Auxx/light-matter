@@ -1,15 +1,15 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
+import { CdkMenuTrigger } from '@angular/cdk/menu';
+import { ChangeDetectionStrategy, Component, input, output, TemplateRef } from '@angular/core';
 import { ActionButtonComponent, IconComponent, IconName } from '@light-matter/ui';
 import { StopPropagation } from '../../../ui/directives/stop-propagation/stop-propagation';
 
 @Component({
   selector: 'app-location-element',
   imports: [
-    MatMenuTrigger,
     StopPropagation,
     IconComponent,
-    ActionButtonComponent
+    ActionButtonComponent,
+    CdkMenuTrigger
   ],
   templateUrl: './location-element.component.html',
   styleUrl: './location-element.component.scss',
@@ -31,7 +31,7 @@ export class LocationElementComponent<T> {
 
   readonly description = input<string | null>();
 
-  readonly menu = input<MatMenu | null>(null);
+  readonly menu = input<TemplateRef<unknown> | null>(null);
 
   readonly menuData = input<T | null>(null);
 
