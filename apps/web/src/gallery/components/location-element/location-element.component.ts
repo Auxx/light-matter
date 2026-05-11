@@ -1,18 +1,15 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { MatIconButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
-import { IconComponent, IconName } from '@light-matter/ui';
+import { ActionButtonComponent, IconComponent, IconName } from '@light-matter/ui';
 import { StopPropagation } from '../../../ui/directives/stop-propagation/stop-propagation';
 
 @Component({
   selector: 'app-location-element',
   imports: [
-    MatIcon,
-    MatIconButton,
     MatMenuTrigger,
     StopPropagation,
-    IconComponent
+    IconComponent,
+    ActionButtonComponent
   ],
   templateUrl: './location-element.component.html',
   styleUrl: './location-element.component.scss',

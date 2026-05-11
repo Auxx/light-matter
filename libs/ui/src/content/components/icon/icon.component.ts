@@ -27,5 +27,5 @@ export class IconComponent {
 
   private readonly sanitizer = inject(DomSanitizer);
 
-  protected readonly color = computed(() => `var(--element-${this.variant()}-low)`);
+  protected readonly color = computed(() => `var(--content-${this.variant()}-low)`);
 }

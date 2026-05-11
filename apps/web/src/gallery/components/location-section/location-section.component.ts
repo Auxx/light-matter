@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, input, output } from '@angu
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuContent, MatMenuItem } from '@angular/material/menu';
+import { TextComponent } from '@light-matter/ui';
 import { ConfirmationDialogComponent } from '../../../ui/components/confirmation-dialog/confirmation-dialog.component';
 import { LocationNamePipe } from '../../../ui/pipes/location-name/location-name.pipe';
 import { GalleryLocations } from '../../services/gallery-locations/gallery-locations';
@@ -15,7 +16,8 @@ import { LocationElementComponent } from '../location-element/location-element.c
     MatIcon,
     MatMenu,
     MatMenuItem,
-    MatMenuContent
+    MatMenuContent,
+    TextComponent
   ],
   templateUrl: './location-section.component.html',
   styleUrl: './location-section.component.scss',

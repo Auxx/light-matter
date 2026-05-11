@@ -11,7 +11,7 @@
                             [menuData]="location"
                             [selected]="selected === location"
                             (clicked)="clicked.emit(location)">
-        {{ location | locationName }}
+        <ui-text>{{ location | locationName }}</ui-text>
       </app-location-element>
     </li>
   }

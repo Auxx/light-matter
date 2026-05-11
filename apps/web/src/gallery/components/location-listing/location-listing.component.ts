@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuItem } from '@angular/material/menu';
+import { TextComponent } from '@light-matter/ui';
 import { Dialogs } from '../../../ipc/dialogs';
 import { GalleryLocations } from '../../services/gallery-locations/gallery-locations';
 import { LocationElementComponent } from '../location-element/location-element.component';
@@ -13,7 +14,8 @@ import { LocationSectionComponent } from '../location-section/location-section.c
     LocationElementComponent,
     MatMenu,
     MatMenuItem,
-    MatIcon
+    MatIcon,
+    TextComponent
   ],
   templateUrl: './location-listing.component.html',
   styleUrl: './location-listing.component.scss',

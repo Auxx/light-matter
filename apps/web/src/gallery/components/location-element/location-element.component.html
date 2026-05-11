@@ -6,10 +6,9 @@
 
 <div class="spacer"></div>
 
-<button matIconButton
-        class="action"
-        [matMenuTriggerFor]="menu()"
-        [matMenuTriggerData]="{ data: menuData() }"
-        appStopPropagation>
-  <mat-icon fontIcon="more_vert" class="small" />
-</button>
+<ui-action-button class="action"
+                  [matMenuTriggerFor]="menu()"
+                  [matMenuTriggerData]="{ data: menuData() }"
+                  appStopPropagation>
+  <ui-icon icon="moreVertical"/>
+</ui-action-button>
