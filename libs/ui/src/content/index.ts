@@ -1,3 +1,4 @@
+export * from './components/caption/caption.component';
 export * from './components/icon/icon.component';
 export * from './components/icon/icon.types';
 export * from './components/text/text.component';

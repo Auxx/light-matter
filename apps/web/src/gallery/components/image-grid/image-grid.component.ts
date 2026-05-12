@@ -1,5 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
-import { ActionButtonComponent, IconComponent } from '@light-matter/ui';
+import {
+  ActionButtonComponent,
+  CaptionComponent,
+  IconComponent,
+  TitleComponent,
+  ToolbarComponent
+} from '@light-matter/ui';
 import { FileInfo } from 'internal-api';
 import { GalleryState } from '../../services/gallery-state/gallery-state';
 import { FoldersComponent } from '../folders/folders.component';
@@ -11,7 +17,10 @@ import { ImagesComponent } from '../images/images.component';
     FoldersComponent,
     ImagesComponent,
     IconComponent,
-    ActionButtonComponent
+    ActionButtonComponent,
+    ToolbarComponent,
+    TitleComponent,
+    CaptionComponent
   ],
   templateUrl: './image-grid.component.html',
   styleUrl: './image-grid.component.scss',

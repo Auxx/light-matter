@@ -4,19 +4,26 @@
   height: 100%;
 }
 
+ui-toolbar {
+  margin-bottom: 32px;
+
+  aside {
+    ui-icon {
+      transform: rotate(0deg);
+      transition: transform 250ms ease-in-out;
+
+      &.show-folders {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+
 .wrapper {
   overflow-y: auto;
   padding-right: 16px;
 }
 
-ui-icon {
-  transform: rotate(0deg);
-  transition: transform 250ms ease-in-out;
-
-  &.show-folders {
-    transform: rotate(180deg);
-  }
-}
 
 .expander {
   display: grid;
