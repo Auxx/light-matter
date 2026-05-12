@@ -1,10 +1,14 @@
 :host {
   display: block;
-  width: fit-content;
+  max-width: fit-content;
   height: fit-content;
 
   color: var(--color);
 
   font-family: var(--text-font-family);
   font-size: var(--title-font-size);
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
