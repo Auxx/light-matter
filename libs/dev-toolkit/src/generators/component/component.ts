@@ -33,6 +33,7 @@ export async function componentGenerator(tree: Tree, options: ComponentGenerator
   const targetPath = componentPath(tree, options.project, options.feature, options.name, options.type);
   const artifact = names(options.name);
 
+  const entityName = artifact.className;
   const className = `${artifact.className}${getComponentClassSuffix(options.type)}`;
   const fileName = `${artifact.fileName}.${getComponentSuffix(options.type)}`;
   const selector = createSelector(tree, options, options.name);
@@ -42,6 +43,7 @@ export async function componentGenerator(tree: Tree, options: ComponentGenerator
     joinPathFragments(__dirname, 'files'),
     targetPath,
     {
+      entityName,
       className,
       fileName,
       selector
