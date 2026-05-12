@@ -4,10 +4,9 @@
 
 <h1>
   @if (path.length > 1) {
-    <button matIconButton
-            (click)="folderPopped.emit()">
-      <mat-icon fontIcon="arrow_back" />
-    </button>
+    <ui-action-button (pressed)="folderPopped.emit()">
+      <ui-icon icon="chevronLeft" size="large"/>
+    </ui-action-button>
   }
 
   @if (path.length === 0) {
@@ -26,10 +25,9 @@
         Show sub-folders
       }
     </span>
-    <button matIconButton
-            (click)="toggleFolders()">
-      <mat-icon fontIcon="arrow_drop_down" [class.show-folders]="foldersVisible" />
-    </button>
+    <ui-action-button (pressed)="toggleFolders()">
+      <ui-icon icon="chevronDown" size="medium" [class.show-folders]="foldersVisible"/>
+    </ui-action-button>
   }
 </h1>
 

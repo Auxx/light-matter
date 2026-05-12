@@ -9,3 +9,30 @@ body {
   font-family: var(--text-font-family);
   font-size: var(--text-font-size);
 }
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+ul, li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.spacer {
+  flex: 1;
+}
+
+/* DEPRECATED */
+
+.block-icon {
+  display: block;
+}

@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
+import { IconComponent } from '@light-matter/ui';
 import { FileInfo } from 'internal-api';
 
 @Component({
   selector: 'app-folders',
   imports: [
-    MatIcon
+    IconComponent
   ],
   templateUrl: './folders.component.html',
   styleUrl: './folders.component.scss',
