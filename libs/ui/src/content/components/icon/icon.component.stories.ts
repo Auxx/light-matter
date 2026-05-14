@@ -26,7 +26,7 @@ const meta: Meta<IconComponent> = {
       }
     },
     variant: {
-      control: 'select',
+      control: 'radio',
       options: allVariants,
       description: 'Icon variant',
       table: {
@@ -36,7 +36,7 @@ const meta: Meta<IconComponent> = {
       }
     },
     size: {
-      control: 'select',
+      control: 'radio',
       options: allExtendedSizes,
       description: 'Icon size',
       table: {
@@ -71,6 +71,29 @@ export const BasicIcon: Story = {
       props,
       template: `
       <ui-icon icon="folder"/>`
+    };
+  }
+};
+
+/**
+ * It is possible to customise most visual aspects of `Icon` using CSS variables.
+ * These variables can be set either via a stylesheet or using Angular `[style]` binding,
+ * as shown in the example below. The `[style]` binding can also accept a single object
+ * containing multiple variables.
+ *
+ * The following CSS variables can be used for custom styling:
+ *
+ * | Variable    |
+ * |-------------|
+ * | --icon-size |
+ * | --color     |
+ */
+export const CustomStyling: Story = {
+  render: props => {
+    return {
+      props,
+      template: `
+      <ui-icon icon="folder" [style.--icon-size]="'48px'"/>`
     };
   }
 };

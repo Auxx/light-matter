@@ -13,7 +13,7 @@ import { iconMapping, IconName } from './icon.types';
   host: {
     '[innerHTML]': 'iconCode()',
     '[style.--icon-size]': '`var(--icon-size-${size()})`',
-    '[style.--icon-color]': 'color()'
+    '[style.--color]': 'color()'
   }
 })
 export class IconComponent {

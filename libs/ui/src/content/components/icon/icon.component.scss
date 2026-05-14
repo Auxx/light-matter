@@ -1,14 +1,13 @@
 :host {
-  --icon-size-x-small: 8px;
-  --icon-size-small: 12px;
-  --icon-size-medium: 16px;
-  --icon-size-large: 24px;
-  --icon-size-x-large: 32px;
-
-  --icon-color: var(--mat-sys-on-surface);
-  --icon-size: var(--icon-size-medium, 16px);
+  --icon-size-x-small: var(--dim-medium);
+  --icon-size-small: calc(var(--dim-medium) * 1.5);
+  --icon-size-medium: calc(var(--dim-medium) * 2);
+  --icon-size-large: calc(var(--dim-medium) * 3);
+  --icon-size-x-large: calc(var(--dim-medium) * 4);
 
   display: block;
+  max-width: fit-content;
+  height: fit-content;
 
   ::ng-deep {
     svg {
@@ -17,8 +16,8 @@
       height: var(--icon-size);
 
       path {
-        fill: var(--icon-color);
-        stroke: var(--icon-color);
+        fill: var(--color);
+        stroke: var(--color);
         stroke-width: 0.5px;
       }
     }
