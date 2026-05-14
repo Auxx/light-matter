@@ -124,6 +124,7 @@ export const ButtonWithIcon: Story = {
     };
   }
 };
+
 /**
  * It is possible to customise most visual aspects of `ActionButton` using CSS variables.
  * These variables can be set either via a stylesheet or using Angular `[style]` binding,
