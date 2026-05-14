@@ -12,7 +12,7 @@ const meta: Meta<CaptionComponent> = {
 
   argTypes: {
     variant: {
-      control: 'select',
+      control: 'radio',
       options: allVariants,
       description: 'Caption variant',
       table: {

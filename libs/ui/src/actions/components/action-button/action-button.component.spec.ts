@@ -52,7 +52,7 @@ describe('ActionButtonComponent', () => {
   });
 
   describe('type', () => {
-    it('should set correct buttonm type', () => {
+    it('should set correct button type', () => {
       fixture.componentRef.setInput('type', 'button');
       fixture.detectChanges();
       expect(fixture.debugElement.query(By.css('button')).attributes.type).toBe('button');

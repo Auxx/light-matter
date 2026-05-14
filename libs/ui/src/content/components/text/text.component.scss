@@ -1,12 +1,15 @@
 :host {
+  --font-family: var(--text-font-family);
+  --font-size: var(--text-font-size);
+
   display: block;
   max-width: fit-content;
   height: fit-content;
 
   color: var(--color);
 
-  font-family: var(--text-font-family);
-  font-size: var(--text-font-size);
+  font-family: var(--font-family);
+  font-size: var(--font-size);
 
   white-space: nowrap;
   overflow: hidden;

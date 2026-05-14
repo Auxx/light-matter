@@ -13,7 +13,7 @@ const meta: Meta<TextComponent> = {
 
   argTypes: {
     variant: {
-      control: 'select',
+      control: 'radio',
       options: allVariants,
       description: 'Text variant',
       table: {
@@ -47,6 +47,32 @@ export const Primary: Story = {
         [variant]="variant"
         [important]="important">
         Picture location
+      </ui-text>`
+    };
+  }
+};
+
+/**
+ * It is possible to customise most visual aspects of `Text ` using CSS variables.
+ * These variables can be set either via a stylesheet or using Angular `[style]` binding,
+ * as shown in the example below. The `[style]` binding can also accept a single object
+ * containing multiple variables.
+ *
+ * The following CSS variables can be used for custom styling:
+ *
+ * | Variable          |
+ * |-------------------|
+ * | --font-family     |
+ * | --font-size       |
+ * | --color           |
+ */
+export const CustomStyling: Story = {
+  render: props => {
+    return {
+      props,
+      template: `
+      <ui-text [style.--color]="'red'">
+        Source code
       </ui-text>`
     };
   }
