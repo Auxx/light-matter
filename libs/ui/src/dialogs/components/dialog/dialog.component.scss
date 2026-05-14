@@ -17,6 +17,8 @@
   overflow: hidden;
   border-radius: var(--border-radius-large);
 
+  animation: dialog-enter 100ms ease-in;
+
   ::ng-deep {
     header {
       background: var(--header-background-color);
@@ -41,5 +43,23 @@
       justify-content: flex-end;
       height: var(--footer-height);
     }
+  }
+}
+
+::ng-deep {
+  .cdk-overlay-dark-backdrop {
+    background: rgba(0, 0, 0, 0.5);
+  }
+}
+
+@keyframes dialog-enter {
+  from {
+    transform: scale(80%);
+    opacity: 0.5;
+  }
+
+  to {
+    transform: none;
+    opacity: 1;
   }
 }

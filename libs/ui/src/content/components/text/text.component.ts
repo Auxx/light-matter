@@ -9,13 +9,16 @@ import { allVariants, Variant } from '../../types/variant.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[style.--color]': 'color()',
-    '[class.important]': 'important()'
+    '[class.important]': 'important()',
+    '[class.multi-line]': 'multiLine()'
   }
 })
 export class TextComponent {
   readonly variant = input<Variant>(allVariants[0]);
 
   readonly important = input(false);
+
+  readonly multiLine = input(false);
 
   protected readonly color = computed(() => `var(--content-${this.variant()}-lowest)`);
 }

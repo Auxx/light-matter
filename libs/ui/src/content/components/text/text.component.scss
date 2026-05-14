@@ -18,4 +18,9 @@
   &.important {
     font-weight: bold;
   }
+
+  &.multi-line {
+    white-space: normal;
+    overflow: auto;
+  }
 }
