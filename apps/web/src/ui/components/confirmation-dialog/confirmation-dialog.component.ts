@@ -1,6 +1,5 @@
+import { Dialog, DIALOG_DATA, DialogModule } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MatButton } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { filter } from 'rxjs';
 
 export interface ConfirmationDialogOptions {
@@ -11,21 +10,20 @@ export interface ConfirmationDialogOptions {
 @Component({
   selector: 'app-confirmation-dialog',
   imports: [
-    MatDialogModule,
-    MatButton
+    DialogModule
   ],
   templateUrl: './confirmation-dialog.component.html',
   styleUrl: './confirmation-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConfirmationDialogComponent {
-  readonly options = inject<ConfirmationDialogOptions>(MAT_DIALOG_DATA);
+  readonly options = inject<ConfirmationDialogOptions>(DIALOG_DATA);
 
-  static readonly open = (dialog: MatDialog, options: ConfirmationDialogOptions) =>
-    dialog.open<ConfirmationDialogComponent, ConfirmationDialogOptions, boolean>(
+  static readonly open = (dialog: Dialog, options: ConfirmationDialogOptions) =>
+    dialog.open<boolean, ConfirmationDialogOptions, ConfirmationDialogComponent>(
       ConfirmationDialogComponent,
       { data: options }
     )
-      .afterClosed()
+      .closed
       .pipe(filter(result => result === true));
 }

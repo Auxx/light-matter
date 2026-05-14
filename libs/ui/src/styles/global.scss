@@ -1,5 +1,9 @@
+@use '@angular/cdk' as cdk;
+
 @use "global/palette";
 @use "global/typography";
+
+@include cdk.overlay();
 
 body {
   color-scheme: dark;

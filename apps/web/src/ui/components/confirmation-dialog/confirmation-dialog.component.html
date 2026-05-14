@@ -1,10 +1,10 @@
-<h2 mat-dialog-title>{{ options.title }}</h2>
+<h2>{{ options.title }}</h2>
 
-<mat-dialog-content>
+<div>
+
   <p>{{ options.description }}</p>
-</mat-dialog-content>
 
-<mat-dialog-actions>
-  <button matButton [mat-dialog-close]="false">Cancel</button>
-  <button matButton [mat-dialog-close]="true" cdkFocusInitial>Yes</button>
-</mat-dialog-actions>
+  <button>Cancel</button>
+  <button cdkFocusInitial>Yes</button>
+
+</div>
