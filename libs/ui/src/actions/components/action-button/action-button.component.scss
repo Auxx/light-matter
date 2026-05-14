@@ -10,11 +10,16 @@
   height: fit-content;
 
   &.cdk-menu-item {
+    width: 100%;
     border-radius: 2px;
     transition: background-color 250ms ease-in-out;
 
     &:hover {
       background-color: var(--highlight-color);
+    }
+
+    button {
+      width: 100%;
     }
   }
 

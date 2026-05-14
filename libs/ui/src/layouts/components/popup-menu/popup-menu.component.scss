@@ -1,10 +1,16 @@
 :host {
+  --background-color: var(--surface-default-highest);
+  --border-radius: var(--border-radius-medium);
+  --padding: var(--dim-small);
+
   display: flex;
   flex-direction: column;
+  align-items: stretch;
+  width: fit-content;
 
-  padding: 4px;
+  padding: var(--padding);
 
-  background: var(--surface-default-highest);
-  border-radius: 4px;
+  background: var(--background-color);
+  border-radius: var(--border-radius);
   overflow: hidden;
 }
