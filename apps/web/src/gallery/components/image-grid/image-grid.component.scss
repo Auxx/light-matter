@@ -29,7 +29,7 @@ ui-toolbar {
   display: grid;
   grid-template-rows: 0fr;
   opacity: 0;
-  transition: opacity 250ms ease-in-out;
+  transition: opacity 250ms ease-in-out, grid-template-rows 250ms ease-in-out;
 
   .expander-wrapper {
     overflow: hidden;
