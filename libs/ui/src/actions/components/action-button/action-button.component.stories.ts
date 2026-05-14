@@ -15,13 +15,14 @@ const meta: Meta<ActionButtonComponent> = {
   args: {
     variant: 'default',
     size: 'medium',
+    compact: false,
     type: allButtonTypes[0],
     disabled: false
   },
 
   argTypes: {
     variant: {
-      control: 'select',
+      control: 'radio',
       options: allVariants,
       description: 'Button variant',
       table: {
@@ -31,13 +32,22 @@ const meta: Meta<ActionButtonComponent> = {
       }
     },
     size: {
-      control: 'select',
+      control: 'radio',
       options: allSizes,
       description: 'Button size',
       table: {
         category: 'Presentation',
         defaultValue: { summary: allSizes[0] },
         type: { summary: 'Size' }
+      }
+    },
+    compact: {
+      control: 'boolean',
+      description: 'Is button compact?',
+      table: {
+        category: 'Presentation',
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' }
       }
     },
     type: {
@@ -69,6 +79,7 @@ export const Primary: Story = {
       <ui-action-button
         [variant]="variant"
         [size]="size"
+        [compact]="compact"
         [type]="type"
         [disabled]="disabled">
         Click me

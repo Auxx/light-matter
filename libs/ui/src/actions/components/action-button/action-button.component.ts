@@ -11,6 +11,7 @@ import { allButtonTypes, ButtonType } from '../../types/button.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.disabled]': 'disabled()',
+    '[class.compact]': 'compact()',
     '[class.size-small]': 'size() === "small"',
     '[class.size-medium]': 'size() === "medium"',
     '[class.size-large]': 'size() === "large"',
@@ -24,6 +25,8 @@ export class ActionButtonComponent {
   readonly type = input<ButtonType>(allButtonTypes[0]);
 
   readonly size = input<Size>(allSizes[0]);
+
+  readonly compact = input(false);
 
   readonly disabled = input(false);
 

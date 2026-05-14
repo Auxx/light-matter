@@ -1,0 +1,15 @@
+:root {
+  --density-regular: 1;
+  --density-compact: 0.75;
+  --density-large: 1.5;
+
+  --app-density: var(--density-regular);
+
+  --base-dimension: calc(8px * var(--app-density));
+
+  --dim-medium: var(--base-dimension);
+  --dim-small: calc(var(--dim-medium) / 2);
+  --dim-large: calc(var(--dim-medium) * 2);
+  --dim-x-large: calc(var(--dim-medium) * 3);
+  --dim-xx-large: calc(var(--dim-medium) * 4);
+}
