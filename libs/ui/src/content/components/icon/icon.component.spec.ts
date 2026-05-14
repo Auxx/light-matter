@@ -23,25 +23,27 @@ xdescribe('IconComponent', () => {
 
   describe('size', () => {
     it('should set correct size class', () => {
+      const styles: CSSStyleDeclaration = fixture.debugElement.styles as unknown as CSSStyleDeclaration;
+
       fixture.componentRef.setInput('size', 'medium');
       fixture.detectChanges();
-      expect(fixture.debugElement.styles.getPropertyValue('--icon-size')).toBe('var(--icon-size-medium)');
+      expect(styles.getPropertyValue('--icon-size')).toBe('var(--icon-size-medium)');
 
       fixture.componentRef.setInput('size', 'small');
       fixture.detectChanges();
-      expect(fixture.debugElement.styles.getPropertyValue('--icon-size')).toBe('var(--icon-size-small)');
+      expect(styles.getPropertyValue('--icon-size')).toBe('var(--icon-size-small)');
 
       fixture.componentRef.setInput('size', 'x-small');
       fixture.detectChanges();
-      expect(fixture.debugElement.styles.getPropertyValue('--icon-size')).toBe('var(--icon-size-x-small)');
+      expect(styles.getPropertyValue('--icon-size')).toBe('var(--icon-size-x-small)');
 
       fixture.componentRef.setInput('size', 'large');
       fixture.detectChanges();
-      expect(fixture.debugElement.styles.getPropertyValue('--icon-size')).toBe('var(--icon-size-large)');
+      expect(styles.getPropertyValue('--icon-size')).toBe('var(--icon-size-large)');
 
       fixture.componentRef.setInput('size', 'x-large');
       fixture.detectChanges();
-      expect(fixture.debugElement.styles.getPropertyValue('--icon-size')).toBe('var(--icon-size-x-large)');
+      expect(styles.getPropertyValue('--icon-size')).toBe('var(--icon-size-x-large)');
     });
   });
 });

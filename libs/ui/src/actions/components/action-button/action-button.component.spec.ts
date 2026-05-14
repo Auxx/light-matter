@@ -34,20 +34,23 @@ describe('ActionButtonComponent', () => {
 
   describe('variant', () => {
     it('should update color based on variant value', () => {
+      const styles: CSSStyleDeclaration = fixture.debugElement.styles as unknown as CSSStyleDeclaration;
+
       fixture.componentRef.setInput('variant', 'default');
       fixture.detectChanges();
-      expect(fixture.debugElement.styles.getPropertyValue('--color')).toBe('var(--element-default-low)');
-      expect(fixture.debugElement.styles.getPropertyValue('--highlight-color')).toBe('var(--surface-default-high)');
+
+      expect(styles.getPropertyValue('--color')).toBe('var(--element-default-low)');
+      expect(styles.getPropertyValue('--highlight-color')).toBe('var(--surface-default-high)');
 
       fixture.componentRef.setInput('variant', 'primary');
       fixture.detectChanges();
-      expect(fixture.debugElement.styles.getPropertyValue('--color')).toBe('var(--element-primary-low)');
-      expect(fixture.debugElement.styles.getPropertyValue('--highlight-color')).toBe('var(--surface-primary-high)');
+      expect(styles.getPropertyValue('--color')).toBe('var(--element-primary-low)');
+      expect(styles.getPropertyValue('--highlight-color')).toBe('var(--surface-primary-high)');
 
       fixture.componentRef.setInput('variant', 'warn');
       fixture.detectChanges();
-      expect(fixture.debugElement.styles.getPropertyValue('--color')).toBe('var(--element-warn-low)');
-      expect(fixture.debugElement.styles.getPropertyValue('--highlight-color')).toBe('var(--surface-warn-high)');
+      expect(styles.getPropertyValue('--color')).toBe('var(--element-warn-low)');
+      expect(styles.getPropertyValue('--highlight-color')).toBe('var(--surface-warn-high)');
     });
   });
 
@@ -55,15 +58,15 @@ describe('ActionButtonComponent', () => {
     it('should set correct button type', () => {
       fixture.componentRef.setInput('type', 'button');
       fixture.detectChanges();
-      expect(fixture.debugElement.query(By.css('button')).attributes.type).toBe('button');
+      expect(fixture.debugElement.query(By.css('button')).attributes['type']).toBe('button');
 
       fixture.componentRef.setInput('type', 'submit');
       fixture.detectChanges();
-      expect(fixture.debugElement.query(By.css('button')).attributes.type).toBe('submit');
+      expect(fixture.debugElement.query(By.css('button')).attributes['type']).toBe('submit');
 
       fixture.componentRef.setInput('type', 'reset');
       fixture.detectChanges();
-      expect(fixture.debugElement.query(By.css('button')).attributes.type).toBe('reset');
+      expect(fixture.debugElement.query(By.css('button')).attributes['type']).toBe('reset');
     });
   });
 
