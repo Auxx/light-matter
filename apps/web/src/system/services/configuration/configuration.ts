@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
+import { updateSubject } from '@light-matter/ui';
 import { AppConfigV1, AppConfigV1Gallery, isAppConfig, SystemPathMapping } from 'internal-api';
 import { ReplaySubject } from 'rxjs';
 import { FileSystem } from '../../../ipc/file-system';
-import { updateSubject } from '../../../rx-tools';
 
 @Injectable({ providedIn: 'root' })
 export class Configuration {

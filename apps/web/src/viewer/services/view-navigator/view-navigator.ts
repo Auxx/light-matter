@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { updateSubject } from '@light-matter/ui';
 import { BehaviorSubject } from 'rxjs';
-import { updateSubject } from '../../../rx-tools';
 import { imageUrl } from '../../utils/image-url';
 import { defaultViewNavigatorState, ViewNavigatorState } from './view-navigator.types';
 
