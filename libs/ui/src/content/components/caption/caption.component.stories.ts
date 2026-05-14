@@ -48,11 +48,11 @@ export const Primary: Story = {
  *
  * The following CSS variables can be used for custom styling:
  *
- * | Variable          |
- * |-------------------|
- * | --font-family     |
- * | --font-size       |
- * | --color           |
+ * | Variable      |
+ * |---------------|
+ * | --font-family |
+ * | --font-size   |
+ * | --color       |
  */
 export const CustomStyling: Story = {
   render: props => {

@@ -1,4 +1,11 @@
 :host {
+  --border-radius: var(--border-radius-x-large);
+  --padding: var(--dim-small);
+  --margin: var(--dim-large);
+  --divider-color: var(--content-accent-low);
+  --background-color: var(--surface-default-low);
+  --aside-background-color: var(--surface-default-medium);
+
   flex: 1;
   display: grid;
   grid-template-columns: var(--side-panel-width) 16px 1fr;
@@ -6,22 +13,22 @@
 
   overflow: hidden;
 
-  background: var(--surface-default-low);
+  background: var(--background-color);
 
   .side-panel {
     overflow: hidden;
-    padding: 4px;
-    margin: 16px 0;
+    padding: var(--padding);
+    margin: var(--margin) 0;
 
-    background-color: var(--surface-default-medium);
-    border-radius: 0 12px 12px 0;
+    background-color: var(--aside-background-color);
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
   }
 
   .divider {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--content-accent-low);
+    color: var(--divider-color);
     cursor: default;
 
     ui-icon {
@@ -30,8 +37,8 @@
 
   .content {
     overflow: hidden;
-    padding: 4px 0 4px 4px;
-    margin: 16px 0;
+    padding: var(--padding) 0 var(--padding) var(--padding);
+    margin: var(--margin) 0;
   }
 
   &.resizable {
