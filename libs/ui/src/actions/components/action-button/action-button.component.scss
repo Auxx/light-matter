@@ -1,4 +1,6 @@
 :host {
+  --font-family: var(--text-font-family);
+  --font-size: var(--text-font-size);
   --height: calc(var(--dim-medium) * 4);
   --gap: var(--dim-medium);
   --side-padding: var(--dim-large);
@@ -46,8 +48,8 @@
     padding: 0 var(--side-padding);
     height: var(--height);
 
-    font-family: var(--text-font-family);
-    font-size: var(--text-font-size);
+    font-family: var(--font-family);
+    font-size: var(--font-size);
 
     transition: color 250ms ease-in-out;
   }

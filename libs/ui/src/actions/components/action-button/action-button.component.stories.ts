@@ -124,3 +124,34 @@ export const ButtonWithIcon: Story = {
     };
   }
 };
+/**
+ * It is possible to customise most visual aspects of `ActionButton` using CSS variables.
+ * These variables can be set either via a stylesheet or using Angular `[style]` binding,
+ * as shown in the example below. The `[style]` binding can also accept a single object
+ * containing multiple variables.
+ *
+ * The following CSS variables can be used for custom styling:
+ *
+ * | Variable          |
+ * |-------------------|
+ * | --font-family     |
+ * | --font-size       |
+ * | --height          |
+ * | --gap             |
+ * | --side-padding    |
+ * | --color           |
+ * | --highlight-color |
+ */
+export const CustomStyling: Story = {
+  render: props => {
+    return {
+      props,
+      template: `
+      <ui-action-button
+        [style.--font-size]="'24px'"
+        [style.--color]="'red'">
+        Custom style
+      </ui-action-button>`
+    };
+  }
+};
