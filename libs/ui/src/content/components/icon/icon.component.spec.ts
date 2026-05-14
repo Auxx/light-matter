@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IconComponent } from './icon.component';
 
-xdescribe('IconComponent', () => {
+describe('IconComponent', () => {
   let component: IconComponent;
   let fixture: ComponentFixture<IconComponent>;
 
@@ -13,6 +13,7 @@ xdescribe('IconComponent', () => {
       .compileComponents();
 
     fixture = TestBed.createComponent(IconComponent);
+    fixture.componentRef.setInput('icon', 'add');
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
