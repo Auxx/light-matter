@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "Service",
+  "title": "Service",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of a new service",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use for the new service?"
+    },
+    "project": {
+      "type": "string",
+      "description": "The project in which to create the service.",
+      "x-priority": "important",
+      "x-prompt": "Which project the service should be generated in?"
+    },
+    "feature": {
+      "type": "string",
+      "description": "The feature in which to create the service.",
+      "x-priority": "important",
+      "x-prompt": "Which feature the service should be generated in?"
+    }
+  },
+  "required": ["name", "project", "feature"]
+}

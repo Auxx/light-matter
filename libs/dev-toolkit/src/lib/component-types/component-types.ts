@@ -1,23 +1,26 @@
-export type ComponentType = 'component' | 'page' | 'dialog';
+export type ComponentType = 'component' | 'page' | 'dialog' | 'service';
 
 export const defaultComponentPrefix = 'app';
 
 const componentFolder: Record<ComponentType, string> = {
   component: 'components',
   page: 'pages',
-  dialog: 'dialogs'
+  dialog: 'dialogs',
+  service: 'services'
 };
 
 const componentSuffix: Record<ComponentType, string> = {
   component: 'component',
   page: 'page',
-  dialog: 'dialog'
+  dialog: 'dialog',
+  service: 'service'
 };
 
 const componentClassSuffix: Record<ComponentType, string> = {
   component: 'Component',
   page: 'Page',
-  dialog: 'Dialog'
+  dialog: 'Dialog',
+  service: 'Service'
 };
 
 export function getComponentFolder(type: ComponentType) {
