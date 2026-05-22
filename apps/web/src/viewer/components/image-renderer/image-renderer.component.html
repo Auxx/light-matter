@@ -13,7 +13,8 @@
          [height]="dimensions.height"
          [style.left]="position.x | px"
          [style.top]="position.y | px"
-         [src]="imageUrl">
+         [src]="imageUrl"
+         (mousedown)="onMouseDown($event)">
   }
 
 </div>
