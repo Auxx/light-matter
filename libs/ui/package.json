@@ -2,9 +2,9 @@
   "name": "@light-matter/ui",
   "version": "0.0.1",
   "peerDependencies": {
-    "@angular/cdk": "21.2.2",
-    "@angular/core": "21.2.4",
-    "@angular/platform-browser": "21.2.4",
+    "@angular/cdk": "21.2.12",
+    "@angular/core": "21.2.14",
+    "@angular/platform-browser": "21.2.14",
     "@fluentui/svg-icons": "1.1.325",
     "rxjs": "7.8.2"
   },
