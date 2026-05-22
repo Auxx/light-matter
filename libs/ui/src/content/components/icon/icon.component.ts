@@ -23,9 +23,18 @@ export class IconComponent {
 
   readonly variant = input<Variant>(allVariants[0]);
 
+  readonly inherit = input(false);
+
   protected readonly iconCode = computed(() => this.sanitizer.bypassSecurityTrustHtml(iconMapping[this.icon()]));
 
   private readonly sanitizer = inject(DomSanitizer);
 
-  protected readonly color = computed(() => `var(--content-${this.variant()}-low)`);
+  protected readonly color = computed(() => {
+    const inherit = this.inherit();
+    const variant = this.variant();
+
+    return inherit
+      ? 'currentColor'
+      : `var(--content-${variant}-low)`;
+  });
 }

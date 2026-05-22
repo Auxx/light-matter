@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { IconComponent } from '@light-matter/ui';
+import { ActionButtonComponent, IconComponent } from '@light-matter/ui';
 import { VerticalDivider } from '../../../system/components/vertical-divider/vertical-divider';
 import { FileNamePipe } from '../../pipes/file-name/file-name-pipe';
 import { ImageDetails } from './image-view-toolbar.types';
@@ -11,7 +11,8 @@ import { ImageDetails } from './image-view-toolbar.types';
     RouterLink,
     VerticalDivider,
     FileNamePipe,
-    IconComponent
+    IconComponent,
+    ActionButtonComponent
   ],
   templateUrl: './image-view-toolbar.html',
   styleUrl: './image-view-toolbar.scss',

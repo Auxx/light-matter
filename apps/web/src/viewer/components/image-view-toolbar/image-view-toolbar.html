@@ -4,54 +4,54 @@
 <div class="container"
      [class.visible]="isVisible()">
 
-<!--  <div class="container"-->
-<!--     (mouseover)="isVisible.set(true)"-->
-<!--     (mouseout)="isVisible.set(false)"-->
-<!--     [class.visible]="isVisible()">-->
+  <!--  <div class="container"-->
+  <!--     (mouseover)="isVisible.set(true)"-->
+  <!--     (mouseout)="isVisible.set(false)"-->
+  <!--     [class.visible]="isVisible()">-->
 
   <div class="file-name">
     {{ fileName() | fileName }}
   </div>
 
   <div class="actions">
-    <button title="Back to Dashboard"
-            routerLink="/welcome">
-      <ui-icon icon="dismissCircle" size="large"/>
-    </button>
+    <ui-action-button title="Back to Dashboard"
+                      routerLink="/welcome">
+      <ui-icon icon="dismissCircle" size="large" [inherit]="true" />
+    </ui-action-button>
 
     <app-vertical-divider />
 
-    <button title="Previous image (Left)"
-            [disabled]="prev() === -1"
-            (click)="navigatePrev.emit()">
-      <ui-icon icon="chevronLeft" size="large"/>
-    </button>
+    <ui-action-button title="Previous image (Left)"
+                      [disabled]="prev() === -1"
+                      (click)="navigatePrev.emit()">
+      <ui-icon icon="chevronLeft" size="large" [inherit]="true" />
+    </ui-action-button>
 
-    <button title="Fit to screen"
-            [class.active]="fit() === 'contain'"
-            (click)="fitChange.emit('contain')">
-      <ui-icon icon="scaleFit" size="large"/>
-    </button>
+    <ui-action-button title="Fit to screen"
+                      [variant]="fit() === 'contain' ? 'accent' : 'default'"
+                      (click)="fitChange.emit('contain')">
+      <ui-icon icon="scaleFit" size="large" [inherit]="true" />
+    </ui-action-button>
 
-    <button title="Original size"
-            [class.active]="fit() === 'original'"
-            (click)="fitChange.emit('original')">
-      <ui-icon icon="scanCamera" size="large"/>
-    </button>
+    <ui-action-button title="Original size"
+                      [variant]="fit() === 'original' ? 'accent' : 'default'"
+                      (click)="fitChange.emit('original')">
+      <ui-icon icon="scanCamera" size="large" [inherit]="true" />
+    </ui-action-button>
 
-    <button title="Next image (Right)"
-            [disabled]="next() === -1"
-            (click)="navigateNext.emit()">
-      <ui-icon icon="chevronRight" size="large"/>
-    </button>
+    <ui-action-button title="Next image (Right)"
+                      [disabled]="next() === -1"
+                      (click)="navigateNext.emit()">
+      <ui-icon icon="chevronRight" size="large" [inherit]="true" />
+    </ui-action-button>
 
     <app-vertical-divider />
 
-    <button title="Toggle full screen mode (F)"
-            [class.active]="isFullScreen()"
-            (click)="toggleFullScreen.emit()">
-      <ui-icon icon="fullScreenMaximize" size="large"/>
-    </button>
+    <ui-action-button title="Toggle full screen mode (F)"
+                      [variant]="isFullScreen() ? 'accent' : 'default'"
+                      (click)="toggleFullScreen.emit()">
+      <ui-icon icon="fullScreenMaximize" size="large" [inherit]="true" />
+    </ui-action-button>
   </div>
 
   <div class="misc">

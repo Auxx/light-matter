@@ -67,7 +67,8 @@
 
   &.disabled {
     button {
-      color: color(from var(--color) / 0.4);
+      cursor: default;
+      color: oklch(from var(--color) l c h / 0.5);
     }
   }
 }
