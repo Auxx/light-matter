@@ -1,0 +1,26 @@
+@let imageUrl = displayUrl();
+@let dimensions = displayDimensions();
+@let position = imageLocation();
+
+<div #surface
+     class="surface"
+     [style.zoom]="pixelRatio()">
+
+  @if (imageUrl !== null) {
+    <img #image
+         alt=""
+         [width]="dimensions.width"
+         [height]="dimensions.height"
+         [style.left]="position.x | px"
+         [style.top]="position.y | px"
+         [src]="imageUrl">
+  }
+
+</div>
+
+<!--
+         [width]="display.width"
+         [height]="display.height"
+         [style.left]="display.x | px"
+         [style.top]="display.y | px"
+-->
