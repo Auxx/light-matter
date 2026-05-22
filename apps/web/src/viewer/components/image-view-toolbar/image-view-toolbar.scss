@@ -14,8 +14,8 @@ $disabled-color: var(--mat-sys-outline);
   align-items: center;
   background: rgba(0, 0, 0, 0.5);
   color: $default-color;
-  gap: 16px;
-  padding: 16px 32px;
+  gap: var(--dim-large);
+  padding: var(--dim-large) var(--dim-xx-large);
   opacity: 0;
   transition: opacity 250ms ease-in-out;
 
@@ -27,7 +27,7 @@ $disabled-color: var(--mat-sys-outline);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 16px;
+    gap: var(--dim-large);
 
     button {
       background: none;

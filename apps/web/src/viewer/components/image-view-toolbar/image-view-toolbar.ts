@@ -1,14 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import {
-  ArrowBigLeftIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ExpandIcon,
-  FullscreenIcon,
-  LucideAngularModule,
-  Minimize2Icon
-} from 'lucide-angular';
+import { IconComponent } from '@light-matter/ui';
 import { VerticalDivider } from '../../../system/components/vertical-divider/vertical-divider';
 import { FileNamePipe } from '../../pipes/file-name/file-name-pipe';
 import { ImageDetails } from './image-view-toolbar.types';
@@ -16,10 +8,10 @@ import { ImageDetails } from './image-view-toolbar.types';
 @Component({
   selector: 'app-image-view-toolbar',
   imports: [
-    LucideAngularModule,
     RouterLink,
     VerticalDivider,
-    FileNamePipe
+    FileNamePipe,
+    IconComponent
   ],
   templateUrl: './image-view-toolbar.html',
   styleUrl: './image-view-toolbar.scss',
@@ -34,7 +26,7 @@ export class ImageViewToolbar {
 
   readonly fitChange = output<'contain' | 'original'>();
 
-  readonly isVisible = signal(false);
+  readonly isVisible = signal(true);
 
   readonly prev = input(-1);
 
@@ -47,11 +39,4 @@ export class ImageViewToolbar {
   readonly navigateNext = output();
 
   readonly toggleFullScreen = output();
-
-  protected readonly FullscreenIcon = FullscreenIcon;
-  protected readonly ArrowBigLeftIcon = ArrowBigLeftIcon;
-  protected readonly ChevronLeftIcon = ChevronLeftIcon;
-  protected readonly ChevronRightIcon = ChevronRightIcon;
-  protected readonly Minimize2Icon = Minimize2Icon;
-  protected readonly ExpandIcon = ExpandIcon;
 }

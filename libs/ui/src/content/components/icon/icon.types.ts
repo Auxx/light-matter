@@ -16,18 +16,24 @@ import chevronRight from '@fluentui/svg-icons/icons/chevron_right_16_regular.svg
 import chevronUp from '@fluentui/svg-icons/icons/chevron_up_16_regular.svg';
 import desktopFilled from '@fluentui/svg-icons/icons/desktop_16_filled.svg';
 import desktop from '@fluentui/svg-icons/icons/desktop_16_regular.svg';
+import dismissCircleFilled from '@fluentui/svg-icons/icons/dismiss_circle_16_filled.svg';
+import dismissCircle from '@fluentui/svg-icons/icons/dismiss_circle_16_regular.svg';
 import folderFilled from '@fluentui/svg-icons/icons/folder_16_filled.svg';
 import folder from '@fluentui/svg-icons/icons/folder_16_regular.svg';
 import folderAddFilled from '@fluentui/svg-icons/icons/folder_add_16_filled.svg';
 import folderAdd from '@fluentui/svg-icons/icons/folder_add_16_regular.svg';
 import folderProhibitedFilled from '@fluentui/svg-icons/icons/folder_prohibited_16_filled.svg';
 import folderProhibited from '@fluentui/svg-icons/icons/folder_prohibited_16_regular.svg';
+import fullScreenMaximize from '@fluentui/svg-icons/icons/full_screen_maximize_16_regular.svg';
 import infoFilled from '@fluentui/svg-icons/icons/info_16_filled.svg';
 import info from '@fluentui/svg-icons/icons/info_16_regular.svg';
 import moreHorizontal from '@fluentui/svg-icons/icons/more_horizontal_16_regular.svg';
 import moreVertical from '@fluentui/svg-icons/icons/more_vertical_16_regular.svg';
 import reorderDotsVertical from '@fluentui/svg-icons/icons/re_order_dots_vertical_16_regular.svg';
 import reorderVertical from '@fluentui/svg-icons/icons/re_order_vertical_16_regular.svg';
+import scaleFill from '@fluentui/svg-icons/icons/scale_fill_20_regular.svg';
+import scaleFit from '@fluentui/svg-icons/icons/scale_fit_16_regular.svg';
+import scanCamera from '@fluentui/svg-icons/icons/scan_camera_16_regular.svg';
 import zoomFitFilled from '@fluentui/svg-icons/icons/zoom_fit_16_filled.svg';
 import zoomFit from '@fluentui/svg-icons/icons/zoom_fit_16_regular.svg';
 import zoomInFilled from '@fluentui/svg-icons/icons/zoom_in_16_filled.svg';
@@ -71,7 +77,13 @@ export const allIcons = [
   'zoomFit',
   'zoomFitFilled',
   'reorderVertical',
-  'reorderDotsVertical'
+  'reorderDotsVertical',
+  'dismissCircle',
+  'dismissCircleFilled',
+  'scaleFill',
+  'scaleFit',
+  'scanCamera',
+  'fullScreenMaximize'
 ] as const;
 
 export type IconName = typeof allIcons[number];
@@ -112,5 +124,11 @@ export const iconMapping: Record<IconName, string> = {
   zoomFit,
   zoomFitFilled,
   reorderVertical,
-  reorderDotsVertical
+  reorderDotsVertical,
+  dismissCircle,
+  dismissCircleFilled,
+  scaleFill,
+  scaleFit,
+  scanCamera,
+  fullScreenMaximize
 };

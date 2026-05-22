@@ -1,9 +1,13 @@
 @let image = imageElement();
 
 <!-- eslint-disable-next-line @angular-eslint/template/mouse-events-have-key-events -->
-<div class="container" (mouseover)="isVisible.set(true)"
-     (mouseout)="isVisible.set(false)"
+<div class="container"
      [class.visible]="isVisible()">
+
+<!--  <div class="container"-->
+<!--     (mouseover)="isVisible.set(true)"-->
+<!--     (mouseout)="isVisible.set(false)"-->
+<!--     [class.visible]="isVisible()">-->
 
   <div class="file-name">
     {{ fileName() | fileName }}
@@ -12,7 +16,7 @@
   <div class="actions">
     <button title="Back to Dashboard"
             routerLink="/welcome">
-      <lucide-icon [img]="ArrowBigLeftIcon" class="block-icon" />
+      <ui-icon icon="dismissCircle" size="large"/>
     </button>
 
     <app-vertical-divider />
@@ -20,25 +24,25 @@
     <button title="Previous image (Left)"
             [disabled]="prev() === -1"
             (click)="navigatePrev.emit()">
-      <lucide-icon [img]="ChevronLeftIcon" class="block-icon" />
+      <ui-icon icon="chevronLeft" size="large"/>
     </button>
 
     <button title="Fit to screen"
             [class.active]="fit() === 'contain'"
             (click)="fitChange.emit('contain')">
-      <lucide-icon [img]="Minimize2Icon" class="block-icon" />
+      <ui-icon icon="scaleFit" size="large"/>
     </button>
 
     <button title="Original size"
             [class.active]="fit() === 'original'"
             (click)="fitChange.emit('original')">
-      <lucide-icon [img]="ExpandIcon" class="block-icon" />
+      <ui-icon icon="scanCamera" size="large"/>
     </button>
 
     <button title="Next image (Right)"
             [disabled]="next() === -1"
             (click)="navigateNext.emit()">
-      <lucide-icon [img]="ChevronRightIcon" class="block-icon" />
+      <ui-icon icon="chevronRight" size="large"/>
     </button>
 
     <app-vertical-divider />
@@ -46,7 +50,7 @@
     <button title="Toggle full screen mode (F)"
             [class.active]="isFullScreen()"
             (click)="toggleFullScreen.emit()">
-      <lucide-icon [img]="FullscreenIcon" class="block-icon" />
+      <ui-icon icon="fullScreenMaximize" size="large"/>
     </button>
   </div>
 
