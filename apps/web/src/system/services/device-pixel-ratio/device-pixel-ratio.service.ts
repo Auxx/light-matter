@@ -13,6 +13,11 @@ export class DevicePixelRatioService {
     this.trackPixelRatio();
   }
 
+  readonly trackResize = () =>
+    this.document.defaultView !== null
+      ? fromEvent(this.document.defaultView, 'resize')
+      : null;
+
   private readonly trackPixelRatio = () => {
     if (this.document.defaultView !== null) {
       const win = this.document.defaultView;
