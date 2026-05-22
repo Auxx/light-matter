@@ -5,7 +5,7 @@
 }
 
 ui-toolbar {
-  margin-bottom: 32px;
+  margin-bottom: var(--dim-xx-large);
 
   aside {
     ui-icon {
@@ -21,7 +21,7 @@ ui-toolbar {
 
 .wrapper {
   overflow-y: auto;
-  padding-right: 16px;
+  padding-right: var(--dim-large);
 }
 
 
