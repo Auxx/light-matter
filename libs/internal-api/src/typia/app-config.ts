@@ -1,5 +1,8 @@
 import typia from 'typia';
 
+export const defaultThumbWidth = 192;
+export const defaultThumbHeight = 128;
+
 export interface AppConfigV1 {
   version: 1;
   gallery: AppConfigV1Gallery;
@@ -8,6 +11,8 @@ export interface AppConfigV1 {
 
 export interface AppConfigV1Gallery {
   locations: string[];
+  thumbWidth?: number;
+  thumbHeight?: number;
 }
 
 export interface AppConfigV1System {
