@@ -6,6 +6,7 @@ import {
   ElementRef,
   inject,
   input,
+  OnDestroy,
   signal,
   viewChild
 } from '@angular/core';
@@ -26,7 +27,7 @@ import { defaultImagePositioningResult } from '../../services/image-positioning/
   styleUrl: './image-renderer.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ImageRendererComponent {
+export class ImageRendererComponent implements OnDestroy {
   readonly url = input.required<string>();
 
   private readonly imagePositioningService = inject(ImagePositioningService);
@@ -51,6 +52,10 @@ export class ImageRendererComponent {
     });
 
     effect(this.preloadImage);
+  }
+
+  ngOnDestroy() {
+    this.imagePositioningService.removeViewport();
   }
 
   protected readonly onMouseDown = (event: MouseEvent) => this.imagePositioningService.startPanning(event);
