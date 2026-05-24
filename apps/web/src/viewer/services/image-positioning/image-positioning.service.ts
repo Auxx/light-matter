@@ -14,6 +14,7 @@ import {
 import { DevicePixelRatioService } from '../../../system/services/device-pixel-ratio/device-pixel-ratio.service';
 import {
   defaultImagePositioningResult,
+  defaultImageZoom,
   ImageDimensions,
   ImageOffset,
   ImagePositioningResult,
@@ -30,7 +31,7 @@ export class ImagePositioningService {
 
   private readonly viewport$ = new BehaviorSubject<HTMLElement | null>(null);
 
-  private readonly zoom$ = new BehaviorSubject<ImageZoom>(1);
+  private readonly zoom$ = new BehaviorSubject<ImageZoom>(defaultImageZoom());
 
   private readonly panningOffset$ = new BehaviorSubject<ImageOffset>({ dx: 0, dy: 0 });
 
@@ -46,7 +47,7 @@ export class ImagePositioningService {
   readonly setImageDimensions = (dimensions: ImageDimensions) => {
     this.imageDimensions$.next(dimensions);
     this.panningOffset$.next({ dx: 0, dy: 0 });
-    this.setZoom('fit');
+    this.setZoom(defaultImageZoom());
   };
 
   readonly setViewport = (viewport: HTMLElement) => {

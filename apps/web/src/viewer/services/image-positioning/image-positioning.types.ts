@@ -28,3 +28,5 @@ export const defaultImagePositioningResult = (): ImagePositioningResult => ({
   pixelRatio: 1,
   zoom: 'fit'
 });
+
+export const defaultImageZoom = (): ImageZoom => 'fit';
