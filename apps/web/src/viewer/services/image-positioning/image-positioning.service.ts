@@ -1,6 +1,16 @@
 import { inject, Injectable } from '@angular/core';
 import { MouseTrackerService } from '@light-matter/ui';
-import { BehaviorSubject, combineLatest, distinctUntilChanged, filter, map, startWith, switchMap } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  distinctUntilChanged,
+  filter,
+  map,
+  pipe,
+  startWith,
+  switchMap,
+  take
+} from 'rxjs';
 import { DevicePixelRatioService } from '../../../system/services/device-pixel-ratio/device-pixel-ratio.service';
 import {
   defaultImagePositioningResult,
@@ -20,70 +30,182 @@ export class ImagePositioningService {
 
   private readonly viewport$ = new BehaviorSubject<HTMLElement | null>(null);
 
-  private readonly zoom$ = new BehaviorSubject<ImageZoom>('fit');
+  private readonly zoom$ = new BehaviorSubject<ImageZoom>(1);
+
+  private readonly panningOffset$ = new BehaviorSubject<ImageOffset>({ dx: 0, dy: 0 });
 
   private readonly imageLocation$ = new BehaviorSubject<ImagePositioningResult>(defaultImagePositioningResult());
 
   constructor() {
-    combineLatest([
-      this.imageDimensions$
-        .pipe(
-          filter(imageDimensions => imageDimensions.width !== 0 && imageDimensions.height !== 0),
-          distinctUntilChanged()
-        ),
+    this.combineData()
+      .subscribe(([ imageDimensions, viewportDimensions, zoom, pixelRatio, offset ]) =>
+        this.updateImageLocation(imageDimensions, viewportDimensions, zoom, pixelRatio, offset)
+      );
+  }
 
-      this.viewport$
-        .pipe(
-          filter(viewport => viewport !== null),
-          switchMap(viewport =>
-            this.devicePixelRatioService
-              .windowResize()
-              .pipe(
-                startWith(null),
-                map(() => ({
-                  width: this.detectZoomForDimension(viewport.offsetWidth, viewport.style.zoom),
-                  height: this.detectZoomForDimension(viewport.offsetHeight, viewport.style.zoom)
-                } as ImageDimensions))
-              )
-          ),
-          distinctUntilChanged((previous, current) =>
-            previous.width === current.width && previous.height === current.height
-          )
-        ),
+  readonly setImageDimensions = (dimensions: ImageDimensions) => {
+    this.imageDimensions$.next(dimensions);
+    this.panningOffset$.next({ dx: 0, dy: 0 });
+    this.setZoom(1);
+    // this.setZoom('fit');
+  };
 
-      this.zoom$.pipe(distinctUntilChanged()),
+  readonly setViewport = (viewport: HTMLElement) => {
+    this.viewport$.next(viewport);
+  };
 
-      this.devicePixelRatioService.pixelRatio().pipe(distinctUntilChanged())
-    ])
+  readonly removeViewport = () => {
+    this.viewport$.next(null);
+  };
+
+  readonly setZoom = (zoom: ImageZoom) => {
+    this.zoom$.next(zoom);
+  };
+
+  readonly zoom = () => this.zoom$.asObservable();
+
+  readonly startPanning = (event: MouseEvent) => {
+    if (event.button !== 0) {
+      return;
+    }
+
+    this.combineData()
       .pipe(
-        map(([ imageDimensions, viewportDimensions, zoom, pixelRatio ]) =>
-          [
-            imageDimensions,
-            {
-              width: this.adjustDimensionForZoom(viewportDimensions.width, pixelRatio),
-              height: this.adjustDimensionForZoom(viewportDimensions.height, pixelRatio)
-            },
-            zoom,
-            pixelRatio
-          ] as [ ImageDimensions, ImageDimensions, ImageZoom, number ]
+        take(1),
+        switchMap(([ imageDimensions, viewportDimensions, _zoom, pixelRatio, origin ]) =>
+          this.mouseTrackerService
+            .mouseDown(event)
+            .pipe(
+              map(state => {
+                if (
+                  imageDimensions.width <= viewportDimensions.width
+                  && imageDimensions.height <= viewportDimensions.height
+                ) {
+                  return { dx: 0, dy: 0 };
+                }
+
+                const target = {
+                  dx: origin.dx + state.dx / pixelRatio,
+                  dy: origin.dy + state.dy / pixelRatio
+                };
+
+                const location = this.calculateImageLocation(viewportDimensions, imageDimensions, target);
+
+                if (location.x > 0) {
+                  target.dx = target.dx - location.x;
+                }
+
+                if (location.y > 0) {
+                  target.dy = target.dy - location.y;
+                }
+
+                if (location.x + imageDimensions.width < viewportDimensions.width) {
+                  target.dx = target.dx - (imageDimensions.width - viewportDimensions.width + location.x);
+                }
+
+                if (location.y + imageDimensions.height < viewportDimensions.height) {
+                  target.dy = target.dy - (imageDimensions.height - viewportDimensions.height + location.y);
+                }
+
+                return target;
+              }),
+              distinctUntilChanged((previous, current) => previous.dx === current.dx && previous.dy === current.dy)
+            )
         )
       )
-      .subscribe(([ imageDimensions, viewportDimensions, zoom, pixelRatio ]) => {
-        if (zoom === 'fit') {
-          this.fitImage(imageDimensions, viewportDimensions, pixelRatio);
-        }
-      });
-  }
+      .subscribe(result => this.panningOffset$.next(result));
+  };
 
   readonly imageLocation = () => this.imageLocation$.asObservable();
 
-  private readonly fitImage = (
+  private readonly detectZoomForDimension = (value: number, zoom: unknown): number => {
+    if (typeof zoom === 'string' && zoom.length > 0) {
+      const result = value / Number(zoom);
+
+      if (!isNaN(result)) {
+        return value;
+      }
+    }
+
+    return -value;
+  };
+
+  private readonly adjustDimensionForZoom = (value: number, pixelRatio: number): number =>
+    value < 0
+      ? (-value) / pixelRatio
+      : value;
+
+  private readonly trackImageDimensions = () =>
+    this.imageDimensions$
+      .pipe(
+        filter(imageDimensions => imageDimensions.width !== 0 && imageDimensions.height !== 0),
+        distinctUntilChanged()
+      );
+
+  private readonly trackZoom = () => this.zoom$.pipe(distinctUntilChanged());
+
+  private readonly trackPixelRatio = () => this.devicePixelRatioService.pixelRatio().pipe(distinctUntilChanged());
+
+  private readonly trackPanningOffset = () => this.panningOffset$;
+
+  private readonly trackViewportUpdates = () =>
+    this.viewport$
+      .pipe(
+        filter(viewport => viewport !== null),
+        switchMap(viewport =>
+          this.devicePixelRatioService
+            .windowResize()
+            .pipe(
+              startWith(null),
+              map(() => ({
+                width: this.detectZoomForDimension(viewport.offsetWidth, viewport.style.zoom),
+                height: this.detectZoomForDimension(viewport.offsetHeight, viewport.style.zoom)
+              } as ImageDimensions))
+            )
+        ),
+        distinctUntilChanged((previous, current) =>
+          previous.width === current.width && previous.height === current.height
+        )
+      );
+
+  private readonly prepareData = () =>
+    pipe(
+      map(([ imageDimensions, viewportDimensions, zoom, pixelRatio, offset ]) =>
+        [
+          imageDimensions,
+          {
+            width: this.adjustDimensionForZoom(viewportDimensions.width, pixelRatio),
+            height: this.adjustDimensionForZoom(viewportDimensions.height, pixelRatio)
+          },
+          zoom,
+          pixelRatio,
+          offset
+        ] as [ ImageDimensions, ImageDimensions, ImageZoom, number, ImageOffset ]
+      )
+    );
+
+  private readonly combineData = () =>
+    combineLatest([
+      this.trackImageDimensions(),
+      this.trackViewportUpdates(),
+      this.trackZoom(),
+      this.trackPixelRatio(),
+      this.trackPanningOffset()
+    ])
+      .pipe(this.prepareData());
+
+  private readonly updateImageLocation = (
     imageDimensions: ImageDimensions,
     viewportDimensions: ImageDimensions,
-    pixelRatio: number
+    zoom: ImageZoom,
+    pixelRatio: number,
+    offset: ImageOffset
   ) => {
-    const dimensions = this.resizeToFit(imageDimensions, viewportDimensions);
-    const location = this.calculateImageLocation(viewportDimensions, dimensions, { dx: 0, dy: 0 });
+    const dimensions = zoom === 'fit'
+      ? this.resizeToFit(imageDimensions, viewportDimensions)
+      : imageDimensions;
+
+    const location = this.calculateImageLocation(viewportDimensions, dimensions, offset);
 
     const result: ImagePositioningResult = {
       width: dimensions.width,
@@ -99,11 +221,18 @@ export class ImagePositioningService {
   private readonly calculateImageLocation = (
     viewportDimensions: ImageDimensions,
     displayDimensions: ImageDimensions,
-    panOffset: ImageOffset
-  ) => ({
-    x: (viewportDimensions.width - displayDimensions.width) / 2 + panOffset.dx,
-    y: (viewportDimensions.height - displayDimensions.height) / 2 + panOffset.dy
-  });
+    offset: ImageOffset
+  ) => {
+    const dx = viewportDimensions.width > displayDimensions.width ? 0 : offset.dx;
+    const dy = viewportDimensions.height > displayDimensions.height ? 0 : offset.dy;
+
+    const result = {
+      x: (viewportDimensions.width - displayDimensions.width) / 2 + dx,
+      y: (viewportDimensions.height - displayDimensions.height) / 2 + dy
+    };
+
+    return result;
+  };
 
   private readonly resizeToFit = (
     imageDimensions: ImageDimensions,
@@ -128,40 +257,4 @@ export class ImagePositioningService {
       height: imageDimensions.height
     };
   };
-
-  readonly setImageDimensions = (dimensions: ImageDimensions) => {
-    this.imageDimensions$.next(dimensions);
-    this.setZoom('fit');
-  };
-
-  readonly setViewport = (viewport: HTMLElement) => {
-    this.viewport$.next(viewport);
-  };
-
-  readonly removeViewport = () => {
-    this.viewport$.next(null);
-  };
-
-  readonly setZoom = (zoom: ImageZoom) => {
-    this.zoom$.next(zoom);
-  };
-
-  readonly zoom = () => this.zoom$.asObservable();
-
-  private readonly detectZoomForDimension = (value: number, zoom: unknown): number => {
-    if (typeof zoom === 'string' && zoom.length > 0) {
-      const result = value / Number(zoom);
-
-      if (!isNaN(result)) {
-        return value;
-      }
-    }
-
-    return -value;
-  };
-
-  private readonly adjustDimensionForZoom = (value: number, pixelRatio: number): number =>
-    value < 0
-      ? (-value) / pixelRatio
-      : value;
 }

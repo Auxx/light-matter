@@ -86,6 +86,9 @@ export class ImageRendererComponent {
   }
 
   protected readonly onMouseDown = (event: MouseEvent) => {
+    this.imagePositioningService.startPanning(event);
+    return;
+
     if (!this.scrollable() || event.button !== 0) {
       return;
     }
