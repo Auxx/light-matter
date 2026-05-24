@@ -1,29 +1,19 @@
 @let imageUrl = displayUrl();
-@let dimensions = displayDimensions();
-@let position = imageLocation();
-
-@let loc = loc$ | async | default:defaultImageLocation;
+@let location = imageLocation$ | async | default:defaultImageLocation;
 
 <div #surface
      class="surface"
-     [style.zoom]="loc.pixelRatio">
+     [style.zoom]="location.pixelRatio">
 
   @if (imageUrl !== null) {
-    <img #image
-         alt=""
-         [width]="loc.width"
-         [height]="loc.height"
-         [style.left]="loc.x | px"
-         [style.top]="loc.y | px"
+    <img alt=""
+         [class.pannable]="location.zoom !== 'fit'"
+         [width]="location.width"
+         [height]="location.height"
+         [style.left]="location.x | px"
+         [style.top]="location.y | px"
          [src]="imageUrl"
          (mousedown)="onMouseDown($event)">
   }
 
 </div>
-
-<!--
-         [width]="display.width"
-         [height]="display.height"
-         [style.left]="display.x | px"
-         [style.top]="display.y | px"
--->

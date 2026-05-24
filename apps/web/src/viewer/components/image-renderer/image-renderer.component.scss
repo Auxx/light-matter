@@ -13,12 +13,11 @@
 
   img {
     position: absolute;
-  }
 
-
-  &.scrollable {
-    img {
-      cursor: all-scroll;
+    &.pannable {
+      img {
+        cursor: all-scroll;
+      }
     }
   }
 }
