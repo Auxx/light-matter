@@ -46,8 +46,7 @@ export class ImagePositioningService {
   readonly setImageDimensions = (dimensions: ImageDimensions) => {
     this.imageDimensions$.next(dimensions);
     this.panningOffset$.next({ dx: 0, dy: 0 });
-    this.setZoom(1);
-    // this.setZoom('fit');
+    this.setZoom('fit');
   };
 
   readonly setViewport = (viewport: HTMLElement) => {
@@ -72,14 +71,16 @@ export class ImagePositioningService {
     this.combineData()
       .pipe(
         take(1),
-        switchMap(([ imageDimensions, viewportDimensions, _zoom, pixelRatio, origin ]) =>
+        switchMap(([ imageDimensions, viewportDimensions, zoom, pixelRatio, origin ]) =>
           this.mouseTrackerService
             .mouseDown(event)
             .pipe(
               map(state => {
+                const dimensions = this.getAdjustedDimensions(imageDimensions, viewportDimensions, zoom);
+
                 if (
-                  imageDimensions.width <= viewportDimensions.width
-                  && imageDimensions.height <= viewportDimensions.height
+                  dimensions.width <= viewportDimensions.width
+                  && dimensions.height <= viewportDimensions.height
                 ) {
                   return { dx: 0, dy: 0 };
                 }
@@ -89,7 +90,7 @@ export class ImagePositioningService {
                   dy: origin.dy + state.dy / pixelRatio
                 };
 
-                const location = this.calculateImageLocation(viewportDimensions, imageDimensions, target);
+                const location = this.calculateImageLocation(viewportDimensions, dimensions, target);
 
                 if (location.x > 0) {
                   target.dx = target.dx - location.x;
@@ -99,12 +100,12 @@ export class ImagePositioningService {
                   target.dy = target.dy - location.y;
                 }
 
-                if (location.x + imageDimensions.width < viewportDimensions.width) {
-                  target.dx = target.dx - (imageDimensions.width - viewportDimensions.width + location.x);
+                if (location.x + dimensions.width < viewportDimensions.width) {
+                  target.dx = target.dx - (dimensions.width - viewportDimensions.width + location.x);
                 }
 
-                if (location.y + imageDimensions.height < viewportDimensions.height) {
-                  target.dy = target.dy - (imageDimensions.height - viewportDimensions.height + location.y);
+                if (location.y + dimensions.height < viewportDimensions.height) {
+                  target.dy = target.dy - (dimensions.height - viewportDimensions.height + location.y);
                 }
 
                 return target;
@@ -201,10 +202,7 @@ export class ImagePositioningService {
     pixelRatio: number,
     offset: ImageOffset
   ) => {
-    const dimensions = zoom === 'fit'
-      ? this.resizeToFit(imageDimensions, viewportDimensions)
-      : imageDimensions;
-
+    const dimensions = this.getAdjustedDimensions(imageDimensions, viewportDimensions, zoom);
     const location = this.calculateImageLocation(viewportDimensions, dimensions, offset);
 
     const result: ImagePositioningResult = {
@@ -212,11 +210,21 @@ export class ImagePositioningService {
       height: dimensions.height,
       x: location.x,
       y: location.y,
-      pixelRatio: pixelRatio
+      pixelRatio,
+      zoom
     };
 
     this.imageLocation$.next(result);
   };
+
+  private readonly getAdjustedDimensions = (
+    imageDimensions: ImageDimensions,
+    viewportDimensions: ImageDimensions,
+    zoom: ImageZoom
+  ): ImageDimensions =>
+    zoom === 'fit'
+      ? this.resizeToFit(imageDimensions, viewportDimensions)
+      : this.resizeToZoom(imageDimensions, zoom);
 
   private readonly calculateImageLocation = (
     viewportDimensions: ImageDimensions,
@@ -257,4 +265,9 @@ export class ImagePositioningService {
       height: imageDimensions.height
     };
   };
+
+  private readonly resizeToZoom = (imageDimensions: ImageDimensions, zoom: number): ImageDimensions => ({
+    width: imageDimensions.width * zoom,
+    height: imageDimensions.height * zoom
+  });
 }
