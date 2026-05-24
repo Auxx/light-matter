@@ -69,12 +69,6 @@ export class ImagePositioningService {
         )
       )
       .subscribe(([ imageDimensions, viewportDimensions, zoom, pixelRatio ]) => {
-        // console.log('---------------');
-        // console.log(imageDimensions);
-        // console.log(viewportDimensions);
-        // console.log(zoom);
-        // console.log(pixelRatio);
-
         if (zoom === 'fit') {
           this.fitImage(imageDimensions, viewportDimensions, pixelRatio);
         }
@@ -88,18 +82,12 @@ export class ImagePositioningService {
     viewportDimensions: ImageDimensions,
     pixelRatio: number
   ) => {
-    if (
-      imageDimensions.width > viewportDimensions.width
-      || imageDimensions.height > viewportDimensions.height
-    ) {
-      return;
-    }
-
-    const location = this.calculateImageLocation(viewportDimensions, imageDimensions, { dx: 0, dy: 0 });
+    const dimensions = this.resizeToFit(imageDimensions, viewportDimensions);
+    const location = this.calculateImageLocation(viewportDimensions, dimensions, { dx: 0, dy: 0 });
 
     const result: ImagePositioningResult = {
-      width: imageDimensions.width,
-      height: imageDimensions.height,
+      width: dimensions.width,
+      height: dimensions.height,
       x: location.x,
       y: location.y,
       pixelRatio: pixelRatio
@@ -116,6 +104,30 @@ export class ImagePositioningService {
     x: (viewportDimensions.width - displayDimensions.width) / 2 + panOffset.dx,
     y: (viewportDimensions.height - displayDimensions.height) / 2 + panOffset.dy
   });
+
+  private readonly resizeToFit = (
+    imageDimensions: ImageDimensions,
+    viewportDimensions: ImageDimensions
+  ): ImageDimensions => {
+    if (
+      imageDimensions.width > viewportDimensions.width
+      || imageDimensions.height > viewportDimensions.height
+    ) {
+      const widthRatio = viewportDimensions.width / imageDimensions.width;
+      const heightRatio = viewportDimensions.height / imageDimensions.height;
+      const ratio = Math.min(widthRatio, heightRatio);
+
+      return {
+        width: imageDimensions.width * ratio,
+        height: imageDimensions.height * ratio
+      };
+    }
+
+    return {
+      width: imageDimensions.width,
+      height: imageDimensions.height
+    };
+  };
 
   readonly setImageDimensions = (dimensions: ImageDimensions) => {
     this.imageDimensions$.next(dimensions);
