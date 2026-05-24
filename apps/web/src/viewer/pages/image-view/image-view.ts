@@ -1,4 +1,4 @@
-import { AsyncPipe, DecimalPipe, DOCUMENT, JsonPipe } from '@angular/common';
+import { AsyncPipe, DecimalPipe, DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -29,7 +29,6 @@ import { ViewNavigator } from '../../services/view-navigator/view-navigator';
     AsyncPipe,
     ImageRendererComponent,
     ToolMenuComponent,
-    JsonPipe,
     ActionButtonComponent,
     IconComponent,
     RouterLink,
