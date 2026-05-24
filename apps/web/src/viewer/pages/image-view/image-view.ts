@@ -1,8 +1,15 @@
 import { AsyncPipe, DOCUMENT, JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { ActionButtonComponent, IconComponent, TextComponent, ToolMenuComponent } from '@light-matter/ui';
+import {
+  ActionButtonComponent,
+  IconComponent,
+  SliderComponent,
+  TextComponent,
+  ToolMenuComponent
+} from '@light-matter/ui';
 import { fromEvent, map, noop, startWith, tap } from 'rxjs';
 import { VerticalDivider } from '../../../system/components/vertical-divider/vertical-divider';
 import { DefaultPipe } from '../../../system/pipes/default/default.pipe';
@@ -29,7 +36,9 @@ import { ViewNavigator } from '../../services/view-navigator/view-navigator';
     VerticalDivider,
     TextComponent,
     FileNamePipe,
-    DefaultPipe
+    DefaultPipe,
+    SliderComponent,
+    ReactiveFormsModule
   ],
   templateUrl: './image-view.html',
   styleUrl: './image-view.scss',
@@ -54,6 +63,8 @@ export class ImageView {
   protected readonly defaultImageLocation = defaultImagePositioningResult();
 
   protected readonly imageDimensions = signal<ImageDimensions>({ width: 0, height: 0 });
+
+  protected readonly zoomSlider = new FormControl(50, { nonNullable: true });
 
   protected readonly isFullScreen = toSignal(
     fromEvent(this.document, 'fullscreenchange')

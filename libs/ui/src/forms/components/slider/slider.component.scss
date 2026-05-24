@@ -1,0 +1,44 @@
+:host {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--border-radius-large);
+  height: calc(var(--border-radius-large) * 2);
+}
+
+.container {
+  position: relative;
+  width: 100%;
+
+  .track {
+    border-radius: var(--border-radius-medium);
+    width: 100% ;
+    height: calc(var(--border-radius-medium) * 2);
+    background: var(--content-default-lowest);
+  }
+
+  .indicator {
+    position: absolute;
+    border-radius: var(--border-radius-large);
+    width: calc(var(--border-radius-large) * 2);
+    height: calc(var(--border-radius-large) * 2);
+    background: var(--element-default-high);
+
+    left: var(--position);
+    top: calc(var(--border-radius-large) / -2);
+    transform: translateX(-50%);
+
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      border-radius: var(--border-radius-medium);
+      width: calc(var(--border-radius-medium) * 2);
+      height: calc(var(--border-radius-medium) * 2);
+      background: var(--element-default-low);
+
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}

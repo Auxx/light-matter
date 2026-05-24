@@ -17,6 +17,11 @@
         flex-shrink: 0;
       }
     }
+
+    ui-slider {
+      width: 150px;
+      margin-right: var(--dim-large);
+    }
   }
 }
 
