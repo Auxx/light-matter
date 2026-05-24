@@ -8,6 +8,16 @@
   app-image-renderer {
     flex: 1;
   }
+
+  ui-tool-menu {
+    ui-text {
+      margin: 0 var(--dim-large);
+
+      &.image-size {
+        flex-shrink: 0;
+      }
+    }
+  }
 }
 
 //:host {

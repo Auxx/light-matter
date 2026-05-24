@@ -7,6 +7,7 @@ import {
   inject,
   input,
   OnDestroy,
+  output,
   signal,
   viewChild
 } from '@angular/core';
@@ -14,7 +15,10 @@ import { fromEvent, take } from 'rxjs';
 import { DefaultPipe } from '../../../system/pipes/default/default.pipe';
 import { PxPipe } from '../../../system/pipes/px/px-pipe';
 import { ImagePositioningService } from '../../services/image-positioning/image-positioning.service';
-import { defaultImagePositioningResult } from '../../services/image-positioning/image-positioning.types';
+import {
+  defaultImagePositioningResult,
+  ImageDimensions
+} from '../../services/image-positioning/image-positioning.types';
 
 @Component({
   selector: 'app-image-renderer',
@@ -29,6 +33,8 @@ import { defaultImagePositioningResult } from '../../services/image-positioning/
 })
 export class ImageRendererComponent implements OnDestroy {
   readonly url = input.required<string>();
+
+  readonly dimensions = output<ImageDimensions>();
 
   private readonly imagePositioningService = inject(ImagePositioningService);
 
@@ -74,8 +80,11 @@ export class ImageRendererComponent implements OnDestroy {
   private readonly onImageLoad = (event: Event) => {
     if (event.target instanceof HTMLImageElement) {
       const { naturalWidth, naturalHeight } = event.target;
+      const dimensions = { width: naturalWidth, height: naturalHeight };
+
       this.displayUrl.set(event.target.src);
-      this.imagePositioningService.setImageDimensions({ width: naturalWidth, height: naturalHeight });
+      this.imagePositioningService.setImageDimensions(dimensions);
+      this.dimensions.emit(dimensions);
     }
   };
 }

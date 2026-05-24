@@ -15,18 +15,18 @@
   </div>
 
   <div class="actions">
-    <ui-action-button title="Back to Dashboard"
-                      routerLink="/welcome">
-      <ui-icon icon="dismissCircle" size="large" [inherit]="true" />
-    </ui-action-button>
+<!--    <ui-action-button title="Back to Dashboard"-->
+<!--                      routerLink="/welcome">-->
+<!--      <ui-icon icon="dismissCircle" size="large" [inherit]="true" />-->
+<!--    </ui-action-button>-->
 
     <app-vertical-divider />
 
-    <ui-action-button title="Previous image (Left)"
-                      [disabled]="prev() === -1"
-                      (click)="navigatePrev.emit()">
-      <ui-icon icon="chevronLeft" size="large" [inherit]="true" />
-    </ui-action-button>
+<!--    <ui-action-button title="Previous image (Left)"-->
+<!--                      [disabled]="prev() === -1"-->
+<!--                      (click)="navigatePrev.emit()">-->
+<!--      <ui-icon icon="chevronLeft" size="large" [inherit]="true" />-->
+<!--    </ui-action-button>-->
 
     <ui-action-button title="Fit to screen"
                       [variant]="fit() === 'contain' ? 'accent' : 'default'"
@@ -40,19 +40,19 @@
       <ui-icon icon="scanCamera" size="large" [inherit]="true" />
     </ui-action-button>
 
-    <ui-action-button title="Next image (Right)"
-                      [disabled]="next() === -1"
-                      (click)="navigateNext.emit()">
-      <ui-icon icon="chevronRight" size="large" [inherit]="true" />
-    </ui-action-button>
+<!--    <ui-action-button title="Next image (Right)"-->
+<!--                      [disabled]="next() === -1"-->
+<!--                      (click)="navigateNext.emit()">-->
+<!--      <ui-icon icon="chevronRight" size="large" [inherit]="true" />-->
+<!--    </ui-action-button>-->
 
     <app-vertical-divider />
 
-    <ui-action-button title="Toggle full screen mode (F)"
-                      [variant]="isFullScreen() ? 'accent' : 'default'"
-                      (click)="toggleFullScreen.emit()">
-      <ui-icon icon="fullScreenMaximize" size="large" [inherit]="true" />
-    </ui-action-button>
+<!--    <ui-action-button title="Toggle full screen mode (F)"-->
+<!--                      [variant]="isFullScreen() ? 'accent' : 'default'"-->
+<!--                      (click)="toggleFullScreen.emit()">-->
+<!--      <ui-icon icon="fullScreenMaximize" size="large" [inherit]="true" />-->
+<!--    </ui-action-button>-->
   </div>
 
   <div class="misc">
