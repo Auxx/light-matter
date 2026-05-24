@@ -150,6 +150,7 @@ export class ImagePositioningService {
 
   private readonly trackPanningOffset = () => this.panningOffset$;
 
+  // TODO Switch to ResizeObserver to avoid a full screen sizing bug
   private readonly trackViewportUpdates = () =>
     this.viewport$
       .pipe(
