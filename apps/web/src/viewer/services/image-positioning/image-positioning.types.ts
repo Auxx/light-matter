@@ -15,10 +15,16 @@ export interface ImageOffset {
 
 export type ImageZoom = 'fit' | number;
 
+export interface ImagePositioningState {
+  pixelRatio: number;
+  zoom: ImageZoom;
+  fitZoom: number;
+}
+
 export type ImagePositioningResult =
   & ImageDimensions
   & ImageLocation
-  & { pixelRatio: number; zoom: ImageZoom; };
+  & ImagePositioningState;
 
 export const defaultImagePositioningResult = (): ImagePositioningResult => ({
   width: 0,
@@ -26,7 +32,8 @@ export const defaultImagePositioningResult = (): ImagePositioningResult => ({
   x: 0,
   y: 0,
   pixelRatio: 1,
-  zoom: 'fit'
+  zoom: 'fit',
+  fitZoom: 1
 });
 
 export const defaultImageZoom = (): ImageZoom => 'fit';

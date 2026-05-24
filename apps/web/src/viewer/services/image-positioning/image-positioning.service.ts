@@ -212,7 +212,8 @@ export class ImagePositioningService {
       x: location.x,
       y: location.y,
       pixelRatio,
-      zoom
+      zoom,
+      fitZoom: dimensions.width / imageDimensions.width * 100
     };
 
     this.imageLocation$.next(result);

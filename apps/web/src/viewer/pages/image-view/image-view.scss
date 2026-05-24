@@ -13,14 +13,19 @@
     ui-text {
       margin: 0 var(--dim-large);
 
-      &.image-size {
+      &.no-shrink {
         flex-shrink: 0;
+      }
+
+      &.zoom-info {
+        min-width: 40px;
+        text-align: right;
+        margin-left: 0;
       }
     }
 
     ui-slider {
       width: 150px;
-      margin-right: var(--dim-large);
     }
   }
 }

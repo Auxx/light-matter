@@ -11,7 +11,7 @@
     @if (!fullScreen) {
       <ui-tool-menu>
         <section>
-          <ui-text class="image-size">
+          <ui-text class="no-shrink">
             {{ dimensions.width }} x {{ dimensions.height }}
           </ui-text>
 
@@ -44,11 +44,19 @@
 
         <section>
           <ui-action-button title="Fit to window"
-                            [disabled]="location.zoom === 'fit'">
+                            [disabled]="location.zoom === 'fit'"
+                            (pressed)="fitToWindow()">
             <ui-icon icon="scaleFit" size="large" [inherit]="true" />
           </ui-action-button>
 
-          <ui-slider [formControl]="zoomSlider"/>
+          <ui-slider [formControl]="zoomSlider"
+                     [min]="1"
+                     [max]="800" />
+
+          <ui-text class="no-shrink zoom-info">
+            @let zoomValue = location.zoom === 'fit' ? location.fitZoom : zoomSlider.value;
+            {{ zoomValue | number: '1.0-0' }}%
+          </ui-text>
 
           <app-vertical-divider />
 

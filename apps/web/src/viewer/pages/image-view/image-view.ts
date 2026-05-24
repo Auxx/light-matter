@@ -1,4 +1,4 @@
-import { AsyncPipe, DOCUMENT, JsonPipe } from '@angular/common';
+import { AsyncPipe, DecimalPipe, DOCUMENT, JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -38,7 +38,8 @@ import { ViewNavigator } from '../../services/view-navigator/view-navigator';
     FileNamePipe,
     DefaultPipe,
     SliderComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DecimalPipe
   ],
   templateUrl: './image-view.html',
   styleUrl: './image-view.scss',
@@ -64,7 +65,7 @@ export class ImageView {
 
   protected readonly imageDimensions = signal<ImageDimensions>({ width: 0, height: 0 });
 
-  protected readonly zoomSlider = new FormControl(50, { nonNullable: true });
+  protected readonly zoomSlider = new FormControl(100, { nonNullable: true });
 
   protected readonly isFullScreen = toSignal(
     fromEvent(this.document, 'fullscreenchange')
@@ -77,6 +78,11 @@ export class ImageView {
 
   constructor() {
     this.trackKeyboard();
+
+    this.zoomSlider
+      .valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe(value => this.imagePositioningService.setZoom(value / 100));
   }
 
   readonly toggleFullScreen = async () => {
@@ -86,6 +92,8 @@ export class ImageView {
       await this.document.documentElement.requestFullscreen();
     }
   };
+
+  readonly fitToWindow = () => this.imagePositioningService.setZoom('fit');
 
   private readonly trackKeyboard = () => {
     this.keyboard.keyup()
