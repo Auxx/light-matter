@@ -15,9 +15,7 @@
     position: absolute;
 
     &.pannable {
-      img {
-        cursor: all-scroll;
-      }
+      cursor: all-scroll;
     }
   }
 }

@@ -204,7 +204,13 @@ export class ImagePositioningService {
     offset: ImageOffset
   ) => {
     const dimensions = this.getAdjustedDimensions(imageDimensions, viewportDimensions, zoom);
-    const location = this.calculateImageLocation(viewportDimensions, dimensions, offset);
+    const location = this.calculateImageLocation(
+      viewportDimensions,
+      dimensions,
+      zoom === 'fit'
+        ? { dx: 0, dy: 0 }
+        : offset
+    );
 
     const result: ImagePositioningResult = {
       width: dimensions.width,
