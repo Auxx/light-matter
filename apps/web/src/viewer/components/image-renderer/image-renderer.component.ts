@@ -1,3 +1,4 @@
+import { AsyncPipe, JsonPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,28 +13,24 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MouseTrackerService } from '@light-matter/ui';
 import { fromEvent, take } from 'rxjs';
+import { DefaultPipe } from '../../../system/pipes/default/default.pipe';
 import { PxPipe } from '../../../system/pipes/px/px-pipe';
 import { DevicePixelRatioService } from '../../../system/services/device-pixel-ratio/device-pixel-ratio.service';
-
-interface ImageDimensions {
-  width: number;
-  height: number;
-}
-
-interface ImageLocation {
-  x: number;
-  y: number;
-}
-
-interface ImageOffset {
-  dx: number;
-  dy: number;
-}
+import { ImagePositioningService } from '../../services/image-positioning/image-positioning.service';
+import {
+  defaultImagePositioningResult,
+  ImageDimensions,
+  ImageLocation,
+  ImageOffset
+} from '../../services/image-positioning/image-positioning.types';
 
 @Component({
   selector: 'app-image-renderer',
   imports: [
-    PxPipe
+    PxPipe,
+    AsyncPipe,
+    DefaultPipe,
+    JsonPipe
   ],
   templateUrl: './image-renderer.component.html',
   styleUrl: './image-renderer.component.scss',
@@ -45,13 +42,15 @@ interface ImageOffset {
 export class ImageRendererComponent {
   readonly url = input.required<string>();
 
+  private readonly imagePositioningService = inject(ImagePositioningService);
+
   private readonly devicePixelRatioService = inject(DevicePixelRatioService);
 
   private readonly destroyRef = inject(DestroyRef);
 
   private readonly mouseTrackerService = inject(MouseTrackerService);
 
-  protected readonly pixelRatio = this.devicePixelRatioService.pixelRatio;
+  // protected readonly pixelRatio = this.devicePixelRatioService.pixelRatio;
 
   // Original unmodified image dimensions
   protected readonly imageDimensions = signal<ImageDimensions>({ width: 0, height: 0 });
@@ -76,6 +75,10 @@ export class ImageRendererComponent {
 
   protected readonly image = viewChild<unknown, ElementRef<HTMLImageElement>>('image', { read: ElementRef });
 
+  protected readonly loc$ = this.imagePositioningService.imageLocation();
+
+  protected readonly defaultImageLocation = defaultImagePositioningResult();
+
   constructor() {
     effect(this.preloadImage);
     effect(this.trackViewportSize);
@@ -90,7 +93,7 @@ export class ImageRendererComponent {
     const viewportDimensions = this.viewportDimensions();
     const displayDimensions = this.displayDimensions();
     const origin = this.viewportOffset();
-    const pixelRatio = this.pixelRatio();
+    const pixelRatio = 1; // this.pixelRatio();
 
     this.mouseTrackerService
       .mouseDown(event)
@@ -154,20 +157,22 @@ export class ImageRendererComponent {
       return;
     }
 
+    this.imagePositioningService.setViewport(surface.nativeElement);
+
     this.viewportDimensions.set({
-      width: surface.nativeElement.offsetWidth / this.pixelRatio(),
-      height: surface.nativeElement.offsetHeight / this.pixelRatio()
+      width: surface.nativeElement.offsetWidth / 1, /*this.pixelRatio()*/
+      height: surface.nativeElement.offsetHeight / 1 /*this.pixelRatio()*/
     });
 
-    this.devicePixelRatioService
-      .trackResize()
-      ?.pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() =>
-        this.viewportDimensions.set({
-          width: surface.nativeElement.offsetWidth,
-          height: surface.nativeElement.offsetHeight
-        })
-      );
+    // this.devicePixelRatioService
+    //   .trackResize()
+    //   ?.pipe(takeUntilDestroyed(this.destroyRef))
+    //   .subscribe(() =>
+    //     this.viewportDimensions.set({
+    //       width: surface.nativeElement.offsetWidth,
+    //       height: surface.nativeElement.offsetHeight
+    //     })
+    //   );
   };
 
   private readonly preloadImage = () => {
@@ -184,6 +189,8 @@ export class ImageRendererComponent {
   private readonly onImageLoad = (event: Event) => {
     if (event.target instanceof HTMLImageElement) {
       const { naturalWidth, naturalHeight } = event.target;
+
+      this.imagePositioningService.setImageDimensions({ width: naturalWidth, height: naturalHeight });
 
       this.displayDimensions.set({ width: naturalWidth, height: naturalHeight });
       this.imageDimensions.set({ width: naturalWidth, height: naturalHeight });

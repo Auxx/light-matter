@@ -1,37 +1,38 @@
 import { DOCUMENT } from '@angular/common';
-import { inject, Injectable, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { debounceTime, distinctUntilChanged, fromEvent, map, startWith } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { debounceTime, distinctUntilChanged, fromEvent, map, Observable, shareReplay, startWith } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DevicePixelRatioService {
-  readonly pixelRatio = signal(1);
-
   private readonly document = inject(DOCUMENT);
 
+  private readonly window: Window;
+
+  private readonly pixelRatio$: Observable<number>;
+
+  private readonly windowResize$: Observable<Event>;
+
   constructor() {
-    this.trackPixelRatio();
+    if (this.document.defaultView === null) {
+      throw new Error('Unsupported browser');
+    }
+
+    this.window = this.document.defaultView;
+
+    this.pixelRatio$ = fromEvent(this.window, 'resize')
+      .pipe(
+        debounceTime(250),
+        map(() => this.window.devicePixelRatio ?? 1),
+        startWith(this.window.devicePixelRatio),
+        distinctUntilChanged(),
+        map(ratio => 1 / ratio),
+        shareReplay(1)
+      );
+
+    this.windowResize$ = fromEvent(this.document.defaultView, 'resize');
   }
 
-  readonly trackResize = () =>
-    this.document.defaultView !== null
-      ? fromEvent(this.document.defaultView, 'resize')
-      : null;
+  readonly pixelRatio = () => this.pixelRatio$;
 
-  private readonly trackPixelRatio = () => {
-    if (this.document.defaultView !== null) {
-      const win = this.document.defaultView;
-
-      fromEvent(win, 'resize')
-        .pipe(
-          takeUntilDestroyed(),
-          debounceTime(250),
-          map(() => win.devicePixelRatio ?? 1),
-          startWith(win.devicePixelRatio),
-          distinctUntilChanged(),
-          map(ratio => 1 / ratio)
-        )
-        .subscribe(ratio => this.pixelRatio.set(ratio));
-    }
-  };
+  readonly windowResize = () => this.windowResize$;
 }

@@ -2,17 +2,21 @@
 @let dimensions = displayDimensions();
 @let position = imageLocation();
 
+@let loc = loc$ | async | default:defaultImageLocation;
+
 <div #surface
      class="surface"
-     [style.zoom]="pixelRatio()">
+     [style.zoom]="loc.pixelRatio">
+
+  <pre>{{ loc | json }}</pre>
 
   @if (imageUrl !== null) {
     <img #image
          alt=""
-         [width]="dimensions.width"
-         [height]="dimensions.height"
-         [style.left]="position.x | px"
-         [style.top]="position.y | px"
+         [width]="loc.width"
+         [height]="loc.height"
+         [style.left]="loc.x | px"
+         [style.top]="loc.y | px"
          [src]="imageUrl"
          (mousedown)="onMouseDown($event)">
   }
