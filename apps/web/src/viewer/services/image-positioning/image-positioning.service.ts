@@ -7,7 +7,7 @@ import {
   filter,
   map,
   pipe,
-  startWith,
+  Subject,
   switchMap,
   take
 } from 'rxjs';
@@ -69,6 +69,9 @@ export class ImagePositioningService {
       return;
     }
 
+    event.preventDefault();
+    event.stopPropagation();
+
     this.combineData()
       .pipe(
         take(1),
@@ -120,23 +123,6 @@ export class ImagePositioningService {
 
   readonly imageLocation = () => this.imageLocation$.asObservable();
 
-  private readonly detectZoomForDimension = (value: number, zoom: unknown): number => {
-    if (typeof zoom === 'string' && zoom.length > 0) {
-      const result = value / Number(zoom);
-
-      if (!isNaN(result)) {
-        return value;
-      }
-    }
-
-    return -value;
-  };
-
-  private readonly adjustDimensionForZoom = (value: number, pixelRatio: number): number =>
-    value < 0
-      ? (-value) / pixelRatio
-      : value;
-
   private readonly trackImageDimensions = () =>
     this.imageDimensions$
       .pipe(
@@ -150,36 +136,46 @@ export class ImagePositioningService {
 
   private readonly trackPanningOffset = () => this.panningOffset$;
 
-  // TODO Switch to ResizeObserver to avoid a full screen sizing bug
   private readonly trackViewportUpdates = () =>
     this.viewport$
       .pipe(
         filter(viewport => viewport !== null),
-        switchMap(viewport =>
-          this.devicePixelRatioService
-            .windowResize()
-            .pipe(
-              startWith(null),
-              map(() => ({
-                width: this.detectZoomForDimension(viewport.offsetWidth, viewport.style.zoom),
-                height: this.detectZoomForDimension(viewport.offsetHeight, viewport.style.zoom)
-              } as ImageDimensions))
-            )
-        ),
+        switchMap(viewport => {
+          const s = new Subject<ImageDimensions>();
+
+          const observer = new ResizeObserver(entries => {
+            if (entries.length === 0) {
+              return;
+            }
+
+            const entry = entries[0];
+
+            if (entry.contentBoxSize.length === 0) {
+              return;
+            }
+
+            s.next({
+              width: entry.contentBoxSize[0].inlineSize,
+              height: entry.contentBoxSize[0].blockSize
+            });
+          });
+
+          observer.observe(viewport);
+
+          return s.asObservable();
+        }),
         distinctUntilChanged((previous, current) =>
           previous.width === current.width && previous.height === current.height
         )
       );
 
+  // TODO Remove
   private readonly prepareData = () =>
     pipe(
       map(([ imageDimensions, viewportDimensions, zoom, pixelRatio, offset ]) =>
         [
           imageDimensions,
-          {
-            width: this.adjustDimensionForZoom(viewportDimensions.width, pixelRatio),
-            height: this.adjustDimensionForZoom(viewportDimensions.height, pixelRatio)
-          },
+          viewportDimensions,
           zoom,
           pixelRatio,
           offset
