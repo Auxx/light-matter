@@ -169,7 +169,6 @@ export class ImagePositioningService {
         )
       );
 
-  // TODO Remove
   private readonly prepareData = () =>
     pipe(
       map(([ imageDimensions, viewportDimensions, zoom, pixelRatio, offset ]) =>
@@ -236,8 +235,8 @@ export class ImagePositioningService {
     displayDimensions: ImageDimensions,
     offset: ImageOffset
   ) => {
-    const dx = viewportDimensions.width > displayDimensions.width ? 0 : offset.dx;
-    const dy = viewportDimensions.height > displayDimensions.height ? 0 : offset.dy;
+    const dx = viewportDimensions.width >= displayDimensions.width ? 0 : offset.dx;
+    const dy = viewportDimensions.height >= displayDimensions.height ? 0 : offset.dy;
 
     const result = {
       x: (viewportDimensions.width - displayDimensions.width) / 2 + dx,
