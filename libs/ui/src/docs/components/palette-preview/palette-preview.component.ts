@@ -11,4 +11,6 @@ export class PalettePreviewComponent {
   protected readonly variants = [ 'default', 'accent', 'warn' ];
 
   protected readonly heights = [ 'lowest', 'low', 'medium', 'high', 'highest' ];
+
+  protected readonly variants2 = [ 'default', 'primary', 'warn' ];
 }

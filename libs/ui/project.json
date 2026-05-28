@@ -6,6 +6,13 @@
   "projectType": "library",
   "tags": [],
   "targets": {
+    "palette": {
+      "executor": "@lmgm/dev-toolkit:palette",
+      "options": {
+        "config": "libs/ui/palette.config.json",
+        "target": "libs/ui/src/styles/global/palette2.scss"
+      }
+    },
     "build": {
       "executor": "@nx/angular:ng-packagr-lite",
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],

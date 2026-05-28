@@ -2,6 +2,7 @@
 
 @use "global/dimensions";
 @use "global/palette";
+@use "global/palette2";
 @use "global/typography";
 
 @include cdk.overlay();

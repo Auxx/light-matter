@@ -1,0 +1,133 @@
+{
+  "surfaces": {
+    "colors": {
+      "default": {
+        "luma": 0.3,
+        "chroma": 0.005,
+        "hue": 228
+      },
+      "primary": {
+        "luma": 0.3,
+        "chroma": 0.04,
+        "hue": 250
+      },
+      "warn": {
+        "luma": 0.3,
+        "chroma": 0.04,
+        "hue": 22
+      }
+    },
+    "heights": [
+      "lowest",
+      "low",
+      "medium",
+      "high",
+      "highest"
+    ],
+    "stepping": {
+      "luma": -0.075,
+      "chroma": 0,
+      "hue": 0
+    },
+    "inverse": true
+  },
+
+  "content": {
+    "colors": {
+      "default": {
+        "luma": 0.9,
+        "chroma": 0.005,
+        "hue": 228
+      },
+      "primary": {
+        "luma": 0.9,
+        "chroma": 0.04,
+        "hue": 250
+      },
+      "warn": {
+        "luma": 0.9,
+        "chroma": 0.04,
+        "hue": 22
+      }
+    },
+    "heights": [
+      "lowest",
+      "low",
+      "medium",
+      "high",
+      "highest"
+    ],
+    "stepping": {
+      "luma": -0.1,
+      "chroma": 0,
+      "hue": 0
+    },
+    "inverse": true
+  },
+
+  "element": {
+    "colors": {
+      "default": {
+        "luma": 0.7,
+        "chroma": 0.01,
+        "hue": 228
+      },
+      "primary": {
+        "luma": 0.7,
+        "chroma": 0.09,
+        "hue": 250
+      },
+      "warn": {
+        "luma": 0.7,
+        "chroma": 0.09,
+        "hue": 22
+      }
+    },
+    "heights": [
+      "lowest",
+      "low",
+      "medium",
+      "high",
+      "highest"
+    ],
+    "stepping": {
+      "luma": -0.075,
+      "chroma": 0,
+      "hue": 0
+    },
+    "inverse": true
+  },
+
+  "contrast": {
+    "colors": {
+      "default": {
+        "luma": 0.96,
+        "chroma": 0.01,
+        "hue": 228
+      },
+      "primary": {
+        "luma": 0.96,
+        "chroma": 0.05,
+        "hue": 250
+      },
+      "warn": {
+        "luma": 0.96,
+        "chroma": 0.05,
+        "hue": 22
+      }
+    },
+    "heights": [
+      "lowest",
+      "low",
+      "medium",
+      "high",
+      "highest"
+    ],
+    "stepping": {
+      "luma": -0.02,
+      "chroma": 0,
+      "hue": 0
+    },
+    "inverse": true
+  }
+}
