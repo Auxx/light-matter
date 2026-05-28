@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "palette": {
+      "implementation": "./src/executors/palette/palette",
+      "schema": "./src/executors/palette/palette.schema.json",
+      "description": "Generate app palette"
+    }
+  }
+}
