@@ -12,7 +12,7 @@ const meta: Meta<TitleComponent> = {
 
   argTypes: {
     variant: {
-      control: 'select',
+      control: 'radio',
       options: allVariants,
       description: 'Text variant',
       table: {

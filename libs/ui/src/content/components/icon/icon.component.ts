@@ -35,6 +35,6 @@ export class IconComponent {
 
     return inherit
       ? 'currentColor'
-      : `var(--content-${variant}-low)`;
+      : `var(--color-content-${variant}-highest)`;
   });
 }

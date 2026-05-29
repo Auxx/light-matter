@@ -20,5 +20,5 @@ export class TextComponent {
 
   readonly multiLine = input(false);
 
-  protected readonly color = computed(() => `var(--content-${this.variant()}-lowest)`);
+  protected readonly color = computed(() => `var(--color-content-${this.variant()}-highest)`);
 }

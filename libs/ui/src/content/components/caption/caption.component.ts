@@ -14,5 +14,5 @@ import { allVariants, Variant } from '../../types/variant.types';
 export class CaptionComponent {
   readonly variant = input<Variant>(allVariants[0]);
 
-  protected readonly color = computed(() => `var(--content-${this.variant()}-lowest)`);
+  protected readonly color = computed(() => `var(--color-content-${this.variant()}-highest)`);
 }
