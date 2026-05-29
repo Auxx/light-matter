@@ -7,9 +7,13 @@ export async function paletteExecutor(options: PaletteExecutorSchema, _context: 
 
   const result = serialise(
     join([
+      [ '/* Surfaces */' ],
       generateColorSection('surface', config.surfaces),
+      [ '/* Content on surfaces */' ],
       generateColorSection('content', config.content),
+      [ '/* Elements */' ],
       generateColorSection('element', config.element),
+      [ '/* Contrast on elements */' ],
       generateColorSection('contrast', config.contrast)
     ])
   );
