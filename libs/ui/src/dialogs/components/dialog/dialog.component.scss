@@ -1,8 +1,8 @@
 :host {
-  --dialog-background-color: var(--surface-default-highest);
-  --header-background-color: var(--surface-default-high);
-  --content-background-color: var(--surface-default-highest);
-  --footer-background-color: var(--surface-default-high);
+  --dialog-background-color: var(--color-surface-default-highest);
+  --header-background-color: var(--color-surface-default-high);
+  --content-background-color: var(--color-surface-default-highest);
+  --footer-background-color: var(--color-surface-default-high);
 
   --gap: var(--dim-large);
   --padding-vertical: var(--dim-x-large);

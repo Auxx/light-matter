@@ -13,7 +13,7 @@
     border-radius: var(--border-radius-medium);
     width: 100% ;
     height: calc(var(--border-radius-medium) * 2);
-    background: var(--content-default-lowest);
+    background: var(--color-content-default-lowest);
   }
 
   .indicator {
@@ -21,7 +21,8 @@
     border-radius: var(--border-radius-large);
     width: calc(var(--border-radius-large) * 2);
     height: calc(var(--border-radius-large) * 2);
-    background: var(--element-default-high);
+    // TODO Check colour
+    background: var(--color-contrast-default-high);
 
     left: var(--position);
     top: calc(var(--border-radius-large) / -2);
@@ -34,7 +35,8 @@
       border-radius: var(--border-radius-medium);
       width: calc(var(--border-radius-medium) * 2);
       height: calc(var(--border-radius-medium) * 2);
-      background: var(--element-default-low);
+      // TODO Check colour
+      background: var(--color-element-default-medium);
 
       left: 50%;
       top: 50%;
