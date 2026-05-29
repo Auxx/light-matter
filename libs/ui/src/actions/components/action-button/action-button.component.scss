@@ -9,6 +9,7 @@
   width: fit-content;
   height: fit-content;
 
+  // TODO Remove and replace with a menu item
   &.cdk-menu-item {
     width: 100%;
     border-radius: 2px;
@@ -61,14 +62,14 @@
 
   &:hover {
     button {
-      color: oklch(from var(--color) calc(l - 0.07) calc(c + 0.05) h);
+      color: oklch(from var(--color) calc(l - l * 0.08) calc(c + c * 0.3) h);
     }
   }
 
   &.disabled {
     button {
       cursor: default;
-      color: oklch(from var(--color) l c h / 0.5);
+      color: var(--disabled-color);
     }
   }
 }
