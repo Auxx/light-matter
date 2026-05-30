@@ -13,8 +13,8 @@
   <ui-popup-menu cdkMenu>
     <ui-action-button cdkMenuItem
                       (pressed)="onAddLocation()">
-      <ui-icon icon="folderAdd" />
-      <ui-text>Add new location</ui-text>
+      <ui-icon icon="folderAdd" [inherit]="true" />
+      <ui-text [inherit]="true">Add new location</ui-text>
     </ui-action-button>
   </ui-popup-menu>
 </ng-template>

@@ -5,7 +5,7 @@
 <ui-toolbar>
   @if (path.length > 1) {
     <ui-action-button (pressed)="folderPopped.emit()">
-      <ui-icon icon="chevronLeft" size="large" />
+      <ui-icon icon="chevronLeft" size="large" [inherit]="true" />
     </ui-action-button>
   }
 
@@ -28,7 +28,10 @@
       </ui-caption>
 
       <ui-action-button (pressed)="toggleFolders()">
-        <ui-icon icon="chevronDown" size="medium" [class.show-folders]="foldersVisible" />
+        <ui-icon icon="chevronDown"
+                 size="medium"
+                 [inherit]="true"
+                 [class.show-folders]="foldersVisible" />
       </ui-action-button>
     </aside>
   }

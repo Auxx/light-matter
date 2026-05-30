@@ -11,6 +11,7 @@ import {
   viewChild
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { CaptionComponent } from '@light-matter/ui';
 import { defaultThumbHeight, defaultThumbWidth, FileInfo } from 'internal-api';
 import { map } from 'rxjs';
 import { Configuration } from '../../../system/services/configuration/configuration';
@@ -18,7 +19,9 @@ import { imageUrl } from '../../../viewer/utils/image-url';
 
 @Component({
   selector: 'app-thumbnail',
-  imports: [],
+  imports: [
+    CaptionComponent
+  ],
   templateUrl: './thumbnail.component.html',
   styleUrl: './thumbnail.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

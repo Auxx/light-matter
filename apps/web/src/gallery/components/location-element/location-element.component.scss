@@ -19,13 +19,11 @@
   }
 
   &:hover {
-    // TODO Check colours
-    background-color: var(--color-surface-primary-high);
+    background-color: var(--color-surface-default-high);
   }
 
   &.selected {
-    // TODO Check colours
-    background-color: var(--color-surface-primary-highest);
+    background-color: var(--color-surface-default-highest);
   }
 }
 
