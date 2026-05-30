@@ -1,6 +1,6 @@
 import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { ActionButtonComponent } from '../../../actions';
-import { TitleComponent } from '../../../content';
+import { TextComponent, TitleComponent } from '../../../content';
 import { DialogComponent } from './dialog.component';
 
 const meta: Meta<DialogComponent> = {
@@ -10,6 +10,7 @@ const meta: Meta<DialogComponent> = {
     moduleMetadata({
       imports: [
         TitleComponent,
+        TextComponent,
         ActionButtonComponent
       ]
     })
@@ -32,13 +33,13 @@ export const Primary: Story = {
       <ui-dialog>
         <header>
           <ui-title>Header</ui-title>
-          <div>Info</div>
+          <ui-text>Info</ui-text>
         </header>
         <section>
-          <div>Body</div>
+          <ui-text>Body</ui-text>
         </section>
         <footer>
-          <ui-action-button variant="accent">OK</ui-action-button>
+          <ui-action-button variant="primary">OK</ui-action-button>
           <ui-action-button>Cancel</ui-action-button>
         </footer>
       </ui-dialog>`
