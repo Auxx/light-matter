@@ -13,6 +13,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { distinctUntilChanged, map } from 'rxjs';
+import { allVariants, Variant } from '../../../content';
 import { MouseMovement, MouseTrackerService } from '../../../dom';
 import { FormElementDirective } from '../../directives/form-element/form-element.directive';
 
@@ -30,13 +31,17 @@ import { FormElementDirective } from '../../directives/form-element/form-element
     }
   ],
   host: {
-    '[style.--position]': 'stylePosition()'
+    '[style.--position]': 'stylePosition()',
+    '[style.--track-color]': 'trackColor()',
+    '[style.--indicator-color]': 'indicatorColor()'
   }
 })
 export class SliderComponent extends FormElementDirective<number> {
   readonly min = input(0);
 
   readonly max = input(100);
+
+  readonly variant = input<Variant>(allVariants[0]);
 
   protected readonly currentValue = signal(0);
 
@@ -49,6 +54,10 @@ export class SliderComponent extends FormElementDirective<number> {
   private readonly destroyRef = inject(DestroyRef);
 
   private readonly trackRef = viewChild<unknown, ElementRef<HTMLDivElement>>('track', { read: ElementRef });
+
+  protected readonly trackColor = computed(() => `var(--color-element-${this.variant()}-low)`);
+
+  protected readonly indicatorColor = computed(() => `var(--color-contrast-${this.variant()}-lowest)`);
 
   override readonly writeValue = (value: number) => {
     this.currentValue.set(value);

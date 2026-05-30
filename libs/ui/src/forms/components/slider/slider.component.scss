@@ -1,8 +1,12 @@
 :host {
+  --indicator-radius: var(--border-radius-large);
+  --dot-radius: calc(var(--indicator-radius) / 2);
+  --track-radius: var(--border-radius-medium);
+
   display: flex;
   align-items: center;
-  padding: 0 var(--border-radius-large);
-  height: calc(var(--border-radius-large) * 2);
+  padding: 0 var(--indicator-radius);
+  height: calc(var(--indicator-radius) * 2);
 }
 
 .container {
@@ -10,33 +14,31 @@
   width: 100%;
 
   .track {
-    border-radius: var(--border-radius-medium);
+    border-radius: var(--track-radius);
     width: 100% ;
-    height: calc(var(--border-radius-medium) * 2);
-    background: var(--color-content-default-lowest);
+    height: calc(var(--track-radius) * 2);
+    background: var(--track-color);
   }
 
   .indicator {
     position: absolute;
-    border-radius: var(--border-radius-large);
-    width: calc(var(--border-radius-large) * 2);
-    height: calc(var(--border-radius-large) * 2);
-    // TODO Check colour
-    background: var(--color-contrast-default-high);
+    border-radius: var(--indicator-radius);
+    width: calc(var(--indicator-radius) * 2);
+    height: calc(var(--indicator-radius) * 2);
+    background: var(--indicator-color);
 
     left: var(--position);
-    top: calc(var(--border-radius-large) / -2);
+    top: calc(var(--indicator-radius) / -2);
     transform: translateX(-50%);
 
     &::after {
       content: '';
       display: block;
       position: absolute;
-      border-radius: var(--border-radius-medium);
-      width: calc(var(--border-radius-medium) * 2);
-      height: calc(var(--border-radius-medium) * 2);
-      // TODO Check colour
-      background: var(--color-element-default-medium);
+      border-radius: var(--dot-radius);
+      width: calc(var(--dot-radius) * 2);
+      height: calc(var(--dot-radius) * 2);
+      background: var(--track-color);
 
       left: 50%;
       top: 50%;

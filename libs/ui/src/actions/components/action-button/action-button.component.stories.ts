@@ -13,7 +13,7 @@ const meta: Meta<ActionButtonComponent> = {
   ],
 
   args: {
-    variant: 'default',
+    variant: allVariants[0],
     size: 'medium',
     compact: false,
     type: allButtonTypes[0],
@@ -141,7 +141,7 @@ export const ButtonWithIcon: Story = {
  * | --gap             |
  * | --side-padding    |
  * | --color           |
- * | --highlight-color |
+ * | --disabled-color  |
  */
 export const CustomStyling: Story = {
   render: props => {
