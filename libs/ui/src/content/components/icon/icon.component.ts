@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, input } from '@an
 import { DomSanitizer } from '@angular/platform-browser';
 import { allExtendedSizes, ExtendedSize } from '../../types/size.types';
 import { allVariants, Variant } from '../../types/variant.types';
-import { iconMapping, IconName } from './icon.types';
+import { iconMapping, IconName } from './icons/icon.mapping';
 
 @Component({
   selector: 'ui-icon',

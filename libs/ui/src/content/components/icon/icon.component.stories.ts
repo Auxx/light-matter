@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { allExtendedSizes } from '../../types/size.types';
 import { allVariants } from '../../types/variant.types';
 import { IconComponent } from './icon.component';
-import { allIcons } from './icon.types';
+import { allIcons } from './icons/icon.mapping';
 
 const meta: Meta<IconComponent> = {
   component: IconComponent,

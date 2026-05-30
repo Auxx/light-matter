@@ -1,10 +1,7 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "emitDecoratorMetadata": true,
-    "types": [
-      "../src/types.d.ts"
-    ]
+    "emitDecoratorMetadata": true
   },
   "exclude": ["../**/*.spec.ts"],
   "include": [

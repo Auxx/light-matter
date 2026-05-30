@@ -6,7 +6,6 @@
     "@angular/core": "21.2.14",
     "@angular/forms": "21.2.14",
     "@angular/platform-browser": "21.2.14",
-    "@fluentui/svg-icons": "1.1.325",
     "rxjs": "7.8.2"
   },
   "sideEffects": false

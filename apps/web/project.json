@@ -24,10 +24,7 @@
             "input": "apps/web/public"
           }
         ],
-        "styles": ["apps/web/src/styles.scss"],
-        "loader": {
-          ".svg": "text"
-        }
+        "styles": ["apps/web/src/styles.scss"]
       },
       "configurations": {
         "production": {

@@ -13,15 +13,19 @@
         "target": "libs/ui/src/styles/global/palette2.scss"
       }
     },
+    "import-icons": {
+      "executor": "@lmgm/dev-toolkit:import-icons",
+      "options": {
+        "config": "libs/ui/icons.config.json",
+        "target": "libs/ui/src/content/components/icon/icons"
+      }
+    },
     "build": {
       "executor": "@nx/angular:ng-packagr-lite",
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {
         "project": "libs/ui/ng-package.json",
-        "tsConfig": "libs/ui/tsconfig.lib.json",
-        "loader": {
-          ".svg": "text"
-        }
+        "tsConfig": "libs/ui/tsconfig.lib.json"
       },
       "configurations": {
         "production": {
