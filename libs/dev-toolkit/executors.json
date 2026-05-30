@@ -1,0 +1,14 @@
+{
+  "executors": {
+    "palette": {
+      "implementation": "./src/executors/palette/palette",
+      "schema": "./src/executors/palette/palette.schema.json",
+      "description": "Generate app palette"
+    },
+    "import-icons": {
+      "implementation": "./src/executors/import-icons/import-icons",
+      "schema": "./src/executors/import-icons/import-icons.schema.json",
+      "description": "Import Fluent icons from SVG files"
+    }
+  }
+}

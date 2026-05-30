@@ -1,6 +1,6 @@
+import { CdkMenu, CdkMenuItem } from '@angular/cdk/menu';
 import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
-import { MatMenu, MatMenuItem } from '@angular/material/menu';
+import { ActionButtonComponent, IconComponent, PopupMenuComponent, TextComponent } from '@light-matter/ui';
 import { Dialogs } from '../../../ipc/dialogs';
 import { GalleryLocations } from '../../services/gallery-locations/gallery-locations';
 import { LocationElementComponent } from '../location-element/location-element.component';
@@ -11,9 +11,12 @@ import { LocationSectionComponent } from '../location-section/location-section.c
   imports: [
     LocationSectionComponent,
     LocationElementComponent,
-    MatMenu,
-    MatMenuItem,
-    MatIcon
+    TextComponent,
+    ActionButtonComponent,
+    IconComponent,
+    CdkMenuItem,
+    CdkMenu,
+    PopupMenuComponent
   ],
   templateUrl: './location-listing.component.html',
   styleUrl: './location-listing.component.scss',

@@ -1,0 +1,65 @@
+:host {
+  --dialog-background-color: var(--color-surface-default-highest);
+  --header-background-color: var(--color-surface-default-high);
+  --content-background-color: var(--color-surface-default-highest);
+  --footer-background-color: var(--color-surface-default-high);
+
+  --gap: var(--dim-large);
+  --padding-vertical: var(--dim-x-large);
+  --padding-horizontal: var(--dim-large);
+  --header-height: calc(var(--dim-medium) * 5);
+  --footer-height: calc(var(--dim-medium) * 5);
+
+  display: flex;
+  flex-direction: column;
+
+  background: var(--dialog-background-color);
+  overflow: hidden;
+  border-radius: var(--border-radius-large);
+
+  animation: dialog-enter 100ms ease-in;
+
+  ::ng-deep {
+    header {
+      background: var(--header-background-color);
+      display: flex;
+      gap: var(--gap);
+      padding: 0 var(--padding-horizontal);
+      align-items: center;
+      height: var(--header-height);
+    }
+
+    .content {
+      background: var(--content-background-color);
+      padding: var(--padding-vertical) var(--padding-horizontal);
+    }
+
+    footer {
+      background: var(--footer-background-color);
+      display: flex;
+      gap: var(--gap);
+      padding: 0 var(--padding-horizontal);
+      align-items: center;
+      justify-content: flex-end;
+      height: var(--footer-height);
+    }
+  }
+}
+
+::ng-deep {
+  .cdk-overlay-dark-backdrop {
+    background: rgba(0, 0, 0, 0.5);
+  }
+}
+
+@keyframes dialog-enter {
+  from {
+    transform: scale(80%);
+    opacity: 0.5;
+  }
+
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}

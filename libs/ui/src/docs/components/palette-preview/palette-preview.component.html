@@ -1,0 +1,38 @@
+@for (variant of variants; track variant) {
+  <div class="variant">
+    @for (height of heights; track height) {
+      <div class="height"
+           [style.--background]="`var(--surface-${variant}-${height})`"
+           [style.--foreground]="`var(--content-${variant}-${height})`">
+        <div class="label">{{ `--surface-${variant}-${height}` }}</div>
+        <div class="label">{{ `--content-${variant}-${height}` }}</div>
+      </div>
+    }
+  </div>
+}
+
+@for (variant of variants2; track variant) {
+  <div class="variant">
+    @for (height of heights; track height) {
+      <div class="height"
+           [style.--background]="`var(--color-surface-${variant}-${height})`"
+           [style.--foreground]="`var(--color-content-${variant}-${height})`">
+        <div class="label">{{ `--color-surface-${variant}-${height}` }}</div>
+        <div class="label">{{ `--color-content-${variant}-${height}` }}</div>
+      </div>
+    }
+  </div>
+}
+
+@for (variant of variants2; track variant) {
+  <div class="variant">
+    @for (height of heights; track height) {
+      <div class="height"
+           [style.--background]="`var(--color-element-${variant}-${height})`"
+           [style.--foreground]="`var(--color-contrast-${variant}-${height})`">
+        <div class="label">{{ `--color-element-${variant}-${height}` }}</div>
+        <div class="label">{{ `--color-contrast-${variant}-${height}` }}</div>
+      </div>
+    }
+  </div>
+}

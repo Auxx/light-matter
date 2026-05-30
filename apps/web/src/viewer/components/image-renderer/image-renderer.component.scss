@@ -1,0 +1,21 @@
+:host {
+  display: block;
+  position: relative;
+
+  .surface {
+    position: absolute;
+    overflow: hidden;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  img {
+    position: absolute;
+
+    &.pannable {
+      cursor: all-scroll;
+    }
+  }
+}

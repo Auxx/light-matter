@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MockComponents } from 'ng-mocks';
+import { ThumbnailComponent } from '../../../ui/components/thumbnail/thumbnail.component';
 
 import { ImagesComponent } from './images.component';
 
@@ -8,7 +10,10 @@ describe('ImagesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ ImagesComponent ]
+      imports: [
+        ImagesComponent,
+        MockComponents(ThumbnailComponent)
+      ]
     })
       .compileComponents();
 

@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'app-vertical-divider',
   imports: [],
   template: '',
-  styles: ':host { height: 20px; width: 1px; background: var(--mat-sys-on-surface); }',
+  styles: ':host { display: block; height: 20px; width: 1px; background: var(--color-content-default-lowest); }',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VerticalDivider {}

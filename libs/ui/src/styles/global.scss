@@ -1,0 +1,44 @@
+@use '@angular/cdk' as cdk;
+
+@use "global/dimensions";
+@use "global/palette";
+@use "global/palette2";
+@use "global/typography";
+
+@include cdk.overlay();
+
+body {
+  color-scheme: dark;
+  background: var(--color-surface-default-low);
+  color: var(--color-content-default-high);
+
+  font-family: var(--text-font-family);
+  font-size: var(--text-font-size);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+ul, li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.spacer {
+  flex: 1;
+}
+
+/* DEPRECATED */
+
+.block-icon {
+  display: block;
+}

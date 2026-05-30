@@ -1,8 +1,13 @@
+import { Dialog } from '@angular/cdk/dialog';
+import { CdkMenu, CdkMenuItem } from '@angular/cdk/menu';
 import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatIcon } from '@angular/material/icon';
-import { MatMenu, MatMenuContent, MatMenuItem } from '@angular/material/menu';
-import { ConfirmationDialogComponent } from '../../../ui/components/confirmation-dialog/confirmation-dialog.component';
+import {
+  ActionButtonComponent,
+  ConfirmationDialogComponent,
+  IconComponent,
+  PopupMenuComponent,
+  TextComponent
+} from '@light-matter/ui';
 import { LocationNamePipe } from '../../../ui/pipes/location-name/location-name.pipe';
 import { GalleryLocations } from '../../services/gallery-locations/gallery-locations';
 import { LocationElementComponent } from '../location-element/location-element.component';
@@ -12,10 +17,12 @@ import { LocationElementComponent } from '../location-element/location-element.c
   imports: [
     LocationElementComponent,
     LocationNamePipe,
-    MatIcon,
-    MatMenu,
-    MatMenuItem,
-    MatMenuContent
+    TextComponent,
+    ActionButtonComponent,
+    IconComponent,
+    CdkMenuItem,
+    CdkMenu,
+    PopupMenuComponent
   ],
   templateUrl: './location-section.component.html',
   styleUrl: './location-section.component.scss',
@@ -30,7 +37,7 @@ export class LocationSectionComponent {
 
   private readonly galleryLocations = inject(GalleryLocations);
 
-  private readonly dialog = inject(MatDialog);
+  private readonly dialog = inject(Dialog);
 
   readonly onRemoveLocation = (data: string) =>
     ConfirmationDialogComponent

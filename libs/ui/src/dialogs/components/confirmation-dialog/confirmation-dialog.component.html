@@ -1,0 +1,19 @@
+<ui-dialog>
+  <header>
+    <ui-title>{{ options.title }}</ui-title>
+  </header>
+  <section>
+    <ui-text [multiLine]="true">{{ options.description }}</ui-text>
+  </section>
+  <footer>
+    <ui-action-button cdkFocusInitial
+                      variant="primary"
+                      (pressed)="dialogRef.close(true)">
+      Yes
+    </ui-action-button>
+
+    <ui-action-button (pressed)="dialogRef.close(false)">
+      Cancel
+    </ui-action-button>
+  </footer>
+</ui-dialog>

@@ -1,25 +1,91 @@
 @let state = state$ | async;
+@let fullScreen = isFullScreen();
+@let dimensions = imageDimensions();
+@let location = imageLocation$ | async | default:defaultImageLocation;
 
 @if (state) {
   @if (state.isValid) {
-    <div class="image-container" [class]="fit()">
-      <img #image
-           [alt]="state.selectedFile | fileName"
-           [style.zoom]="zoom()"
-           [src]="state.selectedFileUrl"
-           (dblclick)="toggleFullScreen()" />
-    </div>
+    @if (!fullScreen) {
+      <ui-tool-menu>
+        <section></section>
+        <section>
+          <ui-text [title]="state.selectedFile | fileName">
+            {{ state.selectedFile | fileName }}
+          </ui-text>
+        </section>
+        <section></section>
+      </ui-tool-menu>
+    }
 
-    <app-image-view-toolbar [fileName]="state.selectedFile"
-                            [imageElement]="imageSize()"
-                            [fit]="fit()"
-                            [prev]="state.prev"
-                            [next]="state.next"
-                            [isFullScreen]="isFullScreen()"
-                            (fitChange)="fit.set($event)"
-                            (navigatePrev)="viewNavigator.prev()"
-                            (navigateNext)="viewNavigator.next()"
-                            (toggleFullScreen)="toggleFullScreen()" />
+    <app-image-renderer [url]="state.selectedFileUrl"
+                        (dimensions)="imageDimensions.set($event)" />
+
+    @if (!fullScreen) {
+      <ui-tool-menu>
+        <section>
+          <ui-text class="no-shrink">
+            {{ dimensions.width }} x {{ dimensions.height }}
+          </ui-text>
+        </section>
+
+        <section>
+          <ui-action-button title="Previous image (Left)"
+                            [compact]="true"
+                            [disabled]="state.prev === -1"
+                            (pressed)="viewNavigator.prev()">
+            <ui-icon icon="chevronLeft"
+                     size="large"
+                     [inherit]="true" />
+          </ui-action-button>
+
+          <ui-action-button title="Back to Dashboard"
+                            [compact]="true"
+                            routerLink="/welcome">
+            <ui-icon icon="dismissCircle"
+                     size="large"
+                     [inherit]="true" />
+          </ui-action-button>
+
+          <ui-action-button title="Next image (Right)"
+                            [compact]="true"
+                            [disabled]="state.next === -1"
+                            (pressed)="viewNavigator.next()">
+            <ui-icon icon="chevronRight"
+                     size="large"
+                     [inherit]="true" />
+          </ui-action-button>
+        </section>
+
+        <section>
+          <ui-action-button title="Fit to window"
+                            [disabled]="location.zoom === 'fit'"
+                            (pressed)="fitToWindow()">
+            <ui-icon icon="scaleFit"
+                     size="large"
+                     [inherit]="true" />
+          </ui-action-button>
+
+          <ui-slider [formControl]="zoomSlider"
+                     [min]="1"
+                     [max]="800" />
+
+          <ui-text class="no-shrink zoom-info">
+            @let zoomValue = location.zoom === 'fit' ? location.fitZoom : zoomSlider.value;
+            {{ zoomValue | number: '1.0-0' }}%
+          </ui-text>
+
+          <app-vertical-divider />
+
+          <ui-action-button title="Toggle full screen mode (F)"
+                            [variant]="fullScreen ? 'primary' : 'default'"
+                            (pressed)="toggleFullScreen()">
+            <ui-icon icon="fullScreenMaximize"
+                     size="large"
+                     [inherit]="true" />
+          </ui-action-button>
+        </section>
+      </ui-tool-menu>
+    }
   } @else {
     <div>Invalid state</div>
   }

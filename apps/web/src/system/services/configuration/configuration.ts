@@ -1,8 +1,15 @@
 import { inject, Injectable } from '@angular/core';
-import { AppConfigV1, AppConfigV1Gallery, isAppConfig, SystemPathMapping } from 'internal-api';
+import { updateSubject } from '@light-matter/ui';
+import {
+  AppConfigV1,
+  AppConfigV1Gallery,
+  defaultThumbHeight,
+  defaultThumbWidth,
+  isAppConfig,
+  SystemPathMapping
+} from 'internal-api';
 import { ReplaySubject } from 'rxjs';
 import { FileSystem } from '../../../ipc/file-system';
-import { updateSubject } from '../../../rx-tools';
 
 @Injectable({ providedIn: 'root' })
 export class Configuration {
@@ -46,14 +53,19 @@ export class Configuration {
       return;
     }
 
-    this.config$.next(existing.data);
+    this.config$.next({
+      ...this._defaultConfig,
+      ...existing.data
+    });
   };
 
   private readonly defaultConfig = (paths: SystemPathMapping): AppConfigV1 => {
     return {
       version: 1,
       gallery: {
-        locations: [ paths.pictures ]
+        locations: [ paths.pictures ],
+        thumbWidth: defaultThumbWidth,
+        thumbHeight: defaultThumbHeight
       },
       system: {
         minimiseOnStart: false

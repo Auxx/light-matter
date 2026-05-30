@@ -1,12 +1,12 @@
 @if (isLoading()) {
   <div class="message">
-    <p>Loading...</p>
+    <ui-caption>Loading...</ui-caption>
   </div>
 }
 
 @if (hasError()) {
   <div class="message">
-    <p>Failed to load an image</p>
+    <ui-caption variant="warn">Failed to load an image</ui-caption>
   </div>
 }
 

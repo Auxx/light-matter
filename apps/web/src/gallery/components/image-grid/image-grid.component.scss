@@ -2,28 +2,34 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 14px 0;
+}
+
+ui-toolbar {
+  margin-bottom: var(--dim-xx-large);
+
+  aside {
+    ui-icon {
+      transform: rotate(0deg);
+      transition: transform 250ms ease-in-out;
+
+      &.show-folders {
+        transform: rotate(180deg);
+      }
+    }
+  }
 }
 
 .wrapper {
   overflow-y: auto;
-  padding-right: 16px;
+  padding-right: var(--dim-large);
 }
 
-mat-icon {
-  transform: rotate(0deg);
-  transition: transform 250ms ease-in-out;
-
-  &.show-folders {
-    transform: rotate(180deg);
-  }
-}
 
 .expander {
   display: grid;
   grid-template-rows: 0fr;
   opacity: 0;
-  transition: opacity 250ms ease-in-out;
+  transition: opacity 250ms ease-in-out, grid-template-rows 250ms ease-in-out;
 
   .expander-wrapper {
     overflow: hidden;

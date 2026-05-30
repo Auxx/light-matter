@@ -1,0 +1,81 @@
+:root {
+  /* Surfaces */
+  
+  --color-surface-default-highest: oklch(0.300 0.005 228.000);
+  --color-surface-default-high: oklch(0.225 0.005 228.000);
+  --color-surface-default-medium: oklch(0.150 0.005 228.000);
+  --color-surface-default-low: oklch(0.075 0.005 228.000);
+  --color-surface-default-lowest: oklch(0.000 0.005 228.000);
+  
+  --color-surface-primary-highest: oklch(0.300 0.040 250.000);
+  --color-surface-primary-high: oklch(0.225 0.040 250.000);
+  --color-surface-primary-medium: oklch(0.150 0.040 250.000);
+  --color-surface-primary-low: oklch(0.075 0.040 250.000);
+  --color-surface-primary-lowest: oklch(0.000 0.040 250.000);
+  
+  --color-surface-warn-highest: oklch(0.300 0.040 22.000);
+  --color-surface-warn-high: oklch(0.225 0.040 22.000);
+  --color-surface-warn-medium: oklch(0.150 0.040 22.000);
+  --color-surface-warn-low: oklch(0.075 0.040 22.000);
+  --color-surface-warn-lowest: oklch(0.000 0.040 22.000);
+  
+  /* Content on surfaces */
+  
+  --color-content-default-highest: oklch(0.900 0.005 228.000);
+  --color-content-default-high: oklch(0.800 0.005 228.000);
+  --color-content-default-medium: oklch(0.700 0.005 228.000);
+  --color-content-default-low: oklch(0.600 0.005 228.000);
+  --color-content-default-lowest: oklch(0.500 0.005 228.000);
+  
+  --color-content-primary-highest: oklch(0.900 0.050 250.000);
+  --color-content-primary-high: oklch(0.800 0.050 250.000);
+  --color-content-primary-medium: oklch(0.700 0.050 250.000);
+  --color-content-primary-low: oklch(0.600 0.050 250.000);
+  --color-content-primary-lowest: oklch(0.500 0.050 250.000);
+  
+  --color-content-warn-highest: oklch(0.900 0.050 22.000);
+  --color-content-warn-high: oklch(0.800 0.050 22.000);
+  --color-content-warn-medium: oklch(0.700 0.050 22.000);
+  --color-content-warn-low: oklch(0.600 0.050 22.000);
+  --color-content-warn-lowest: oklch(0.500 0.050 22.000);
+  
+  /* Elements */
+  
+  --color-element-default-highest: oklch(0.700 0.010 228.000);
+  --color-element-default-high: oklch(0.625 0.010 228.000);
+  --color-element-default-medium: oklch(0.550 0.010 228.000);
+  --color-element-default-low: oklch(0.475 0.010 228.000);
+  --color-element-default-lowest: oklch(0.400 0.010 228.000);
+  
+  --color-element-primary-highest: oklch(0.700 0.090 250.000);
+  --color-element-primary-high: oklch(0.625 0.090 250.000);
+  --color-element-primary-medium: oklch(0.550 0.090 250.000);
+  --color-element-primary-low: oklch(0.475 0.090 250.000);
+  --color-element-primary-lowest: oklch(0.400 0.090 250.000);
+  
+  --color-element-warn-highest: oklch(0.700 0.090 22.000);
+  --color-element-warn-high: oklch(0.625 0.090 22.000);
+  --color-element-warn-medium: oklch(0.550 0.090 22.000);
+  --color-element-warn-low: oklch(0.475 0.090 22.000);
+  --color-element-warn-lowest: oklch(0.400 0.090 22.000);
+  
+  /* Contrast on elements */
+  
+  --color-contrast-default-highest: oklch(0.960 0.010 228.000);
+  --color-contrast-default-high: oklch(0.940 0.010 228.000);
+  --color-contrast-default-medium: oklch(0.920 0.010 228.000);
+  --color-contrast-default-low: oklch(0.900 0.010 228.000);
+  --color-contrast-default-lowest: oklch(0.880 0.010 228.000);
+  
+  --color-contrast-primary-highest: oklch(0.960 0.050 250.000);
+  --color-contrast-primary-high: oklch(0.940 0.050 250.000);
+  --color-contrast-primary-medium: oklch(0.920 0.050 250.000);
+  --color-contrast-primary-low: oklch(0.900 0.050 250.000);
+  --color-contrast-primary-lowest: oklch(0.880 0.050 250.000);
+  
+  --color-contrast-warn-highest: oklch(0.960 0.050 22.000);
+  --color-contrast-warn-high: oklch(0.940 0.050 22.000);
+  --color-contrast-warn-medium: oklch(0.920 0.050 22.000);
+  --color-contrast-warn-low: oklch(0.900 0.050 22.000);
+  --color-contrast-warn-lowest: oklch(0.880 0.050 22.000);
+}

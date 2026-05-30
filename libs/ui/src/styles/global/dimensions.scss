@@ -1,0 +1,20 @@
+:root {
+  --density-regular: 1;
+  --density-compact: 0.75;
+  --density-large: 1.5;
+
+  --app-density: var(--density-regular);
+
+  --base-dimension: calc(8px * var(--app-density));
+
+  --dim-medium: var(--base-dimension); // 8px
+  --dim-small: calc(var(--dim-medium) / 2); // 4px
+  --dim-large: calc(var(--dim-medium) * 2); // 16px
+  --dim-x-large: calc(var(--dim-medium) * 3); // 24px
+  --dim-xx-large: calc(var(--dim-medium) * 4); // 32px
+
+  --border-radius-medium: calc(var(--dim-medium) / 2); // 4px
+  --border-radius-small: calc(var(--border-radius-medium) / 2); // 2px
+  --border-radius-large: calc(var(--border-radius-medium) * 2); // 8px
+  --border-radius-x-large: calc(var(--border-radius-medium) * 3); // 12px
+}

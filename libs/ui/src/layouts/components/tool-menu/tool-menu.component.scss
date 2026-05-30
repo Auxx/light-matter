@@ -1,0 +1,38 @@
+:host {
+  --section-gap: var(--dim-large);
+  --item-gap: var(--dim-small);
+  --height: calc(48px * var(--app-density));
+  --padding-vertical: 0;
+  --padding-horizontal: var(--dim-large);
+  --background: var(--color-surface-default-low);
+
+  display: block;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--section-gap);
+  height: var(--height);
+  align-items: center;
+  padding: var(--padding-vertical) var(--padding-horizontal);
+  background: var(--background);
+
+  ::ng-deep section {
+    display: flex;
+    gap: var(--item-gap);
+    align-items: center;
+    overflow: hidden;
+
+    &:nth-child(1) {
+    }
+
+    &:nth-child(2) {
+      justify-self: center;
+    }
+
+    &:nth-child(3) {
+      justify-self: end;
+    }
+  }
+}

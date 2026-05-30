@@ -1,3 +1,5 @@
+export const defaultThumbWidth = 192;
+export const defaultThumbHeight = 128;
 export interface AppConfigV1 {
   version: 1;
   gallery: AppConfigV1Gallery;
@@ -5,6 +7,8 @@ export interface AppConfigV1 {
 }
 export interface AppConfigV1Gallery {
   locations: string[];
+  thumbWidth?: number;
+  thumbHeight?: number;
 }
 export interface AppConfigV1System {
   minimiseOnStart: boolean;
@@ -20,7 +24,9 @@ export const isAppConfig: (input: unknown) => input is AppConfigV1 = (() => {
     1 === input.version && ('object' === typeof input.gallery && null !== input.gallery && _io1(input.gallery))
     && ('object' === typeof input.system && null !== input.system && _io2(input.system));
   const _io1 = (input: any): boolean =>
-    Array.isArray(input.locations) && input.locations.every((elem: any) => 'string' === typeof elem);
+    Array.isArray(input.locations) && input.locations.every((elem: any) => 'string' === typeof elem)
+    && (undefined === input.thumbWidth || 'number' === typeof input.thumbWidth)
+    && (undefined === input.thumbHeight || 'number' === typeof input.thumbHeight);
   const _io2 = (input: any): boolean =>
     'boolean' === typeof input.minimiseOnStart
     && (undefined === input.bounds || 'object' === typeof input.bounds && null !== input.bounds && _io3(input.bounds));

@@ -1,0 +1,26 @@
+:host {
+  --icon-size-x-small: var(--dim-medium);
+  --icon-size-small: calc(var(--dim-medium) * 1.5);
+  --icon-size-medium: calc(var(--dim-medium) * 2);
+  --icon-size-large: calc(var(--dim-medium) * 3);
+  --icon-size-x-large: calc(var(--dim-medium) * 4);
+
+  display: block;
+  max-width: fit-content;
+  height: fit-content;
+
+  ::ng-deep {
+    svg {
+      display: block;
+      width: var(--icon-size);
+      height: var(--icon-size);
+
+      path {
+        fill: var(--color);
+        stroke: var(--color);
+        stroke-width: 0.5px;
+      }
+    }
+  }
+}
+

@@ -4,24 +4,26 @@
 <ul>
   @for (location of locs; track location) {
     <li>
-      <app-location-element icon="folder_open"
+      <app-location-element icon="folder"
                             [level]="1"
                             [description]="location"
                             [menu]="sectionMenu"
                             [menuData]="location"
                             [selected]="selected === location"
                             (clicked)="clicked.emit(location)">
-        {{ location | locationName }}
+        <ui-text>{{ location | locationName }}</ui-text>
       </app-location-element>
     </li>
   }
 </ul>
 
-<mat-menu #sectionMenu>
-  <ng-template matMenuContent let-data="data">
-    <button mat-menu-item (click)="onRemoveLocation(data)">
-      <mat-icon fontIcon="folder_delete" />
-      <span>Remove</span>
-    </button>
-  </ng-template>
-</mat-menu>
+<ng-template #sectionMenu let-data="data">
+  <ui-popup-menu cdkMenu>
+    <ui-action-button cdkMenuItem
+                      variant="warn"
+                      (pressed)="onRemoveLocation(data)">
+      <ui-icon icon="folderProhibited" [inherit]="true" />
+      <ui-text [inherit]="true">Remove</ui-text>
+    </ui-action-button>
+  </ui-popup-menu>
+</ng-template>

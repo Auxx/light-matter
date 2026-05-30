@@ -1,11 +1,11 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { SidePanelComponent } from '@light-matter/ui';
 import { FileInfo } from 'internal-api';
 import { ImageGridComponent } from '../../../gallery/components/image-grid/image-grid.component';
 import { LocationListingComponent } from '../../../gallery/components/location-listing/location-listing.component';
 import { GalleryState } from '../../../gallery/services/gallery-state/gallery-state';
 import { DefaultPipe } from '../../../system/pipes/default/default.pipe';
-import { DualPaneComponent } from '../../../ui/components/dual-pane/dual-pane.component';
 
 @Component({
   selector: 'app-gallery',
@@ -13,8 +13,8 @@ import { DualPaneComponent } from '../../../ui/components/dual-pane/dual-pane.co
     AsyncPipe,
     DefaultPipe,
     LocationListingComponent,
-    DualPaneComponent,
-    ImageGridComponent
+    ImageGridComponent,
+    SidePanelComponent
   ],
   templateUrl: './gallery.page.html',
   styleUrl: './gallery.page.scss',

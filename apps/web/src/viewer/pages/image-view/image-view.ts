@@ -1,83 +1,87 @@
-import { AsyncPipe, DOCUMENT } from '@angular/common';
+import { AsyncPipe, DecimalPipe, DOCUMENT } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  effect,
-  ElementRef,
-  inject,
-  signal,
-  viewChild
-} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Router } from '@angular/router';
-import { debounceTime, fromEvent, map, noop, startWith, Subscription, tap } from 'rxjs';
+  ActionButtonComponent,
+  IconComponent,
+  SliderComponent,
+  TextComponent,
+  ToolMenuComponent
+} from '@light-matter/ui';
+import { fromEvent, map, noop, startWith, tap } from 'rxjs';
+import { VerticalDivider } from '../../../system/components/vertical-divider/vertical-divider';
+import { DefaultPipe } from '../../../system/pipes/default/default.pipe';
 import { Keyboard } from '../../../system/services/keyboard/keyboard';
-import { ImageViewToolbar } from '../../components/image-view-toolbar/image-view-toolbar';
-import { ImageDetails } from '../../components/image-view-toolbar/image-view-toolbar.types';
+import { ImageRendererComponent } from '../../components/image-renderer/image-renderer.component';
 import { FileNamePipe } from '../../pipes/file-name/file-name-pipe';
+import { ImagePositioningService } from '../../services/image-positioning/image-positioning.service';
+import {
+  defaultImagePositioningResult,
+  ImageDimensions
+} from '../../services/image-positioning/image-positioning.types';
 import { ViewNavigator } from '../../services/view-navigator/view-navigator';
 
 @Component({
   selector: 'app-image-view',
   imports: [
-    ImageViewToolbar,
     AsyncPipe,
-    FileNamePipe
+    ImageRendererComponent,
+    ToolMenuComponent,
+    ActionButtonComponent,
+    IconComponent,
+    RouterLink,
+    VerticalDivider,
+    TextComponent,
+    FileNamePipe,
+    DefaultPipe,
+    SliderComponent,
+    ReactiveFormsModule,
+    DecimalPipe
   ],
   templateUrl: './image-view.html',
   styleUrl: './image-view.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ImageView {
-  readonly viewNavigator = inject(ViewNavigator);
+  protected readonly viewNavigator = inject(ViewNavigator);
+
+  private readonly router = inject(Router);
+
+  private readonly keyboard = inject(Keyboard);
+
+  private readonly document = inject(DOCUMENT);
+
+  private readonly imagePositioningService = inject(ImagePositioningService);
 
   readonly state$ = this.viewNavigator.state()
     .pipe(tap(state => !state.isValid ? this.router.navigate([ 'welcome' ]) : noop()));
 
-  protected readonly fit = signal<'contain' | 'original'>('contain');
+  protected readonly imageLocation$ = this.imagePositioningService.imageLocation();
 
-  protected readonly zoom = signal(1);
+  protected readonly defaultImageLocation = defaultImagePositioningResult();
 
-  protected readonly imageRef = viewChild<unknown, ElementRef<HTMLImageElement>>('image', { read: ElementRef });
+  protected readonly imageDimensions = signal<ImageDimensions>({ width: 0, height: 0 });
 
-  protected readonly imageSize = signal<ImageDetails | null>(null);
+  protected readonly zoomSlider = new FormControl(100, { nonNullable: true });
 
-  private readonly document = inject(DOCUMENT);
-
-  protected readonly isFullScreen = signal<boolean>(this.document.fullscreenElement !== null);
-
-  private readonly router = inject(Router);
-
-  private readonly destroyRef = inject(DestroyRef);
-
-  private readonly keyboard = inject(Keyboard);
-
-  private imageSub?: Subscription;
+  protected readonly isFullScreen = toSignal(
+    fromEvent(this.document, 'fullscreenchange')
+      .pipe(
+        takeUntilDestroyed(),
+        map(() => this.document.fullscreenElement !== null),
+        startWith(this.document.fullscreenElement !== null)
+      )
+  );
 
   constructor() {
-    this.trackZoom();
     this.trackKeyboard();
 
-    effect(() => {
-      this.imageSub?.unsubscribe();
-      const imageRef = this.imageRef();
-
-      if (imageRef !== undefined) {
-        this.imageSub = fromEvent(imageRef.nativeElement, 'load')
-          .pipe(takeUntilDestroyed(this.destroyRef))
-          .subscribe(event =>
-            this.imageSize.set(
-              event.target instanceof HTMLImageElement
-                ? {
-                  width: event.target.naturalWidth,
-                  height: event.target.naturalHeight
-                }
-                : null
-            )
-          );
-      }
-    });
+    this.zoomSlider
+      .valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe(value => this.imagePositioningService.setZoom(value / 100));
   }
 
   readonly toggleFullScreen = async () => {
@@ -86,25 +90,9 @@ export class ImageView {
     } else {
       await this.document.documentElement.requestFullscreen();
     }
-
-    this.isFullScreen.set(this.document.fullscreenElement !== null);
   };
 
-  private readonly trackZoom = () => {
-    if (this.document.defaultView !== null) {
-      const win = this.document.defaultView;
-
-      fromEvent(win, 'resize')
-        .pipe(
-          takeUntilDestroyed(),
-          debounceTime(250),
-          startWith(win.devicePixelRatio),
-          map(() => win.devicePixelRatio ?? 1),
-          map(ratio => 1 / ratio)
-        )
-        .subscribe(zoom => this.zoom.set(zoom));
-    }
-  };
+  readonly fitToWindow = () => this.imagePositioningService.setZoom('fit');
 
   private readonly trackKeyboard = () => {
     this.keyboard.keyup()

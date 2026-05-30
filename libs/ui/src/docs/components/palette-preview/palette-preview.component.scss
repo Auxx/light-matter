@@ -1,0 +1,25 @@
+:host {
+  display: block;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.variant {
+  display: flex;
+
+  .height {
+    background-color: var(--background);
+    color: var(--foreground);
+
+    flex: 1;
+
+    padding: 16px;
+
+    font-family: sans-serif;
+    font-size: 12px;
+
+    .label {
+      text-align: center;
+    }
+  }
+}

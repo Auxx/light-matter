@@ -1,0 +1,53 @@
+:host {
+  --border-radius: var(--border-radius-x-large);
+  --padding: var(--dim-small);
+  --margin: var(--dim-large);
+  --divider-color: var(--color-content-default-high);
+  --background-color: var(--color-surface-default-low);
+  --aside-background-color: var(--color-surface-default-medium);
+
+  flex: 1;
+  display: grid;
+  grid-template-columns: var(--side-panel-width) 16px 1fr;
+  grid-template-rows: 100%;
+
+  overflow: hidden;
+
+  background: var(--background-color);
+
+  .side-panel {
+    overflow: hidden;
+    padding: var(--padding);
+    margin: var(--margin) 0;
+
+    background-color: var(--aside-background-color);
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--divider-color);
+    cursor: default;
+
+    ui-icon {
+    }
+  }
+
+  .content {
+    overflow: hidden;
+    padding: var(--padding) 0 var(--padding) var(--padding);
+    margin: var(--margin) 0;
+  }
+
+  &.resizable {
+    .divider {
+      cursor: col-resize;
+    }
+  }
+
+  &.hidden {
+    grid-template-columns: 1fr;
+  }
+}

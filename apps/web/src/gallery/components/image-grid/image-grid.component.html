@@ -2,36 +2,40 @@
 @let folderList = folders();
 @let foldersVisible = showFolders();
 
-<h1>
+<ui-toolbar>
   @if (path.length > 1) {
-    <button matIconButton
-            (click)="folderPopped.emit()">
-      <mat-icon fontIcon="arrow_back" />
-    </button>
+    <ui-action-button (pressed)="folderPopped.emit()">
+      <ui-icon icon="chevronLeft" size="large" [inherit]="true" />
+    </ui-action-button>
   }
 
-  @if (path.length === 0) {
-    <span class="header">No location selected</span>
-  } @else {
-    <span>{{ path[ path.length - 1 ] }}</span>
-  }
-
-  <div class="spacer"></div>
+  <ui-title>
+    @if (path.length === 0) {
+      No location selected
+    } @else {
+      {{ path[ path.length - 1 ] }}
+    }
+  </ui-title>
 
   @if (folderList.length > 0) {
-    <span class="action">
-      @if (foldersVisible) {
-        Hide sub-folders
-      } @else {
-        Show sub-folders
-      }
-    </span>
-    <button matIconButton
-            (click)="toggleFolders()">
-      <mat-icon fontIcon="arrow_drop_down" [class.show-folders]="foldersVisible" />
-    </button>
+    <aside>
+      <ui-caption>
+        @if (foldersVisible) {
+          Hide sub-folders
+        } @else {
+          Show sub-folders
+        }
+      </ui-caption>
+
+      <ui-action-button (pressed)="toggleFolders()">
+        <ui-icon icon="chevronDown"
+                 size="medium"
+                 [inherit]="true"
+                 [class.show-folders]="foldersVisible" />
+      </ui-action-button>
+    </aside>
   }
-</h1>
+</ui-toolbar>
 
 <div class="wrapper">
   @if (folderList.length > 0) {

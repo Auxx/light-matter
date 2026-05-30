@@ -1,4 +1,4 @@
-<mat-icon [fontIcon]="icon()" class="small prefix" />
+<ui-icon [icon]="icon()" class="prefix" />
 
 <div class="label">
   <ng-content />
@@ -6,10 +6,9 @@
 
 <div class="spacer"></div>
 
-<button matIconButton
-        class="action"
-        [matMenuTriggerFor]="menu()"
-        [matMenuTriggerData]="{ data: menuData() }"
-        appStopPropagation>
-  <mat-icon fontIcon="more_vert" class="small" />
-</button>
+<ui-action-button class="action"
+                  [cdkMenuTriggerFor]="menu()"
+                  [cdkMenuTriggerData]="{ data: menuData() }"
+                  appStopPropagation>
+  <ui-icon icon="moreVertical" [inherit]="true" />
+</ui-action-button>

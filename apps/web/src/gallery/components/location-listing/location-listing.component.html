@@ -1,19 +1,20 @@
-<app-location-element icon="desktop_windows"
+<app-location-element icon="desktop"
                       [level]="0"
                       [menu]="rootMenu"
                       [selected]="false">
-  My PC
+  <ui-text [important]="true">My PC</ui-text>
 </app-location-element>
 
 <app-location-section [locations]="locations()"
                       [selectedLocation]="selectedLocation()"
                       (clicked)="this.locationClicked.emit($event)" />
 
-<mat-menu #rootMenu>
-  <button mat-menu-item (click)="onAddLocation()">
-    <mat-icon fontIcon="create_new_folder" />
-    <span>Add new location</span>
-  </button>
-</mat-menu>
-
-
+<ng-template #rootMenu>
+  <ui-popup-menu cdkMenu>
+    <ui-action-button cdkMenuItem
+                      (pressed)="onAddLocation()">
+      <ui-icon icon="folderAdd" [inherit]="true" />
+      <ui-text [inherit]="true">Add new location</ui-text>
+    </ui-action-button>
+  </ui-popup-menu>
+</ng-template>

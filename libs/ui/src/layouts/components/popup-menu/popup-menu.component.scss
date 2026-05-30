@@ -1,0 +1,16 @@
+:host {
+  --background-color: var(--color-surface-default-highest);
+  --border-radius: var(--border-radius-medium);
+  --padding: var(--dim-small);
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: fit-content;
+
+  padding: var(--padding);
+
+  background: var(--background-color);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}

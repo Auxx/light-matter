@@ -1,0 +1,24 @@
+:host {
+  --gap: var(--dim-large);
+  --height: calc(40px * var(--app-density));
+
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  flex-grow: 0;
+  gap: var(--gap);
+
+  height: var(--height);
+
+  .primary {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+
+  ::ng-deep aside {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+}

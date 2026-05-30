@@ -14,6 +14,11 @@
       "factory": "./src/generators/page/page",
       "schema": "./src/generators/page/page-schema.json",
       "description": "Generates a page component inside a feature of an Angular project"
+    },
+    "service": {
+      "factory": "./src/generators/service/service",
+      "schema": "./src/generators/service/service-schema.json",
+      "description": "Generates a service inside a feature of an Angular project"
     }
   }
 }
