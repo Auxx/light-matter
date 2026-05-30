@@ -26,12 +26,12 @@ export const Primary: Story = {
       template: `
       <ui-popup-menu>
         <ui-action-button class="cdk-menu-item">
-          <ui-icon icon="folderAdd" />
-          <ui-text>Add</ui-text>
+          <ui-icon icon="folderAdd" [inherit]="true" />
+          <ui-text [inherit]="true">Add</ui-text>
         </ui-action-button>
         <ui-action-button variant="warn" class="cdk-menu-item">
-          <ui-icon icon="folderProhibited" variant="warn" />
-          <ui-text variant="warn">Remove</ui-text>
+          <ui-icon icon="folderProhibited" [inherit]="true" />
+          <ui-text [inherit]="true">Remove</ui-text>
         </ui-action-button>
       </ui-popup-menu>`
     };
@@ -59,12 +59,12 @@ export const CustomStyling: Story = {
       template: `
       <ui-popup-menu [style.--background-color]="'#132'">
         <ui-action-button class="cdk-menu-item">
-          <ui-icon icon="folderAdd" />
-          <ui-text>Add</ui-text>
+          <ui-icon icon="folderAdd" [inherit]="true" />
+          <ui-text [inherit]="true">Add</ui-text>
         </ui-action-button>
         <ui-action-button variant="warn" class="cdk-menu-item">
-          <ui-icon icon="folderProhibited" variant="warn" />
-          <ui-text variant="warn">Remove</ui-text>
+          <ui-icon icon="folderProhibited" [inherit]="true" />
+          <ui-text [inherit]="true">Remove</ui-text>
         </ui-action-button>
       </ui-popup-menu>`
     };

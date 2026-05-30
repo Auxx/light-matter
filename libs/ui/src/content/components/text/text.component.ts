@@ -20,5 +20,14 @@ export class TextComponent {
 
   readonly multiLine = input(false);
 
-  protected readonly color = computed(() => `var(--color-content-${this.variant()}-highest)`);
+  readonly inherit = input(false);
+
+  protected readonly color = computed(() => {
+    const inherit = this.inherit();
+    const variant = this.variant();
+
+    return inherit
+      ? 'currentColor'
+      : `var(--color-content-${variant}-highest)`;
+  });
 }
