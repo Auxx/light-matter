@@ -31,10 +31,14 @@ export const Primary: Story = {
       props,
       template: `
       <ui-toolbar>
-        <ui-action-button><ui-icon icon="chevronLeft" size="large"/></ui-action-button>
+        <ui-action-button>
+          <ui-icon icon="chevronLeft" size="large" [inherit]="true"/>
+        </ui-action-button>
         <ui-title>Properties</ui-title>
         <aside>
-          <ui-action-button><ui-icon icon="moreVertical" size="large"/></ui-action-button>
+          <ui-action-button>
+            <ui-icon icon="moreVertical" size="large" [inherit]="true"/>
+          </ui-action-button>
         </aside>
       </ui-toolbar>`
     };
