@@ -1,4 +1,4 @@
-import { DIALOG_DATA } from '@angular/cdk/dialog';
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ConfirmationDialogComponent } from './confirmation-dialog.component';
@@ -9,11 +9,14 @@ describe('ConfirmationDialogComponent', () => {
 
   const dialogData = { title: 'title', description: 'description' };
 
+  const dialogRef = {};
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ ConfirmationDialogComponent ],
       providers: [
-        { provide: DIALOG_DATA, useValue: dialogData }
+        { provide: DIALOG_DATA, useValue: dialogData },
+        { provide: DialogRef, useValue: dialogRef }
       ]
     })
       .compileComponents();

@@ -39,18 +39,15 @@ describe('ActionButtonComponent', () => {
       fixture.componentRef.setInput('variant', 'default');
       fixture.detectChanges();
 
-      expect(styles.getPropertyValue('--color')).toBe('var(--element-default-low)');
-      expect(styles.getPropertyValue('--highlight-color')).toBe('var(--surface-default-high)');
+      expect(styles.getPropertyValue('--color')).toBe('var(--color-content-default-highest)');
 
       fixture.componentRef.setInput('variant', 'primary');
       fixture.detectChanges();
-      expect(styles.getPropertyValue('--color')).toBe('var(--element-primary-low)');
-      expect(styles.getPropertyValue('--highlight-color')).toBe('var(--surface-primary-high)');
+      expect(styles.getPropertyValue('--color')).toBe('var(--color-content-primary-highest)');
 
       fixture.componentRef.setInput('variant', 'warn');
       fixture.detectChanges();
-      expect(styles.getPropertyValue('--color')).toBe('var(--element-warn-low)');
-      expect(styles.getPropertyValue('--highlight-color')).toBe('var(--surface-warn-high)');
+      expect(styles.getPropertyValue('--color')).toBe('var(--color-content-warn-highest)');
     });
   });
 
