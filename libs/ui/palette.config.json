@@ -41,12 +41,12 @@
       },
       "primary": {
         "luma": 0.9,
-        "chroma": 0.04,
+        "chroma": 0.05,
         "hue": 250
       },
       "warn": {
         "luma": 0.9,
-        "chroma": 0.04,
+        "chroma": 0.05,
         "hue": 22
       }
     },
