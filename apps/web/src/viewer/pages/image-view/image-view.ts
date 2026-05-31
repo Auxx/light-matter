@@ -6,11 +6,14 @@ import { Router, RouterLink } from '@angular/router';
 import {
   ActionButtonComponent,
   IconComponent,
+  InfoOverlayComponent,
   SliderComponent,
   TextComponent,
   ToolMenuComponent
 } from '@light-matter/ui';
+import { ExifTags } from 'internal-api';
 import { fromEvent, map, noop, startWith, tap } from 'rxjs';
+import { ExifService } from '../../../ipc/exif';
 import { VerticalDivider } from '../../../system/components/vertical-divider/vertical-divider';
 import { DefaultPipe } from '../../../system/pipes/default/default.pipe';
 import { Keyboard } from '../../../system/services/keyboard/keyboard';
@@ -38,7 +41,8 @@ import { ViewNavigator } from '../../services/view-navigator/view-navigator';
     DefaultPipe,
     SliderComponent,
     ReactiveFormsModule,
-    DecimalPipe
+    DecimalPipe,
+    InfoOverlayComponent
   ],
   templateUrl: './image-view.html',
   styleUrl: './image-view.scss',
@@ -53,6 +57,8 @@ export class ImageView {
 
   private readonly document = inject(DOCUMENT);
 
+  private readonly exif = inject(ExifService);
+
   private readonly imagePositioningService = inject(ImagePositioningService);
 
   readonly state$ = this.viewNavigator.state()
@@ -63,6 +69,10 @@ export class ImageView {
   protected readonly defaultImageLocation = defaultImagePositioningResult();
 
   protected readonly imageDimensions = signal<ImageDimensions>({ width: 0, height: 0 });
+
+  protected readonly exifVisible = signal(false);
+
+  protected readonly exifState = signal<false | ExifTags>(false);
 
   protected readonly zoomSlider = new FormControl(100, { nonNullable: true });
 
@@ -94,6 +104,33 @@ export class ImageView {
 
   readonly fitToWindow = () => this.imagePositioningService.setZoom('fit');
 
+  protected readonly toggleExifInfo = async (path: string) => {
+    this.exifState.set(false);
+
+    const exifVisible = !this.exifVisible();
+    this.exifVisible.set(exifVisible);
+
+    if (exifVisible) {
+      const response = await this.exif.read(path);
+
+      if (response.success) {
+        this.exifState.set(response.data);
+      }
+    }
+  };
+
+  protected readonly prevPhoto = () => {
+    this.exifVisible.set(false);
+    this.exifState.set(false);
+    this.viewNavigator.prev();
+  };
+
+  protected readonly nextPhoto = () => {
+    this.exifVisible.set(false);
+    this.exifState.set(false);
+    this.viewNavigator.next();
+  };
+
   private readonly trackKeyboard = () => {
     this.keyboard.keyup()
       .pipe(takeUntilDestroyed())
@@ -104,11 +141,11 @@ export class ImageView {
 
         switch (event.key) {
           case 'ArrowLeft':
-            this.viewNavigator.prev();
+            this.prevPhoto();
             break;
 
           case 'ArrowRight':
-            this.viewNavigator.next();
+            this.nextPhoto();
             break;
 
           case 'f':

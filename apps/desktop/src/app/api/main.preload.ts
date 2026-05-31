@@ -22,6 +22,10 @@ const api: Desktop = {
     openFolder: () => ipcRenderer.invoke('Dialogs.openFolder')
   },
 
+  Exif: {
+    read: (path: string) => ipcRenderer.invoke('Exif.read', path)
+  },
+
   // TODO: Deprecated methods, should be moved into a handler class in the future
   openFolder: () => ipcRenderer.invoke('openFolder'),
   openFile: () => ipcRenderer.invoke('openFile'),

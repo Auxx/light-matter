@@ -5,13 +5,15 @@
   height: 100%;
   background: var(--color-surface-default-lowest);
 
+  position: relative;
+
   app-image-renderer {
     flex: 1;
   }
 
   ui-tool-menu {
     ui-text {
-      margin: 0 var(--dim-large);
+      margin: 0 var(--dim-medium);
 
       &.no-shrink {
         flex-shrink: 0;

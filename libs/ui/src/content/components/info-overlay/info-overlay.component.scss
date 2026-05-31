@@ -1,0 +1,35 @@
+:host {
+  display: block;
+  position: fixed;
+  left: calc(var(--dim-xx-large) * 2);
+  bottom: calc(var(--dim-xx-large) * 2);
+
+  background: var(--color-surface-default-medium);
+  border-radius: var(--border-radius-large);
+  padding: var(--dim-large);
+
+  ::ng-deep {
+    dl {
+      margin: 0;
+      display: grid;
+      grid-template-columns: min-content min-content;
+      column-gap: var(--dim-medium);
+      row-gap: var(--dim-small);
+      font-size: var(--caption-font-size);
+
+      dt {
+        font-weight: normal;
+        color: var(--color-content-default-medium);
+        white-space: nowrap;
+        text-align: right;
+      }
+
+      dd {
+        margin: 0;
+        font-weight: bold;
+        color: var(--color-content-default-high);
+        white-space: nowrap;
+      }
+    }
+  }
+}
