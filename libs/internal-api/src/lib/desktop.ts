@@ -1,3 +1,4 @@
+import type { Tags } from 'exiftool-vendored';
 import { Arguments } from 'yargs';
 import { FileInfo } from './fs';
 
@@ -20,6 +21,10 @@ export interface Desktop {
 
   Dialogs: {
     openFolder: () => Promise<ApiResponse<string>>;
+  };
+
+  Exif: {
+    read: (path: string) => Promise<ApiResponse<ExifTags>>;
   };
 
   openFolder: () => Promise<FileListing>;
@@ -79,3 +84,10 @@ export const supportedFileExtensions = [
   'avif',
   'bmp'
 ];
+
+export type ExifTags =
+  & Tags
+  & {
+    ImagePixelDepth?: string;
+    ChromaFormat?: string;
+  };

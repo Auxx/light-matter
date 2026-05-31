@@ -4,6 +4,7 @@ import * as fsSync from 'node:fs';
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
 import { Dialogs } from '../../dialogs/dialogs';
+import { Exif } from '../../exif/exif';
 import { FileSystem } from '../../file-system/file-system';
 import { ProcessManager } from '../../process-manager/process-manager';
 import { IpcRegistry } from '../decorators/ipc-registry';
@@ -17,7 +18,8 @@ export default class ElectronEvents {
         [
           new ProcessManager(),
           new FileSystem(),
-          new Dialogs()
+          new Dialogs(),
+          new Exif()
         ]
       );
 

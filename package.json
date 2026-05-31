@@ -29,6 +29,7 @@
   },
   "private": true,
   "dependencies": {
+    "exiftool-vendored": "35.21.0",
     "tslib": "2.8.1",
     "yargs": "18.0.0"
   },
