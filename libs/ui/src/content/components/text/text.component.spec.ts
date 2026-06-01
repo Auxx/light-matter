@@ -39,6 +39,17 @@ describe('TextComponent', () => {
     });
   });
 
+  describe('inherit', () => {
+    it('should override the colour', () => {
+      const styles: CSSStyleDeclaration = fixture.debugElement.styles as unknown as CSSStyleDeclaration;
+
+      fixture.componentRef.setInput('variant', 'default');
+      fixture.componentRef.setInput('inherit', true);
+      fixture.detectChanges();
+      expect(styles.getPropertyValue('--color')).toBe('currentColor');
+    });
+  });
+
   describe('important', () => {
     it('should add important class when needed', () => {
       fixture.componentRef.setInput('important', true);
