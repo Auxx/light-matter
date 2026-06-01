@@ -1,5 +1,6 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
 
 import { ConfirmationDialogComponent } from './confirmation-dialog.component';
 
@@ -9,7 +10,9 @@ describe('ConfirmationDialogComponent', () => {
 
   const dialogData = { title: 'title', description: 'description' };
 
-  const dialogRef = {};
+  const dialogRef = {
+    open: jest.fn().mockReturnValue({ closed: of(true) })
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -28,5 +31,13 @@ describe('ConfirmationDialogComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('open', () => {
+    it('should open a dialog and pass data', () => {
+      const options = { title: 'title', description: 'description' };
+      ConfirmationDialogComponent.open(dialogRef, options);
+      expect(dialogRef.open).toHaveBeenCalledWith(ConfirmationDialogComponent, { data: options });
+    });
   });
 });
