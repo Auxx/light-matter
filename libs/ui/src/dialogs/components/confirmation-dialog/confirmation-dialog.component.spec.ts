@@ -1,4 +1,4 @@
-import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
+import { Dialog, DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
@@ -36,7 +36,7 @@ describe('ConfirmationDialogComponent', () => {
   describe('open', () => {
     it('should open a dialog and pass data', () => {
       const options = { title: 'title', description: 'description' };
-      ConfirmationDialogComponent.open(dialogRef, options);
+      ConfirmationDialogComponent.open(dialogRef as unknown as Dialog, options);
       expect(dialogRef.open).toHaveBeenCalledWith(ConfirmationDialogComponent, { data: options });
     });
   });
