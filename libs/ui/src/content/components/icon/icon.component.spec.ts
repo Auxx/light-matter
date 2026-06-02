@@ -47,4 +47,33 @@ describe('IconComponent', () => {
       expect(styles.getPropertyValue('--icon-size')).toBe('var(--icon-size-x-large)');
     });
   });
+
+  describe('variant', () => {
+    it('should set correct colour based on variant', () => {
+      const styles: CSSStyleDeclaration = fixture.debugElement.styles as unknown as CSSStyleDeclaration;
+
+      fixture.componentRef.setInput('variant', 'default');
+      fixture.detectChanges();
+      expect(styles.getPropertyValue('--color')).toBe('var(--color-content-default-highest)');
+
+      fixture.componentRef.setInput('variant', 'primary');
+      fixture.detectChanges();
+      expect(styles.getPropertyValue('--color')).toBe('var(--color-content-primary-highest)');
+
+      fixture.componentRef.setInput('variant', 'warn');
+      fixture.detectChanges();
+      expect(styles.getPropertyValue('--color')).toBe('var(--color-content-warn-highest)');
+    });
+  });
+
+  describe('inherit', () => {
+    it('should override colour', () => {
+      const styles: CSSStyleDeclaration = fixture.debugElement.styles as unknown as CSSStyleDeclaration;
+
+      fixture.componentRef.setInput('variant', 'default');
+      fixture.componentRef.setInput('inherit', true);
+      fixture.detectChanges();
+      expect(styles.getPropertyValue('--color')).toBe('currentColor');
+    });
+  });
 });
