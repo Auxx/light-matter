@@ -63,7 +63,7 @@ export class SliderComponent extends FormElementDirective<number> {
     this.currentValue.set(value);
   };
 
-  readonly onMouseDown = (event: MouseEvent) => {
+  protected readonly onMouseDown = (event: MouseEvent) => {
     if (event.target instanceof HTMLDivElement) {
       const track = this.trackRef()?.nativeElement;
 
