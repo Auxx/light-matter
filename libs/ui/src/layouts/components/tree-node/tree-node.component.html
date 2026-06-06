@@ -1,0 +1,17 @@
+@let currentNode = node();
+@let currentMenu = menu();
+
+<ui-icon [icon]="currentNode.closedIcon" class="prefix" />
+
+<ui-text>{{ currentNode.label }}</ui-text>
+
+<div class="spacer"></div>
+
+@if (currentMenu !== null) {
+  <ui-action-button class="action"
+                    [cdkMenuTriggerFor]="currentMenu"
+                    [cdkMenuTriggerData]="{ data: currentNode }"
+                    uiStopPropagation>
+    <ui-icon icon="moreVertical" [inherit]="true" />
+  </ui-action-button>
+}

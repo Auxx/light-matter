@@ -1,0 +1,5 @@
+@let nodeList = nodes();
+
+@for (node of nodeList; track node.id) {
+  <ui-tree-node [node]="node" [level]="0" />
+}

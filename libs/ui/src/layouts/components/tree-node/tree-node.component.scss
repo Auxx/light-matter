@@ -1,0 +1,36 @@
+:host {
+  display: flex;
+  align-items: center;
+  gap: var(--dim-medium);
+
+  height: calc(var(--dim-medium) * 4);
+  margin: 0;
+  padding: 0 var(--dim-medium) 0 var(--level-offset);
+
+  font-size: var(--text-font-size);
+  border-radius: calc(var(--border-radius-large) - 1px);
+  cursor: pointer;
+
+  transition: background-color 250ms ease-in-out;
+
+  &.root {
+    font-weight: bold;
+    cursor: default;
+  }
+
+  &:hover {
+    background-color: var(--color-surface-default-high);
+  }
+
+  &.selected {
+    background-color: var(--color-surface-default-highest);
+  }
+}
+
+.prefix {
+  flex-shrink: 0;
+}
+
+.action {
+  flex-shrink: 0;
+}

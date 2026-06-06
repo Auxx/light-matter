@@ -23,6 +23,7 @@
   "folder": "@fluentui/svg-icons/icons/folder_16_regular.svg",
   "folderAddFilled": "@fluentui/svg-icons/icons/folder_add_16_filled.svg",
   "folderAdd": "@fluentui/svg-icons/icons/folder_add_16_regular.svg",
+  "folderOpen": "@fluentui/svg-icons/icons/folder_open_16_regular.svg",
   "folderProhibitedFilled": "@fluentui/svg-icons/icons/folder_prohibited_16_filled.svg",
   "folderProhibited": "@fluentui/svg-icons/icons/folder_prohibited_16_regular.svg",
   "fullScreenMaximize": "@fluentui/svg-icons/icons/full_screen_maximize_16_regular.svg",

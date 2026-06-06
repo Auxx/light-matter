@@ -1,15 +1,14 @@
 import { CdkMenuTrigger } from '@angular/cdk/menu';
 import { ChangeDetectionStrategy, Component, input, output, TemplateRef } from '@angular/core';
-import { ActionButtonComponent, IconComponent, IconName } from '@light-matter/ui';
-import { StopPropagation } from '../../../ui/directives/stop-propagation/stop-propagation';
+import { ActionButtonComponent, IconComponent, IconName, StopPropagation } from '@light-matter/ui';
 
 @Component({
   selector: 'app-location-element',
   imports: [
-    StopPropagation,
     IconComponent,
     ActionButtonComponent,
-    CdkMenuTrigger
+    CdkMenuTrigger,
+    StopPropagation
   ],
   templateUrl: './location-element.component.html',
   styleUrl: './location-element.component.scss',
