@@ -22,6 +22,7 @@ import { folderFilled } from './folder_16_filled';
 import { folder } from './folder_16_regular';
 import { folderAddFilled } from './folder_add_16_filled';
 import { folderAdd } from './folder_add_16_regular';
+import { folderOpen } from './folder_open_16_regular';
 import { folderProhibitedFilled } from './folder_prohibited_16_filled';
 import { folderProhibited } from './folder_prohibited_16_regular';
 import { fullScreenMaximize } from './full_screen_maximize_16_regular';
@@ -66,6 +67,7 @@ export const allIcons = [
   'folder',
   'folderAddFilled',
   'folderAdd',
+  'folderOpen',
   'folderProhibitedFilled',
   'folderProhibited',
   'fullScreenMaximize',
@@ -113,6 +115,7 @@ export const iconMapping: Record<IconName, string> = {
   folder,
   folderAddFilled,
   folderAdd,
+  folderOpen,
   folderProhibitedFilled,
   folderProhibited,
   fullScreenMaximize,
