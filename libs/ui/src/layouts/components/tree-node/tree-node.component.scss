@@ -19,11 +19,11 @@
   }
 
   &:hover {
-    background-color: var(--color-surface-default-high);
+    background-color: var(--color-surface-default-highest);
   }
 
   &.selected {
-    background-color: var(--color-surface-default-highest);
+    background-color: var(--color-surface-default-high);
   }
 }
 

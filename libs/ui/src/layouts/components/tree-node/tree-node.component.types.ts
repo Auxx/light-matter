@@ -9,5 +9,6 @@ export interface TreeNode<T> {
   children?: TreeNode<T>[];
   isOpen?: boolean;
   isSelected?: boolean;
-  loader?: (node: TreeNode<T>) => Promise<TreeNode<T>[] | undefined>;
+  isLoading?: boolean;
+  // loader?: (node: TreeNode<T>) => Promise<TreeNode<T>[] | undefined>;
 }

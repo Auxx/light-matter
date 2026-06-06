@@ -27,40 +27,52 @@ type Story = StoryObj<TreeComponent<string>>;
 
 export const Primary: Story = {
   render: props => {
-    const nodes: TreeNode<string>[] = [
-      {
-        id: '/',
-        label: 'My PC',
-        openIcon: 'desktop',
-        closedIcon: 'desktop',
-        isOpen: true,
-        children: [
-          {
-            id: '/pictures',
-            label: 'Pictures',
-            openIcon: 'folderOpen',
-            closedIcon: 'folder'
-          },
-          {
-            id: '/camera',
-            label: 'Camera',
-            openIcon: 'folderOpen',
-            closedIcon: 'folder'
-          },
-          {
-            id: '/blackmagic-camera',
-            label: 'Blackmagic Camera',
-            openIcon: 'folderOpen',
-            closedIcon: 'folder'
-          }
-        ]
-      }
-    ];
+    const root: TreeNode<string> = {
+      id: '/',
+      label: 'My PC',
+      openIcon: 'desktop',
+      closedIcon: 'desktop',
+      isOpen: true,
+      children: [
+        {
+          id: '/pictures',
+          label: 'Pictures',
+          openIcon: 'folderOpen',
+          closedIcon: 'folder',
+          children: [
+            {
+              id: '/pictures/2025',
+              label: '2025',
+              openIcon: 'folderOpen',
+              closedIcon: 'folder'
+            },
+            {
+              id: '/pictures/2026',
+              label: '2026',
+              openIcon: 'folderOpen',
+              closedIcon: 'folder'
+            }
+          ]
+        },
+        {
+          id: '/camera',
+          label: 'Camera',
+          openIcon: 'folderOpen',
+          closedIcon: 'folder'
+        },
+        {
+          id: '/blackmagic-camera',
+          label: 'Blackmagic Camera',
+          openIcon: 'folderOpen',
+          closedIcon: 'folder'
+        }
+      ]
+    };
 
     return {
-      props: { ...props, nodes },
+      props: { ...props, root },
       template: `
-      <ui-tree [nodes]="nodes" />`
+      <ui-tree [root]="root" [enableLoading]="true" />`
     };
   }
 };
