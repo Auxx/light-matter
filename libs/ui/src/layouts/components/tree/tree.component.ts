@@ -1,5 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, effect, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, input, output, signal, TemplateRef } from '@angular/core';
 import { TreeNodeComponent } from '../tree-node/tree-node.component';
 import { TreeNode } from '../tree-node/tree-node.component.types';
 import { TreeLoadRequest } from './tree.component.types';
@@ -18,6 +18,8 @@ export class TreeComponent<T> {
   readonly root = input.required<TreeNode<T>>();
 
   readonly enableLoading = input(false);
+
+  readonly menu = input<TemplateRef<unknown> | null>(null);
 
   readonly selected = output<TreeNode<T>>();
 

@@ -1,9 +1,11 @@
 @let rootNode = treeRoot();
+@let menuRef = menu();
 
 @if (rootNode !== null) {
   <ng-template #nodeTemplate let-node="node" let-level="level">
     <ui-tree-node [node]="node"
                   [level]="level"
+                  [menu]="menuRef"
                   (pressed)="nodeSelected($event)" />
 
     @if (node.children !== undefined && node.children.length > 0 && node.isOpen) {

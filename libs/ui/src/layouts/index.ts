@@ -3,4 +3,6 @@ export * from './components/side-panel/side-panel.component';
 export * from './components/tool-menu/tool-menu.component';
 export * from './components/toolbar/toolbar.component';
 export * from './components/tree-node/tree-node.component';
+export * from './components/tree-node/tree-node.component.types';
 export * from './components/tree/tree.component';
+export * from './components/tree/tree.component.types';

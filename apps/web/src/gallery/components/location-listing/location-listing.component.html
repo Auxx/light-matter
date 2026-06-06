@@ -1,20 +1,22 @@
-<app-location-element icon="desktop"
-                      [level]="0"
-                      [menu]="rootMenu"
-                      [selected]="false">
-  <ui-text [important]="true">My PC</ui-text>
-</app-location-element>
+<ui-tree [root]="root()"
+         [menu]="complexMenu"
+         (selected)="this.locationClicked.emit($event.id)" />
 
-<app-location-section [locations]="locations()"
-                      [selectedLocation]="selectedLocation()"
-                      (clicked)="this.locationClicked.emit($event)" />
-
-<ng-template #rootMenu>
+<ng-template #complexMenu let-data="data">
   <ui-popup-menu cdkMenu>
-    <ui-action-button cdkMenuItem
-                      (pressed)="onAddLocation()">
-      <ui-icon icon="folderAdd" [inherit]="true" />
-      <ui-text [inherit]="true">Add new location</ui-text>
-    </ui-action-button>
+    @if (data.id === '') {
+      <ui-action-button cdkMenuItem
+                        (pressed)="onAddLocation()">
+        <ui-icon icon="folderAdd" [inherit]="true" />
+        <ui-text [inherit]="true">Add new location</ui-text>
+      </ui-action-button>
+    } @else {
+      <ui-action-button cdkMenuItem
+                        variant="warn"
+                        (pressed)="onRemoveLocation(data)">
+        <ui-icon icon="folderProhibited" [inherit]="true" />
+        <ui-text [inherit]="true">Remove</ui-text>
+      </ui-action-button>
+    }
   </ui-popup-menu>
 </ng-template>

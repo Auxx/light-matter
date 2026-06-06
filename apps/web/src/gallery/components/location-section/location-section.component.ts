@@ -12,6 +12,7 @@ import { LocationNamePipe } from '../../../ui/pipes/location-name/location-name.
 import { GalleryLocations } from '../../services/gallery-locations/gallery-locations';
 import { LocationElementComponent } from '../location-element/location-element.component';
 
+// TODO Deprecated
 @Component({
   selector: 'app-location-section',
   imports: [
