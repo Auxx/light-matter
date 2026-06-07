@@ -2,6 +2,7 @@ import { Dialog } from '@angular/cdk/dialog';
 import { CdkMenu, CdkMenuItem } from '@angular/cdk/menu';
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   ActionButtonComponent,
   ConfirmationDialogComponent,
@@ -14,11 +15,13 @@ import {
   TreeNode
 } from '@light-matter/ui';
 import { FileInfo } from 'internal-api';
+import { take } from 'rxjs';
 import { ImageGridComponent } from '../../../gallery/components/image-grid/image-grid.component';
 import { GalleryLocations } from '../../../gallery/services/gallery-locations/gallery-locations';
 import { GalleryState } from '../../../gallery/services/gallery-state/gallery-state';
 import { treeNode } from '../../../gallery/services/gallery-state/gallery-state.types';
 import { Dialogs } from '../../../ipc/dialogs';
+import { ViewNavigator } from '../../../viewer/services/view-navigator/view-navigator';
 
 @Component({
   selector: 'app-gallery',
@@ -39,6 +42,7 @@ import { Dialogs } from '../../../ipc/dialogs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GalleryPage {
+  /* DI */
   private readonly galleryState = inject(GalleryState);
 
   private readonly dialogs = inject(Dialogs);
@@ -47,10 +51,20 @@ export class GalleryPage {
 
   private readonly galleryLocations = inject(GalleryLocations);
 
+  readonly router = inject(Router);
+
+  readonly viewNavigator = inject(ViewNavigator);
+
   protected readonly tree = viewChild.required(TreeComponent);
 
+  /* State */
   readonly galleryRoot$ = this.galleryState.galleryRoot();
 
+  readonly selectedLocation$ = this.galleryState.selectedLocation();
+
+  readonly images$ = this.galleryState.images();
+
+  /* Event handlers */
   protected readonly onAddLocation = async () => {
     const result = await this.dialogs.openFolder();
 
@@ -81,17 +95,13 @@ export class GalleryPage {
     this.tree().updateNode(node);
   };
 
-  // OLD
+  protected readonly selectLocation = (node: TreeNode<string>) => this.galleryState.navigateTo(node.id);
 
-  readonly selectedLocation = this.galleryState.selectedLocation;
-
-  readonly selectedPath = this.galleryState.selectedPath;
-
-  readonly contents = this.galleryState.contents;
-
-  readonly onLocationSelected = (location: string) => this.selectedLocation.set(location);
-
-  readonly onFolderPush = (item: FileInfo) => this.selectedPath.update(path => path.concat(item.path));
-
-  readonly onFolderPop = () => this.selectedPath.update(path => path.toSpliced(-1));
+  protected readonly onImageSelected = (file: FileInfo) =>
+    this.images$
+      .pipe(take(1))
+      .subscribe(images => {
+        this.viewNavigator.setFiles(images.map(image => image.path), file.path);
+        this.router.navigate([ '/view' ]).then();
+      });
 }
