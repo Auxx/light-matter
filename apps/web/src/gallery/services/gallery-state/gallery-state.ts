@@ -49,7 +49,6 @@ export class GalleryState {
   readonly selectedLocation = () => this.selectedLocation$.asObservable();
 
   /* Modifiers */
-  // TODO Add better error handling
   readonly navigateTo = async (path: string) => {
     this.selectedLocation$.next(path);
 
