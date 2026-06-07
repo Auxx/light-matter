@@ -49,6 +49,7 @@ import { ViewNavigator } from '../../services/view-navigator/view-navigator';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ImageView {
+  /* DI */
   protected readonly viewNavigator = inject(ViewNavigator);
 
   private readonly router = inject(Router);
@@ -61,6 +62,7 @@ export class ImageView {
 
   private readonly imagePositioningService = inject(ImagePositioningService);
 
+  /* State */
   readonly state$ = this.viewNavigator.state()
     .pipe(tap(state => !state.isValid ? this.router.navigate([ 'welcome' ]) : noop()));
 
@@ -94,7 +96,8 @@ export class ImageView {
       .subscribe(value => this.imagePositioningService.setZoom(value / 100));
   }
 
-  readonly toggleFullScreen = async () => {
+  /* Event handlers */
+  protected readonly toggleFullScreen = async () => {
     if (this.document.fullscreenElement !== null) {
       await this.document.exitFullscreen();
     } else {
@@ -102,7 +105,7 @@ export class ImageView {
     }
   };
 
-  readonly fitToWindow = () => this.imagePositioningService.setZoom('fit');
+  protected readonly fitToWindow = () => this.imagePositioningService.setZoom('fit');
 
   protected readonly toggleExifInfo = async (path: string) => {
     this.exifState.set(false);
@@ -131,7 +134,8 @@ export class ImageView {
     this.viewNavigator.next();
   };
 
-  private readonly trackKeyboard = () => {
+  /* Misc */
+  private readonly trackKeyboard = () =>
     this.keyboard.keyup()
       .pipe(takeUntilDestroyed())
       .subscribe(event => {
@@ -155,5 +159,4 @@ export class ImageView {
             break;
         }
       });
-  };
 }
