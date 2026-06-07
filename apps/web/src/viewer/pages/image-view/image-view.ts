@@ -87,6 +87,7 @@ export class ImageView {
       )
   );
 
+  /* Constructor */
   constructor() {
     this.trackKeyboard();
 
