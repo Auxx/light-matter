@@ -1,5 +1,7 @@
 <ui-tree [root]="root()"
          [menu]="complexMenu"
+         [enableLoading]="true"
+         (loadRequested)="loadTreeNode($event)"
          (selected)="this.locationClicked.emit($event.id)" />
 
 <ng-template #complexMenu let-data="data">

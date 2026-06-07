@@ -1,6 +1,4 @@
 @let path = selectedPath();
-@let folderList = folders();
-@let foldersVisible = showFolders();
 
 <ui-toolbar>
   @if (path.length > 1) {
@@ -16,36 +14,8 @@
       {{ path[ path.length - 1 ] }}
     }
   </ui-title>
-
-  @if (folderList.length > 0) {
-    <aside>
-      <ui-caption>
-        @if (foldersVisible) {
-          Hide sub-folders
-        } @else {
-          Show sub-folders
-        }
-      </ui-caption>
-
-      <ui-action-button (pressed)="toggleFolders()">
-        <ui-icon icon="chevronDown"
-                 size="medium"
-                 [inherit]="true"
-                 [class.show-folders]="foldersVisible" />
-      </ui-action-button>
-    </aside>
-  }
 </ui-toolbar>
 
 <div class="wrapper">
-  @if (folderList.length > 0) {
-    <div class="expander" [class.show-folders]="foldersVisible">
-      <div class="expander-wrapper">
-        <app-folders [contents]="folderList"
-                     (clicked)="folderPushed.emit($event)" />
-      </div>
-    </div>
-  }
-
   <app-images [contents]="files()" />
 </div>

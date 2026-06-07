@@ -16,7 +16,12 @@ export interface Desktop {
     readDir: (path: string) => Promise<FileInfo[]>;
     readJson: <T>(path: string) => Promise<ApiResponse<T>>;
     writeJson: <T>(path: string, data: T) => Promise<ApiResponse<undefined>>;
+    /**
+     * @deprecated Use readDirectories() and readImages() instead
+     */
     readGalleryLocation: (path: string) => Promise<ApiResponse<FileInfo[]>>;
+    readDirectories: (path: string) => Promise<ApiResponse<FileInfo[]>>;
+    readImages: (path: string) => Promise<ApiResponse<FileInfo[]>>;
   };
 
   Dialogs: {

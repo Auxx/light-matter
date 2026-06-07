@@ -34,9 +34,4 @@ ui-toolbar {
   .expander-wrapper {
     overflow: hidden;
   }
-
-  &.show-folders {
-    opacity: 1;
-    grid-template-rows: 1fr;
-  }
 }

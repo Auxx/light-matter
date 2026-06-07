@@ -15,7 +15,9 @@ const api: Desktop = {
     readDir: (path: string) => ipcRenderer.invoke('FileSystem.readDir', path),
     readJson: (path: string) => ipcRenderer.invoke('FileSystem.readJson', path),
     writeJson: <T>(path: string, data: T) => ipcRenderer.invoke('FileSystem.writeJson', path, data),
-    readGalleryLocation: (path: string) => ipcRenderer.invoke('FileSystem.readGalleryLocation', path)
+    readGalleryLocation: (path: string) => ipcRenderer.invoke('FileSystem.readGalleryLocation', path),
+    readDirectories: (path: string) => ipcRenderer.invoke('FileSystem.readDirectories', path),
+    readImages: (path: string) => ipcRenderer.invoke('FileSystem.readImages', path)
   },
 
   Dialogs: {

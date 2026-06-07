@@ -7,7 +7,7 @@
 
 <div class="spacer"></div>
 
-@if (currentMenu !== null) {
+@if (currentMenu !== null && currentNode.hideMenu !== true) {
   <ui-action-button class="action"
                     [cdkMenuTriggerFor]="currentMenu"
                     [cdkMenuTriggerData]="{ data: currentNode }"

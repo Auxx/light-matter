@@ -1,26 +1,17 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
-import {
-  ActionButtonComponent,
-  CaptionComponent,
-  IconComponent,
-  TitleComponent,
-  ToolbarComponent
-} from '@light-matter/ui';
+import { ActionButtonComponent, IconComponent, TitleComponent, ToolbarComponent } from '@light-matter/ui';
 import { FileInfo } from 'internal-api';
 import { GalleryState } from '../../services/gallery-state/gallery-state';
-import { FoldersComponent } from '../folders/folders.component';
 import { ImagesComponent } from '../images/images.component';
 
 @Component({
   selector: 'app-image-grid',
   imports: [
-    FoldersComponent,
     ImagesComponent,
     IconComponent,
     ActionButtonComponent,
     ToolbarComponent,
-    TitleComponent,
-    CaptionComponent
+    TitleComponent
   ],
   templateUrl: './image-grid.component.html',
   styleUrl: './image-grid.component.scss',
@@ -37,13 +28,7 @@ export class ImageGridComponent {
 
   readonly files = computed(() => this.contents().filter(file => !file.isDirectory));
 
-  readonly showFolders = this.galleryState.showFolders;
-
   readonly folderPushed = output<FileInfo>();
 
   readonly folderPopped = output();
-
-  readonly toggleFolders = () => {
-    this.showFolders.update(current => !current);
-  };
 }

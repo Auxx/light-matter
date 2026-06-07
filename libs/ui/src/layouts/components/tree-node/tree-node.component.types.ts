@@ -10,5 +10,5 @@ export interface TreeNode<T> {
   isOpen?: boolean;
   isSelected?: boolean;
   isLoading?: boolean;
-  // loader?: (node: TreeNode<T>) => Promise<TreeNode<T>[] | undefined>;
+  hideMenu?: boolean;
 }

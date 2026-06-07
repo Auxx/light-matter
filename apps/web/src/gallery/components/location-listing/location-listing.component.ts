@@ -8,12 +8,16 @@ import {
   PopupMenuComponent,
   TextComponent,
   TreeComponent,
+  TreeLoadRequest,
   TreeNode
 } from '@light-matter/ui';
 import { Dialogs } from '../../../ipc/dialogs';
 import { LocationNamePipe } from '../../../ui/pipes/location-name/location-name.pipe';
 import { GalleryLocations } from '../../services/gallery-locations/gallery-locations';
 
+/**
+ * @deprecated
+ */
 @Component({
   selector: 'app-location-listing',
   imports: [
@@ -63,7 +67,11 @@ export class LocationListingComponent {
     return result;
   });
 
-  readonly onAddLocation = async () => {
+  protected readonly loadTreeNode = (data: TreeLoadRequest<string>) => {
+    console.log(data);
+  };
+
+  protected readonly onAddLocation = async () => {
     const result = await this.dialogs.openFolder();
 
     if (result.success) {
@@ -71,7 +79,7 @@ export class LocationListingComponent {
     }
   };
 
-  readonly onRemoveLocation = async (data: TreeNode<string>) =>
+  protected readonly onRemoveLocation = async (data: TreeNode<string>) =>
     ConfirmationDialogComponent
       .open(
         this.dialog,

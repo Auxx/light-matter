@@ -12,4 +12,8 @@ export class FileSystem {
   readonly writeJson = async <T>(path: string, data: T) => window.desktop.FileSystem.writeJson(path, data);
 
   readonly readGalleryLocation = async (path: string) => window.desktop.FileSystem.readGalleryLocation(path);
+
+  readonly readDirectories = async (path: string) => window.desktop.FileSystem.readDirectories(path);
+
+  readonly readImages = async (path: string) => window.desktop.FileSystem.readImages(path);
 }

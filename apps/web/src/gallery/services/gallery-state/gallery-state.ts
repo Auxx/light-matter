@@ -1,8 +1,11 @@
 import { computed, effect, inject, Injectable, resource, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { filter } from 'rxjs';
+import { TreeNode } from '@light-matter/ui';
+import { FileInfo } from 'internal-api';
+import { BehaviorSubject, filter, map, Observable, startWith } from 'rxjs';
 import { FileSystem } from '../../../ipc/file-system';
 import { GalleryLocations } from '../gallery-locations/gallery-locations';
+import { galleryRoot, treeNode } from './gallery-state.types';
 
 @Injectable({ providedIn: 'root' })
 export class GalleryState {
@@ -10,9 +13,35 @@ export class GalleryState {
 
   private readonly fileSystem = inject(FileSystem);
 
-  readonly locations$ = this.galleryLocations.locations();
+  private readonly locations$ = this.galleryLocations.locations();
 
-  readonly showFolders = signal(false);
+  private readonly images$ = new BehaviorSubject<FileInfo[]>([]);
+
+  private readonly galleryRoot$: Observable<TreeNode<string>> = this.locations$
+    .pipe(
+      startWith([]),
+      map(locations => {
+        const root = galleryRoot();
+        root.children = locations.map(location => treeNode(location, false));
+        return root;
+      })
+    );
+
+  // TODO Add better error handling
+  readonly navigateTo = async (path: string) => {
+    const response = await this.fileSystem.readImages(path);
+    this.images$.next(response.success ? response.data : []);
+  };
+
+  readonly locations = () => this.locations$;
+
+  readonly images = () => this.images$;
+
+  readonly galleryRoot = () => this.galleryRoot$;
+
+  readonly getDirContents = async (path: string) => await this.fileSystem.readDirectories(path);
+
+  // OLD
 
   readonly selectedLocation = signal<string | null>(null);
 

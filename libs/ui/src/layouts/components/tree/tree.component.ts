@@ -31,6 +31,28 @@ export class TreeComponent<T> {
     effect(() => this.treeRoot.set(this.root()));
   }
 
+  readonly updateNode = (node: TreeNode<T>) => {
+    const root = structuredClone(this.treeRoot());
+
+    if (root === null) {
+      return;
+    }
+
+    const target = this.findTreeNode([ root ], node.id);
+
+    if (target === null) {
+      return;
+    }
+
+    target.isLoading = false;
+    target.isOpen = true;
+    target.label = node.label;
+    target.closedIcon = node.closedIcon;
+    target.openIcon = node.openIcon;
+    target.children = node.children;
+    this.treeRoot.set(root);
+  };
+
   protected readonly nodeSelected = (node: TreeNode<T>) => {
     const root = structuredClone(this.treeRoot());
 
