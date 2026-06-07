@@ -7,6 +7,7 @@ import {
   ActionButtonComponent,
   ConfirmationDialogComponent,
   IconComponent,
+  OverlayService,
   PopupMenuComponent,
   SidePanelComponent,
   TextComponent,
@@ -15,12 +16,12 @@ import {
   TreeNode
 } from '@light-matter/ui';
 import { FileInfo } from 'internal-api';
-import { take } from 'rxjs';
 import { ImageGridComponent } from '../../../gallery/components/image-grid/image-grid.component';
 import { GalleryLocations } from '../../../gallery/services/gallery-locations/gallery-locations';
 import { GalleryState } from '../../../gallery/services/gallery-state/gallery-state';
 import { treeNode } from '../../../gallery/services/gallery-state/gallery-state.types';
 import { Dialogs } from '../../../ipc/dialogs';
+import { ImageView } from '../../../viewer/pages/image-view/image-view';
 import { ViewNavigator } from '../../../viewer/services/view-navigator/view-navigator';
 
 @Component({
@@ -54,6 +55,8 @@ export class GalleryPage {
   readonly router = inject(Router);
 
   readonly viewNavigator = inject(ViewNavigator);
+
+  readonly overlayService = inject(OverlayService);
 
   protected readonly tree = viewChild.required(TreeComponent);
 
@@ -97,11 +100,19 @@ export class GalleryPage {
 
   protected readonly selectLocation = (node: TreeNode<string>) => this.galleryState.navigateTo(node.id);
 
-  protected readonly onImageSelected = (file: FileInfo) =>
-    this.images$
-      .pipe(take(1))
-      .subscribe(images => {
-        this.viewNavigator.setFiles(images.map(image => image.path), file.path);
-        this.router.navigate([ '/view' ]).then();
+  protected readonly onImageSelected = (file: FileInfo) => {
+    this.viewNavigator
+      .selectImage(file.path)
+      .subscribe(success => {
+        console.log('onImageSelected -> selectImage', success);
+        this.overlayService.show(ImageView);
       });
+
+    // this.images$
+    //   .pipe(take(1))
+    //   .subscribe(images => {
+    //     this.viewNavigator.setFiles(images.map(image => image.path), file.path);
+    //     this.router.navigate([ '/view' ]).then();
+    //   });
+  };
 }

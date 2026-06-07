@@ -1,0 +1,12 @@
+@let visible = isVisible();
+@let portalRef = portal();
+
+@if (visible) {
+  <div class="overlay"
+       animate.enter="enter-animation"
+       animate.leave="leave-animation">
+    @if(portalRef!==null) {
+      <ng-template [cdkPortalOutlet]="portalRef"/>
+    }
+  </div>
+}

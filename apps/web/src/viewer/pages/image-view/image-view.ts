@@ -63,6 +63,13 @@ export class ImageView {
   private readonly imagePositioningService = inject(ImagePositioningService);
 
   /* State */
+  protected readonly selectedImage$ = this.viewNavigator.selectedImage();
+
+  protected readonly hasPrevious$ = this.viewNavigator.hasPrevious();
+
+  protected readonly hasNext$ = this.viewNavigator.hasNext();
+
+  // OLD
   readonly state$ = this.viewNavigator.state()
     .pipe(tap(state => !state.isValid ? this.router.navigate([ 'welcome' ]) : noop()));
 

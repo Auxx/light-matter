@@ -1,3 +1,4 @@
+export * from './components/overlay/overlay.component';
 export * from './components/popup-menu/popup-menu.component';
 export * from './components/side-panel/side-panel.component';
 export * from './components/tool-menu/tool-menu.component';
@@ -6,3 +7,4 @@ export * from './components/tree-node/tree-node.component';
 export * from './components/tree-node/tree-node.component.types';
 export * from './components/tree/tree.component';
 export * from './components/tree/tree.component.types';
+export * from './services/overlay/overlay.service';

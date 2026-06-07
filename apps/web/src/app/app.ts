@@ -1,9 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { OverlayComponent } from '@light-matter/ui';
 
 @Component({
-  imports: [ RouterModule ],
+  imports: [ RouterModule, OverlayComponent ],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.scss'

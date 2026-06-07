@@ -1,3 +1,8 @@
+export interface SelectedImage {
+  path: string;
+  url: string;
+}
+
 export interface ViewNavigatorValidState {
   isValid: true;
   selectedFile: string;
