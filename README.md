@@ -2,6 +2,12 @@
 
 A simple image viewer with HDR photo support for Windows (support for Linux and macOS is coming soon).
 
+## Installation
+
+The preferred way to install Light Matter is from [Microsoft Store](https://apps.microsoft.com/detail/9P96SPR78HM8).
+
+You can alternatively download an unsigned EXE installer from [GitHub Release](https://github.com/Auxx/light-matter/releases) page.
+
 ## Features
 
 - SDR image rendering;
