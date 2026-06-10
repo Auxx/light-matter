@@ -130,13 +130,13 @@ export class ImageView {
   protected readonly prevPhoto = () => {
     this.exifVisible.set(false);
     this.exifState.set(false);
-    this.viewNavigator.goPrevious();
+    this.viewNavigator.previous();
   };
 
   protected readonly nextPhoto = () => {
     this.exifVisible.set(false);
     this.exifState.set(false);
-    this.viewNavigator.goNext();
+    this.viewNavigator.next();
   };
 
   /* Misc */
