@@ -100,19 +100,8 @@ export class GalleryPage {
 
   protected readonly selectLocation = (node: TreeNode<string>) => this.galleryState.navigateTo(node.id);
 
-  protected readonly onImageSelected = (file: FileInfo) => {
+  protected readonly onImageSelected = (file: FileInfo) =>
     this.viewNavigator
       .selectImage(file.path)
-      .subscribe(success => {
-        console.log('onImageSelected -> selectImage', success);
-        this.overlayService.show(ImageView);
-      });
-
-    // this.images$
-    //   .pipe(take(1))
-    //   .subscribe(images => {
-    //     this.viewNavigator.setFiles(images.map(image => image.path), file.path);
-    //     this.router.navigate([ '/view' ]).then();
-    //   });
-  };
+      .subscribe(() => this.overlayService.show(ImageView));
 }
