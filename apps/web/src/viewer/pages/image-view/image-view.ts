@@ -2,17 +2,17 @@ import { AsyncPipe, DecimalPipe, DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
 import {
   ActionButtonComponent,
   IconComponent,
   InfoOverlayComponent,
+  OverlayService,
   SliderComponent,
   TextComponent,
   ToolMenuComponent
 } from '@light-matter/ui';
 import { ExifTags } from 'internal-api';
-import { fromEvent, map, noop, startWith, tap } from 'rxjs';
+import { fromEvent, map, startWith } from 'rxjs';
 import { ExifService } from '../../../ipc/exif';
 import { VerticalDivider } from '../../../system/components/vertical-divider/vertical-divider';
 import { DefaultPipe } from '../../../system/pipes/default/default.pipe';
@@ -34,7 +34,6 @@ import { ViewNavigator } from '../../services/view-navigator/view-navigator';
     ToolMenuComponent,
     ActionButtonComponent,
     IconComponent,
-    RouterLink,
     VerticalDivider,
     TextComponent,
     FileNamePipe,
@@ -52,8 +51,6 @@ export class ImageView {
   /* DI */
   protected readonly viewNavigator = inject(ViewNavigator);
 
-  private readonly router = inject(Router);
-
   private readonly keyboard = inject(Keyboard);
 
   private readonly document = inject(DOCUMENT);
@@ -62,16 +59,14 @@ export class ImageView {
 
   private readonly imagePositioningService = inject(ImagePositioningService);
 
+  private readonly overlayService = inject(OverlayService);
+
   /* State */
   protected readonly selectedImage$ = this.viewNavigator.selectedImage();
 
   protected readonly hasPrevious$ = this.viewNavigator.hasPrevious();
 
   protected readonly hasNext$ = this.viewNavigator.hasNext();
-
-  // OLD
-  readonly state$ = this.viewNavigator.state()
-    .pipe(tap(state => !state.isValid ? this.router.navigate([ 'welcome' ]) : noop()));
 
   protected readonly imageLocation$ = this.imagePositioningService.imageLocation();
 
@@ -113,6 +108,8 @@ export class ImageView {
     }
   };
 
+  protected readonly goBack = () => this.overlayService.hide();
+
   protected readonly fitToWindow = () => this.imagePositioningService.setZoom('fit');
 
   protected readonly toggleExifInfo = async (path: string) => {
@@ -133,13 +130,13 @@ export class ImageView {
   protected readonly prevPhoto = () => {
     this.exifVisible.set(false);
     this.exifState.set(false);
-    this.viewNavigator.prev();
+    this.viewNavigator.goPrevious();
   };
 
   protected readonly nextPhoto = () => {
     this.exifVisible.set(false);
     this.exifState.set(false);
-    this.viewNavigator.next();
+    this.viewNavigator.goNext();
   };
 
   /* Misc */

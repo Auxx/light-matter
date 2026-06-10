@@ -1,217 +1,215 @@
-@let state = state$ | async;
+@let selected = selectedImage$ | async;
+@let hasPrevious = hasPrevious$ | async;
+@let hasNext = hasNext$ | async;
 @let fullScreen = isFullScreen();
 @let dimensions = imageDimensions();
 @let exif = exifState();
 @let location = imageLocation$ | async | default:defaultImageLocation;
 
-@if (state) {
-  @if (state.isValid) {
-    @if (!fullScreen) {
-      <ui-tool-menu>
-        <section></section>
-        <section>
-          <ui-text [title]="state.selectedFile | fileName">
-            {{ state.selectedFile | fileName }}
-          </ui-text>
-        </section>
-        <section></section>
-      </ui-tool-menu>
-    }
+@if (selected !== null) {
+  @if (!fullScreen) {
+    <ui-tool-menu>
+      <section></section>
+      <section>
+        <ui-text [title]="selected.path | fileName">
+          {{ selected.path | fileName }}
+        </ui-text>
+      </section>
+      <section></section>
+    </ui-tool-menu>
+  }
 
-    <app-image-renderer [url]="state.selectedFileUrl"
-                        (dimensions)="imageDimensions.set($event)" />
+  <app-image-renderer [url]="selected.url"
+                      (dimensions)="imageDimensions.set($event)" />
 
-    @if (!fullScreen) {
-      <ui-tool-menu>
-        <section>
-          <ui-action-button title="EXIF Information"
-                            [compact]="true"
-                            [variant]="'default'"
-                            (pressed)="toggleExifInfo(state.selectedFile)">
-            <ui-icon icon="info"
-                     size="large"
-                     [inherit]="true" />
-          </ui-action-button>
+  @if (!fullScreen) {
+    <ui-tool-menu>
+      <section>
+        <ui-action-button title="EXIF Information"
+                          [compact]="true"
+                          [variant]="'default'"
+                          (pressed)="toggleExifInfo(selected.path)">
+          <ui-icon icon="info"
+                   size="large"
+                   [inherit]="true" />
+        </ui-action-button>
 
-          <app-vertical-divider />
+        <app-vertical-divider />
 
-          <ui-text class="no-shrink">
-            {{ dimensions.width }} x {{ dimensions.height }}
-          </ui-text>
-        </section>
+        <ui-text class="no-shrink">
+          {{ dimensions.width }} x {{ dimensions.height }}
+        </ui-text>
+      </section>
 
-        <section>
-          <ui-action-button title="Previous image (Left)"
-                            [compact]="true"
-                            [disabled]="state.prev === -1"
-                            (pressed)="prevPhoto()">
-            <ui-icon icon="chevronLeft"
-                     size="large"
-                     [inherit]="true" />
-          </ui-action-button>
+      <section>
+        <ui-action-button title="Previous image (Left)"
+                          [compact]="true"
+                          [disabled]="hasPrevious !== true"
+                          (pressed)="prevPhoto()">
+          <ui-icon icon="chevronLeft"
+                   size="large"
+                   [inherit]="true" />
+        </ui-action-button>
 
-          <ui-action-button title="Back to Dashboard"
-                            [compact]="true"
-                            routerLink="/welcome">
-            <ui-icon icon="dismissCircle"
-                     size="large"
-                     [inherit]="true" />
-          </ui-action-button>
+        <ui-action-button title="Back to Dashboard"
+                          [compact]="true"
+                          (pressed)="goBack()">
+          <ui-icon icon="dismissCircle"
+                   size="large"
+                   [inherit]="true" />
+        </ui-action-button>
 
-          <ui-action-button title="Next image (Right)"
-                            [compact]="true"
-                            [disabled]="state.next === -1"
-                            (pressed)="nextPhoto()">
-            <ui-icon icon="chevronRight"
-                     size="large"
-                     [inherit]="true" />
-          </ui-action-button>
-        </section>
+        <ui-action-button title="Next image (Right)"
+                          [compact]="true"
+                          [disabled]="hasNext !== true"
+                          (pressed)="nextPhoto()">
+          <ui-icon icon="chevronRight"
+                   size="large"
+                   [inherit]="true" />
+        </ui-action-button>
+      </section>
 
-        <section>
-          <ui-action-button title="Fit to window"
-                            [disabled]="location.zoom === 'fit'"
-                            (pressed)="fitToWindow()">
-            <ui-icon icon="scaleFit"
-                     size="large"
-                     [inherit]="true" />
-          </ui-action-button>
+      <section>
+        <ui-action-button title="Fit to window"
+                          [disabled]="location.zoom === 'fit'"
+                          (pressed)="fitToWindow()">
+          <ui-icon icon="scaleFit"
+                   size="large"
+                   [inherit]="true" />
+        </ui-action-button>
 
-          <ui-slider [formControl]="zoomSlider"
-                     [min]="1"
-                     [max]="800" />
+        <ui-slider [formControl]="zoomSlider"
+                   [min]="1"
+                   [max]="800" />
 
-          <ui-text class="no-shrink zoom-info">
-            @let zoomValue = location.zoom === 'fit' ? location.fitZoom : zoomSlider.value;
-            {{ zoomValue | number: '1.0-0' }}%
-          </ui-text>
+        <ui-text class="no-shrink zoom-info">
+          @let zoomValue = location.zoom === 'fit' ? location.fitZoom : zoomSlider.value;
+          {{ zoomValue | number: '1.0-0' }}%
+        </ui-text>
 
-          <app-vertical-divider />
+        <app-vertical-divider />
 
-          <ui-action-button title="Toggle full screen mode (F)"
-                            [compact]="true"
-                            [variant]="fullScreen ? 'primary' : 'default'"
-                            (pressed)="toggleFullScreen()">
-            <ui-icon icon="fullScreenMaximize"
-                     size="large"
-                     [inherit]="true" />
-          </ui-action-button>
-        </section>
-      </ui-tool-menu>
-    }
+        <ui-action-button title="Toggle full screen mode (F)"
+                          [compact]="true"
+                          [variant]="fullScreen ? 'primary' : 'default'"
+                          (pressed)="toggleFullScreen()">
+          <ui-icon icon="fullScreenMaximize"
+                   size="large"
+                   [inherit]="true" />
+        </ui-action-button>
+      </section>
+    </ui-tool-menu>
+  }
 
-    @if (exifVisible()) {
-      <ui-info-overlay>
-        <dl>
-          @if (exif === false) {
-            <dt>Loading...</dt>
-            <dd></dd>
-          } @else {
-            <dt>File name</dt>
-            <dd>{{ exif.FileName }}</dd>
-            <dt>File size</dt>
-            <dd>{{ exif.FileSize }}</dd>
-            <dt>Format</dt>
-            <dd>{{ exif.FileType }}</dd>
-            <dt>MIME type</dt>
-            <dd>{{ exif.MIMEType }}</dd>
-            <dt>Dimensions</dt>
-            <dd>{{ dimensions.width }} x {{ dimensions.height }}</dd>
+  @if (exifVisible()) {
+    <ui-info-overlay>
+      <dl>
+        @if (exif === false) {
+          <dt>Loading...</dt>
+          <dd></dd>
+        } @else {
+          <dt>File name</dt>
+          <dd>{{ exif.FileName }}</dd>
+          <dt>File size</dt>
+          <dd>{{ exif.FileSize }}</dd>
+          <dt>Format</dt>
+          <dd>{{ exif.FileType }}</dd>
+          <dt>MIME type</dt>
+          <dd>{{ exif.MIMEType }}</dd>
+          <dt>Dimensions</dt>
+          <dd>{{ dimensions.width }} x {{ dimensions.height }}</dd>
 
-            @if(exif.Comment !== undefined) {
-              <dt>Comment</dt>
-              <dd>{{ exif.Comment }}</dd>
-            }
-
-            @if(exif.ColorComponents !== undefined) {
-              <dt>Color components</dt>
-              <dd>{{ exif.ColorComponents }}</dd>
-            }
-
-            @if(exif.BitsPerSample !== undefined) {
-              <dt>Bits per sample</dt>
-              <dd>{{ exif.BitsPerSample }}</dd>
-            }
-
-            @if(exif.ImagePixelDepth !== undefined) {
-              <dt>Image pixel depth</dt>
-              <dd>{{ exif.ImagePixelDepth }}</dd>
-            }
-
-            @if(exif.ChromaFormat !== undefined) {
-              <dt>Chroma format</dt>
-              <dd>{{ exif.ChromaFormat }}</dd>
-            }
-
-            @if(exif.YCbCrSubSampling !== undefined) {
-              <dt>YCbCr sub sampling</dt>
-              <dd>{{ exif.YCbCrSubSampling }}</dd>
-            }
-
-            @if(exif.EncodingProcess !== undefined) {
-              <dt>Encoding process</dt>
-              <dd>{{ exif.EncodingProcess }}</dd>
-            }
-
-            @if(exif.ColorPrimaries !== undefined) {
-              <dt>Color primaries</dt>
-              <dd>{{ exif.ColorPrimaries }}</dd>
-            }
-
-            @if(exif.ProfileDescription !== undefined) {
-              <dt>Colour profile</dt>
-              <dd>{{ exif.ProfileDescription }}</dd>
-            }
-
-            @if(exif.ColorSpace !== undefined) {
-              <dt>Colour space</dt>
-              <dd>{{ exif.ColorSpace }}</dd>
-            }
-
-            @if(exif.GPSLatitude !== undefined && exif.GPSLongitude !== undefined) {
-              <dt>GPS coordinates</dt>
-              <dd>{{ exif.GPSLatitude }} {{ exif.GPSLongitude }}</dd>
-            }
-
-            @if(exif.Make !== undefined) {
-              <dt>Camera make</dt>
-              <dd>{{ exif.Make }}</dd>
-            }
-
-            @if(exif.Model !== undefined) {
-              <dt>Camera model</dt>
-              <dd>{{ exif.Model }}</dd>
-            }
-
-            @if(exif.LensID !== undefined) {
-              <dt>Lens</dt>
-              <dd>{{ exif.LensID }}</dd>
-            }
-
-            @if(exif.FocalLength !== undefined) {
-              <dt>Focal length</dt>
-              <dd>{{ exif.FocalLength }}</dd>
-            }
-
-            @if(exif.ApertureValue !== undefined) {
-              <dt>Aperture</dt>
-              <dd>{{ exif.ApertureValue }}</dd>
-            }
-
-            @if(exif.ShutterSpeedValue !== undefined) {
-              <dt>Shutter speed</dt>
-              <dd>{{ exif.ShutterSpeedValue }}</dd>
-            }
-
-            @if(exif.ISO !== undefined) {
-              <dt>ISO</dt>
-              <dd>{{ exif.ISO }}</dd>
-            }
+          @if (exif.Comment !== undefined) {
+            <dt>Comment</dt>
+            <dd>{{ exif.Comment }}</dd>
           }
-        </dl>
-      </ui-info-overlay>
-    }
-  } @else {
-    <div>Invalid state</div>
+
+          @if (exif.ColorComponents !== undefined) {
+            <dt>Color components</dt>
+            <dd>{{ exif.ColorComponents }}</dd>
+          }
+
+          @if (exif.BitsPerSample !== undefined) {
+            <dt>Bits per sample</dt>
+            <dd>{{ exif.BitsPerSample }}</dd>
+          }
+
+          @if (exif.ImagePixelDepth !== undefined) {
+            <dt>Image pixel depth</dt>
+            <dd>{{ exif.ImagePixelDepth }}</dd>
+          }
+
+          @if (exif.ChromaFormat !== undefined) {
+            <dt>Chroma format</dt>
+            <dd>{{ exif.ChromaFormat }}</dd>
+          }
+
+          @if (exif.YCbCrSubSampling !== undefined) {
+            <dt>YCbCr sub sampling</dt>
+            <dd>{{ exif.YCbCrSubSampling }}</dd>
+          }
+
+          @if (exif.EncodingProcess !== undefined) {
+            <dt>Encoding process</dt>
+            <dd>{{ exif.EncodingProcess }}</dd>
+          }
+
+          @if (exif.ColorPrimaries !== undefined) {
+            <dt>Color primaries</dt>
+            <dd>{{ exif.ColorPrimaries }}</dd>
+          }
+
+          @if (exif.ProfileDescription !== undefined) {
+            <dt>Colour profile</dt>
+            <dd>{{ exif.ProfileDescription }}</dd>
+          }
+
+          @if (exif.ColorSpace !== undefined) {
+            <dt>Colour space</dt>
+            <dd>{{ exif.ColorSpace }}</dd>
+          }
+
+          @if (exif.GPSLatitude !== undefined && exif.GPSLongitude !== undefined) {
+            <dt>GPS coordinates</dt>
+            <dd>{{ exif.GPSLatitude }} {{ exif.GPSLongitude }}</dd>
+          }
+
+          @if (exif.Make !== undefined) {
+            <dt>Camera make</dt>
+            <dd>{{ exif.Make }}</dd>
+          }
+
+          @if (exif.Model !== undefined) {
+            <dt>Camera model</dt>
+            <dd>{{ exif.Model }}</dd>
+          }
+
+          @if (exif.LensID !== undefined) {
+            <dt>Lens</dt>
+            <dd>{{ exif.LensID }}</dd>
+          }
+
+          @if (exif.FocalLength !== undefined) {
+            <dt>Focal length</dt>
+            <dd>{{ exif.FocalLength }}</dd>
+          }
+
+          @if (exif.ApertureValue !== undefined) {
+            <dt>Aperture</dt>
+            <dd>{{ exif.ApertureValue }}</dd>
+          }
+
+          @if (exif.ShutterSpeedValue !== undefined) {
+            <dt>Shutter speed</dt>
+            <dd>{{ exif.ShutterSpeedValue }}</dd>
+          }
+
+          @if (exif.ISO !== undefined) {
+            <dt>ISO</dt>
+            <dd>{{ exif.ISO }}</dd>
+          }
+        }
+      </dl>
+    </ui-info-overlay>
   }
 }
