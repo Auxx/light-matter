@@ -11,6 +11,7 @@ import {
   signal,
   viewChild
 } from '@angular/core';
+import { IconComponent } from '@light-matter/ui';
 import { fromEvent, take } from 'rxjs';
 import { DefaultPipe } from '../../../system/pipes/default/default.pipe';
 import { PxPipe } from '../../../system/pipes/px/px-pipe';
@@ -25,20 +26,27 @@ import {
   imports: [
     PxPipe,
     AsyncPipe,
-    DefaultPipe
+    DefaultPipe,
+    IconComponent
   ],
   templateUrl: './image-renderer.component.html',
   styleUrl: './image-renderer.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ImageRendererComponent implements OnDestroy {
-  readonly url = input.required<string>();
-
-  readonly dimensions = output<ImageDimensions>();
-
+  /* DI */
   private readonly imagePositioningService = inject(ImagePositioningService);
 
+  /* Inputs */
+  readonly url = input.required<string>();
+
+  /* Outputs */
+  readonly dimensions = output<ImageDimensions>();
+
+  /* State */
   protected readonly displayUrl = signal<string | null>(null);
+
+  protected readonly isLoading = signal(false);
 
   protected readonly viewportRef = viewChild<unknown, ElementRef<HTMLDivElement>>('surface', { read: ElementRef });
 
@@ -46,6 +54,7 @@ export class ImageRendererComponent implements OnDestroy {
 
   protected readonly defaultImageLocation = defaultImagePositioningResult();
 
+  /* Constructor */
   constructor() {
     effect(() => {
       const surface = this.viewportRef();
@@ -60,13 +69,17 @@ export class ImageRendererComponent implements OnDestroy {
     effect(this.preloadImage);
   }
 
+  /* Events */
   ngOnDestroy() {
     this.imagePositioningService.removeViewport();
   }
 
   protected readonly onMouseDown = (event: MouseEvent) => this.imagePositioningService.startPanning(event);
 
+  /* Misc */
   private readonly preloadImage = () => {
+    this.isLoading.set(true);
+
     const url = this.url();
     const image = new Image();
 
@@ -79,6 +92,8 @@ export class ImageRendererComponent implements OnDestroy {
 
   private readonly onImageLoad = (event: Event) => {
     if (event.target instanceof HTMLImageElement) {
+      this.isLoading.set(false);
+
       const { naturalWidth, naturalHeight } = event.target;
       const dimensions = { width: naturalWidth, height: naturalHeight };
 
