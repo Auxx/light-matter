@@ -1,3 +1,40 @@
 :host {
   display: block;
 }
+
+.children-container {
+  display: grid;
+  grid-template-rows: 1fr;
+
+  &.enter-animation {
+    animation: scroll-in 250ms;
+  }
+
+  &.leave-animation {
+    animation: scroll-out 250ms;
+  }
+
+  .wrapper {
+    overflow: hidden;
+  }
+}
+
+@keyframes scroll-in {
+  from {
+    grid-template-rows: 0fr;
+  }
+
+  to {
+    grid-template-rows: 1fr;
+  }
+}
+
+@keyframes scroll-out {
+  from {
+    grid-template-rows: 1fr;
+  }
+
+  to {
+    grid-template-rows: 0fr;
+  }
+}

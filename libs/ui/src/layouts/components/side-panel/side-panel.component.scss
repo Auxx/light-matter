@@ -22,6 +22,11 @@
 
     background-color: var(--aside-background-color);
     border-radius: 0 var(--border-radius) var(--border-radius) 0;
+
+    ::ng-deep aside {
+      height: 100%;
+      overflow: auto;
+    }
   }
 
   .divider {
