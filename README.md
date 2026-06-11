@@ -2,6 +2,8 @@
 
 A simple image viewer with HDR photo support for Windows (support for Linux and macOS is coming soon).
 
+<a href="https://apps.microsoft.com/detail/9P96SPR78HM8"><img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/></a>
+
 ## Installation
 
 The preferred way to install Light Matter is from [Microsoft Store](https://apps.microsoft.com/detail/9P96SPR78HM8).
