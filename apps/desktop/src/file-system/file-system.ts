@@ -2,12 +2,15 @@ import { IpcMainInvokeEvent } from 'electron';
 import { ApiResponse, FileInfo, supportedFileExtensions } from 'internal-api';
 import { Dirent, statSync } from 'node:fs';
 import { readdir, readFile, writeFile } from 'node:fs/promises';
-import { extname, join } from 'node:path';
+import { dirname, extname, join } from 'node:path';
 import { IpcHandler } from '../app/decorators/ipc-handler';
 
 export class FileSystem {
   @IpcHandler({ name: 'FileSystem.join' })
   readonly join = async (_: IpcMainInvokeEvent, ...paths: string[]): Promise<string> => join(...paths);
+
+  @IpcHandler({ name: 'FileSystem.dirname' })
+  readonly dirname = async (_: IpcMainInvokeEvent, fileName: string): Promise<string> => dirname(fileName);
 
   @IpcHandler({ name: 'FileSystem.readDir' })
   readonly readDir = async (_: IpcMainInvokeEvent, path: string): Promise<FileInfo[]> => {

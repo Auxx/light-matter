@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ApiResponse } from 'internal-api';
+import { ApiResponse, DesktopFileSystem } from 'internal-api';
 
 @Injectable({ providedIn: 'root' })
-export class FileSystem {
+export class FileSystem implements DesktopFileSystem {
   readonly join = (...paths: string[]) => window.desktop.FileSystem.join(...paths);
+
+  readonly dirname = (fileName: string) => window.desktop.FileSystem.dirname(fileName);
 
   readonly readDir = (path: string) => window.desktop.FileSystem.readDir(path);
 

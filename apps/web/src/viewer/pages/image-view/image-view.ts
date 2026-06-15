@@ -14,6 +14,7 @@ import {
 import { ExifTags } from 'internal-api';
 import { fromEvent, map, startWith } from 'rxjs';
 import { ExifService } from '../../../ipc/exif';
+import { ProcessManager } from '../../../ipc/process-manager';
 import { VerticalDivider } from '../../../system/components/vertical-divider/vertical-divider';
 import { DefaultPipe } from '../../../system/pipes/default/default.pipe';
 import { Keyboard } from '../../../system/services/keyboard/keyboard';
@@ -56,6 +57,8 @@ export class ImageView {
   private readonly document = inject(DOCUMENT);
 
   private readonly exif = inject(ExifService);
+
+  private readonly processManager = inject(ProcessManager);
 
   private readonly imagePositioningService = inject(ImagePositioningService);
 
@@ -108,7 +111,13 @@ export class ImageView {
     }
   };
 
-  protected readonly goBack = () => this.overlayService.hide();
+  protected readonly goBack = () => {
+    if (this.viewNavigator.standalone()) {
+      this.processManager.quit(0).then();
+    } else {
+      this.overlayService.hide();
+    }
+  };
 
   protected readonly fitToWindow = () => this.imagePositioningService.setZoom('fit');
 

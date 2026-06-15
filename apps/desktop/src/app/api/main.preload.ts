@@ -7,11 +7,13 @@ const api: Desktop = {
     isPackaged: () => ipcRenderer.invoke('ProcessManager.isPackaged'),
     getPlatform: () => ipcRenderer.invoke('ProcessManager.getPlatform'),
     argv: () => ipcRenderer.invoke('ProcessManager.argv'),
-    getSystemPaths: () => ipcRenderer.invoke('ProcessManager.getSystemPaths')
+    getSystemPaths: () => ipcRenderer.invoke('ProcessManager.getSystemPaths'),
+    quit: (code: number) => ipcRenderer.invoke('ProcessManager.quit', code)
   },
 
   FileSystem: {
     join: (...paths: string[]) => ipcRenderer.invoke('FileSystem.join', ...paths),
+    dirname: (fileName: string) => ipcRenderer.invoke('FileSystem.dirname', fileName),
     readDir: (path: string) => ipcRenderer.invoke('FileSystem.readDir', path),
     readJson: (path: string) => ipcRenderer.invoke('FileSystem.readJson', path),
     writeJson: <T>(path: string, data: T) => ipcRenderer.invoke('FileSystem.writeJson', path, data),

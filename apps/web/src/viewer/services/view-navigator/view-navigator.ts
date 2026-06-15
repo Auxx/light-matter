@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { BehaviorSubject, combineLatest, filter, map, Observable, take, tap } from 'rxjs';
 import { GalleryState } from '../../../gallery/services/gallery-state/gallery-state';
 import { imageUrl } from '../../utils/image-url';
@@ -10,6 +10,8 @@ export class ViewNavigator {
   private readonly galleryState = inject(GalleryState);
 
   /* State */
+  readonly standalone = signal(false);
+
   private readonly images$ = this.galleryState.images();
 
   private readonly selectedIndex$ = new BehaviorSubject(-1);
@@ -67,7 +69,9 @@ export class ViewNavigator {
     this.images$
       .pipe(
         take(1),
+        tap(images => console.log('images', images)),
         map(images => images.findIndex(image => image.path === path)),
+        tap(index => console.log('index', index)),
         tap(index => this.selectedIndex$.next(index)),
         map(index => index >= 0)
       );
