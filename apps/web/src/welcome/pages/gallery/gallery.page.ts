@@ -1,39 +1,107 @@
+import { Dialog } from '@angular/cdk/dialog';
+import { CdkMenu, CdkMenuItem } from '@angular/cdk/menu';
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { SidePanelComponent } from '@light-matter/ui';
+import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import {
+  ActionButtonComponent,
+  ConfirmationDialogComponent,
+  IconComponent,
+  OverlayService,
+  PopupMenuComponent,
+  SidePanelComponent,
+  TextComponent,
+  TreeComponent,
+  TreeLoadRequest,
+  TreeNode
+} from '@light-matter/ui';
 import { FileInfo } from 'internal-api';
 import { ImageGridComponent } from '../../../gallery/components/image-grid/image-grid.component';
-import { LocationListingComponent } from '../../../gallery/components/location-listing/location-listing.component';
+import { GalleryLocations } from '../../../gallery/services/gallery-locations/gallery-locations';
 import { GalleryState } from '../../../gallery/services/gallery-state/gallery-state';
-import { DefaultPipe } from '../../../system/pipes/default/default.pipe';
+import { treeNode } from '../../../gallery/services/gallery-state/gallery-state.types';
+import { Dialogs } from '../../../ipc/dialogs';
+import { ImageView } from '../../../viewer/pages/image-view/image-view';
+import { ViewNavigator } from '../../../viewer/services/view-navigator/view-navigator';
 
 @Component({
   selector: 'app-gallery',
   imports: [
     AsyncPipe,
-    DefaultPipe,
-    LocationListingComponent,
     ImageGridComponent,
-    SidePanelComponent
+    SidePanelComponent,
+    TreeComponent,
+    ActionButtonComponent,
+    CdkMenu,
+    CdkMenuItem,
+    IconComponent,
+    PopupMenuComponent,
+    TextComponent
   ],
   templateUrl: './gallery.page.html',
   styleUrl: './gallery.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GalleryPage {
+  /* DI */
   private readonly galleryState = inject(GalleryState);
 
-  readonly locations$ = this.galleryState.locations$;
+  private readonly dialogs = inject(Dialogs);
 
-  readonly selectedLocation = this.galleryState.selectedLocation;
+  private readonly dialog = inject(Dialog);
 
-  readonly selectedPath = this.galleryState.selectedPath;
+  private readonly galleryLocations = inject(GalleryLocations);
 
-  readonly contents = this.galleryState.contents;
+  readonly router = inject(Router);
 
-  readonly onLocationSelected = (location: string) => this.selectedLocation.set(location);
+  readonly viewNavigator = inject(ViewNavigator);
 
-  readonly onFolderPush = (item: FileInfo) => this.selectedPath.update(path => path.concat(item.path));
+  readonly overlayService = inject(OverlayService);
 
-  readonly onFolderPop = () => this.selectedPath.update(path => path.toSpliced(-1));
+  protected readonly tree = viewChild.required(TreeComponent);
+
+  /* State */
+  readonly galleryRoot$ = this.galleryState.galleryRoot();
+
+  readonly selectedLocation$ = this.galleryState.selectedLocation();
+
+  readonly images$ = this.galleryState.images();
+
+  /* Event handlers */
+  protected readonly onAddLocation = async () => {
+    const result = await this.dialogs.openFolder();
+
+    if (result.success) {
+      this.galleryLocations.addLocation(result.data);
+    }
+  };
+
+  protected readonly onRemoveLocation = async (data: TreeNode<string>) =>
+    ConfirmationDialogComponent
+      .open(
+        this.dialog,
+        {
+          title: 'Confirm location removal',
+          description: `Are you sure you want to remove "${data.id}" from gallery locations?`
+        }
+      )
+      .subscribe(() => this.galleryLocations.removeLocation(data.id));
+
+  protected readonly loadTreeNode = async (state: TreeLoadRequest<string>) => {
+    const result = await this.galleryState.getDirContents(state.node.id);
+    const node = structuredClone(state.node);
+
+    if (result.success) {
+      node.children = result.data.map(location => treeNode(location.path, true));
+    }
+
+    this.tree().updateNode(node);
+  };
+
+  protected readonly selectLocation = (node: TreeNode<string>) => this.galleryState.navigateTo(node.id);
+
+  protected readonly onImageSelected = (file: FileInfo) =>
+    this.viewNavigator
+      .selectImage(file.path)
+      .subscribe(() => this.overlayService.show(ImageView));
 }

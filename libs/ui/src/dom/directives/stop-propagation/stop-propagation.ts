@@ -1,7 +1,7 @@
 import { Directive } from '@angular/core';
 
 @Directive({
-  selector: '[appStopPropagation]',
+  selector: '[uiStopPropagation]',
   host: {
     '(click)': 'stopPropagation($event)'
   }

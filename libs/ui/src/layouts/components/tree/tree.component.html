@@ -1,0 +1,28 @@
+@let rootNode = treeRoot();
+@let menuRef = menu();
+
+@if (rootNode !== null) {
+  <ng-template #nodeTemplate let-node="node" let-level="level">
+    <ui-tree-node [node]="node"
+                  [level]="level"
+                  [menu]="menuRef"
+                  (pressed)="nodeSelected($event)" />
+
+    @if (node.children !== undefined && node.children.length > 0 && node.isOpen) {
+      <div class="children-container"
+           animate.enter="enter-animation"
+           animate.leave="leave-animation">
+        <div class="wrapper">
+          @for (child of node.children; track child.id) {
+            <ng-template [ngTemplateOutlet]="nodeTemplate"
+                         [ngTemplateOutletContext]="{ node: child, level: level + 1 }" />
+          }
+        </div>
+      </div>
+    }
+  </ng-template>
+
+  <ng-template [ngTemplateOutlet]="nodeTemplate"
+               [ngTemplateOutletContext]="{ node: rootNode, level: 0 }" />
+}
+

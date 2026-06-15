@@ -1,62 +1,62 @@
-import { computed, effect, inject, Injectable, resource, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { filter } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { TreeNode } from '@light-matter/ui';
+import { FileInfo } from 'internal-api';
+import { BehaviorSubject, map, Observable, startWith } from 'rxjs';
 import { FileSystem } from '../../../ipc/file-system';
 import { GalleryLocations } from '../gallery-locations/gallery-locations';
+import { galleryRoot, treeNode } from './gallery-state.types';
 
 @Injectable({ providedIn: 'root' })
 export class GalleryState {
+  /* DI */
   private readonly galleryLocations = inject(GalleryLocations);
 
   private readonly fileSystem = inject(FileSystem);
 
-  readonly locations$ = this.galleryLocations.locations();
+  /* State */
+  private readonly locations$ = this.galleryLocations.locations();
 
-  readonly showFolders = signal(false);
+  private readonly selectedLocation$ = new BehaviorSubject<string | null>(null);
 
-  readonly selectedLocation = signal<string | null>(null);
+  private readonly images$ = new BehaviorSubject<FileInfo[]>([]);
 
-  readonly selectedPath = signal<string[]>([]);
+  private readonly galleryRoot$: Observable<TreeNode<string>> = this.locations$
+    .pipe(
+      startWith([]),
+      map(locations => {
+        const root = galleryRoot();
+        root.children = locations.map((location, i) => {
+          const node = treeNode(location, false);
 
-  readonly galleryResource = resource({
-    params: () => ({ path: this.selectedPath() }),
-    loader: async ({ params }) => {
-      if (params.path.length === 0) {
-        return [];
-      }
+          if (i === 0) {
+            node.isSelected = true;
+            this.navigateTo(node.id).then();
+          }
 
-      const { path } = params;
-      const response = await this.fileSystem.readGalleryLocation(path[path.length - 1]);
+          return node;
+        });
+        return root;
+      })
+    );
 
-      if (!response.success) {
-        return [];
-      }
+  /* Getters */
+  readonly locations = () => this.locations$;
 
-      return response.data;
-    }
-  });
+  readonly images = () => this.images$.asObservable();
 
-  readonly contents = computed(() =>
-    this.galleryResource.hasValue()
-      ? this.galleryResource.value()
-      : []
-  );
+  readonly galleryRoot = () => this.galleryRoot$;
 
-  constructor() {
-    this.locations$
-      .pipe(
-        takeUntilDestroyed(),
-        filter(locations => locations.length > 0)
-      )
-      .subscribe(locations => {
-        if (this.selectedLocation() === null) {
-          this.selectedLocation.set(locations[0]);
-        }
-      });
+  readonly selectedLocation = () => this.selectedLocation$.asObservable();
 
-    effect(() => {
-      const selectedLocation = this.selectedLocation();
-      this.selectedPath.set(selectedLocation === null ? [] : [ selectedLocation ]);
-    });
-  }
+  /* Modifiers */
+  readonly navigateTo = async (path: string) => {
+    this.selectedLocation$.next(path);
+
+    const response = await this.fileSystem.readImages(path);
+
+    this.images$.next(response.success ? response.data : []);
+  };
+
+  /* Misc */
+  readonly getDirContents = async (path: string) => await this.fileSystem.readDirectories(path);
 }

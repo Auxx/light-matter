@@ -2,18 +2,19 @@ import { AsyncPipe, DecimalPipe, DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
 import {
   ActionButtonComponent,
   IconComponent,
   InfoOverlayComponent,
+  OverlayService,
   SliderComponent,
   TextComponent,
   ToolMenuComponent
 } from '@light-matter/ui';
 import { ExifTags } from 'internal-api';
-import { fromEvent, map, noop, startWith, tap } from 'rxjs';
+import { fromEvent, map, startWith } from 'rxjs';
 import { ExifService } from '../../../ipc/exif';
+import { ProcessManager } from '../../../ipc/process-manager';
 import { VerticalDivider } from '../../../system/components/vertical-divider/vertical-divider';
 import { DefaultPipe } from '../../../system/pipes/default/default.pipe';
 import { Keyboard } from '../../../system/services/keyboard/keyboard';
@@ -34,7 +35,6 @@ import { ViewNavigator } from '../../services/view-navigator/view-navigator';
     ToolMenuComponent,
     ActionButtonComponent,
     IconComponent,
-    RouterLink,
     VerticalDivider,
     TextComponent,
     FileNamePipe,
@@ -49,9 +49,8 @@ import { ViewNavigator } from '../../services/view-navigator/view-navigator';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ImageView {
+  /* DI */
   protected readonly viewNavigator = inject(ViewNavigator);
-
-  private readonly router = inject(Router);
 
   private readonly keyboard = inject(Keyboard);
 
@@ -59,10 +58,18 @@ export class ImageView {
 
   private readonly exif = inject(ExifService);
 
+  private readonly processManager = inject(ProcessManager);
+
   private readonly imagePositioningService = inject(ImagePositioningService);
 
-  readonly state$ = this.viewNavigator.state()
-    .pipe(tap(state => !state.isValid ? this.router.navigate([ 'welcome' ]) : noop()));
+  private readonly overlayService = inject(OverlayService);
+
+  /* State */
+  protected readonly selectedImage$ = this.viewNavigator.selectedImage();
+
+  protected readonly hasPrevious$ = this.viewNavigator.hasPrevious();
+
+  protected readonly hasNext$ = this.viewNavigator.hasNext();
 
   protected readonly imageLocation$ = this.imagePositioningService.imageLocation();
 
@@ -85,6 +92,7 @@ export class ImageView {
       )
   );
 
+  /* Constructor */
   constructor() {
     this.trackKeyboard();
 
@@ -94,7 +102,8 @@ export class ImageView {
       .subscribe(value => this.imagePositioningService.setZoom(value / 100));
   }
 
-  readonly toggleFullScreen = async () => {
+  /* Event handlers */
+  protected readonly toggleFullScreen = async () => {
     if (this.document.fullscreenElement !== null) {
       await this.document.exitFullscreen();
     } else {
@@ -102,7 +111,15 @@ export class ImageView {
     }
   };
 
-  readonly fitToWindow = () => this.imagePositioningService.setZoom('fit');
+  protected readonly goBack = () => {
+    if (this.viewNavigator.standalone()) {
+      this.processManager.quit(0).then();
+    } else {
+      this.overlayService.hide();
+    }
+  };
+
+  protected readonly fitToWindow = () => this.imagePositioningService.setZoom('fit');
 
   protected readonly toggleExifInfo = async (path: string) => {
     this.exifState.set(false);
@@ -122,7 +139,7 @@ export class ImageView {
   protected readonly prevPhoto = () => {
     this.exifVisible.set(false);
     this.exifState.set(false);
-    this.viewNavigator.prev();
+    this.viewNavigator.previous();
   };
 
   protected readonly nextPhoto = () => {
@@ -131,7 +148,8 @@ export class ImageView {
     this.viewNavigator.next();
   };
 
-  private readonly trackKeyboard = () => {
+  /* Misc */
+  private readonly trackKeyboard = () =>
     this.keyboard.keyup()
       .pipe(takeUntilDestroyed())
       .subscribe(event => {
@@ -155,5 +173,4 @@ export class ImageView {
             break;
         }
       });
-  };
 }

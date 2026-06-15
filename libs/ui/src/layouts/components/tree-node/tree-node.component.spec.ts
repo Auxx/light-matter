@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LocationSectionComponent } from './location-section.component';
+import { TreeNodeComponent } from './tree-node.component';
 
-describe('LocationSectionComponent', () => {
-  let component: LocationSectionComponent;
-  let fixture: ComponentFixture<LocationSectionComponent>;
+describe('TreeNodeComponent', () => {
+  let component: TreeNodeComponent;
+  let fixture: ComponentFixture<TreeNodeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ LocationSectionComponent ]
+      imports: [ TreeNodeComponent ]
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(LocationSectionComponent);
+    fixture = TestBed.createComponent(TreeNodeComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

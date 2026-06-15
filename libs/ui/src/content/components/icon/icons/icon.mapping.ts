@@ -10,6 +10,7 @@ import { arrowCircleRightFilled } from './arrow_circle_right_16_filled';
 import { arrowCircleRight } from './arrow_circle_right_16_regular';
 import { arrowCircleUpFilled } from './arrow_circle_up_16_filled';
 import { arrowCircleUp } from './arrow_circle_up_16_regular';
+import { arrowClockwise } from './arrow_clockwise_16_regular';
 import { chevronDown } from './chevron_down_16_regular';
 import { chevronLeft } from './chevron_left_16_regular';
 import { chevronRight } from './chevron_right_16_regular';
@@ -22,6 +23,7 @@ import { folderFilled } from './folder_16_filled';
 import { folder } from './folder_16_regular';
 import { folderAddFilled } from './folder_add_16_filled';
 import { folderAdd } from './folder_add_16_regular';
+import { folderOpen } from './folder_open_16_regular';
 import { folderProhibitedFilled } from './folder_prohibited_16_filled';
 import { folderProhibited } from './folder_prohibited_16_regular';
 import { fullScreenMaximize } from './full_screen_maximize_16_regular';
@@ -54,6 +56,7 @@ export const allIcons = [
   'arrowCircleRight',
   'arrowCircleUpFilled',
   'arrowCircleUp',
+  'arrowClockwise',
   'chevronDown',
   'chevronLeft',
   'chevronRight',
@@ -66,6 +69,7 @@ export const allIcons = [
   'folder',
   'folderAddFilled',
   'folderAdd',
+  'folderOpen',
   'folderProhibitedFilled',
   'folderProhibited',
   'fullScreenMaximize',
@@ -101,6 +105,7 @@ export const iconMapping: Record<IconName, string> = {
   arrowCircleRight,
   arrowCircleUpFilled,
   arrowCircleUp,
+  arrowClockwise,
   chevronDown,
   chevronLeft,
   chevronRight,
@@ -113,6 +118,7 @@ export const iconMapping: Record<IconName, string> = {
   folder,
   folderAddFilled,
   folderAdd,
+  folderOpen,
   folderProhibitedFilled,
   folderProhibited,
   fullScreenMaximize,

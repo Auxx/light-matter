@@ -2,12 +2,15 @@ import { IpcMainInvokeEvent } from 'electron';
 import { ApiResponse, FileInfo, supportedFileExtensions } from 'internal-api';
 import { Dirent, statSync } from 'node:fs';
 import { readdir, readFile, writeFile } from 'node:fs/promises';
-import { extname, join } from 'node:path';
+import { dirname, extname, join } from 'node:path';
 import { IpcHandler } from '../app/decorators/ipc-handler';
 
 export class FileSystem {
   @IpcHandler({ name: 'FileSystem.join' })
   readonly join = async (_: IpcMainInvokeEvent, ...paths: string[]): Promise<string> => join(...paths);
+
+  @IpcHandler({ name: 'FileSystem.dirname' })
+  readonly dirname = async (_: IpcMainInvokeEvent, fileName: string): Promise<string> => dirname(fileName);
 
   @IpcHandler({ name: 'FileSystem.readDir' })
   readonly readDir = async (_: IpcMainInvokeEvent, path: string): Promise<FileInfo[]> => {
@@ -44,6 +47,52 @@ export class FileSystem {
       return { success: false, errorMessage: `Failed to read gallery at ${path}.` };
     }
   };
+
+  @IpcHandler({ name: 'FileSystem.readDirectories' })
+  readonly readDirectories = async (_: IpcMainInvokeEvent, path: string): Promise<ApiResponse<FileInfo[]>> => {
+    try {
+      return {
+        success: true,
+        data: (await readdir(path, { withFileTypes: true }))
+          .filter(file => file.isDirectory())
+          .map(this.toFileInfo)
+          .sort(this.sortByName)
+      };
+    } catch (_) {
+      return { success: false, errorMessage: `Failed to read directory at ${path}.` };
+    }
+  };
+
+  @IpcHandler({ name: 'FileSystem.readImages' })
+  readonly readImages = async (_: IpcMainInvokeEvent, path: string): Promise<ApiResponse<FileInfo[]>> => {
+    try {
+      return {
+        success: true,
+        data: (await readdir(path, { withFileTypes: true }))
+          .filter(file =>
+            file.isFile() && supportedFileExtensions.includes(extname(file.name).toLowerCase().replace('.', ''))
+          )
+          .map(this.toFileInfo)
+          .sort(this.softByCreatedDate)
+      };
+    } catch (_) {
+      return { success: false, errorMessage: `Failed to read directory at ${path}.` };
+    }
+  };
+
+  private readonly sortByName = (a: FileInfo, b: FileInfo): number => {
+    if (a.name < b.name) {
+      return -1;
+    }
+
+    if (a.name > b.name) {
+      return 1;
+    }
+
+    return 0;
+  };
+
+  private readonly softByCreatedDate = (a: FileInfo, b: FileInfo): number => a.createdAt - b.createdAt;
 
   private readonly readGalleryDir = async (path: string): Promise<FileInfo[]> =>
     (await readdir(path, { withFileTypes: true }))

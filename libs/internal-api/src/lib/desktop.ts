@@ -2,30 +2,42 @@ import type { Tags } from 'exiftool-vendored';
 import { Arguments } from 'yargs';
 import { FileInfo } from './fs';
 
+export interface DesktopProcessManager {
+  readonly getAppVersion: () => Promise<string>;
+  readonly isPackaged: () => Promise<boolean>;
+  readonly getPlatform: () => Promise<string>;
+  readonly argv: () => Promise<Arguments>;
+  readonly getSystemPaths: () => Promise<SystemPathMapping>;
+  readonly quit: (code: number) => Promise<void>;
+}
+
+export interface DesktopFileSystem {
+  readonly join: (...paths: string[]) => Promise<string>;
+  readonly dirname: (fileName: string) => Promise<string>;
+  readonly readDir: (path: string) => Promise<FileInfo[]>;
+  readonly readJson: <T>(path: string) => Promise<ApiResponse<T>>;
+  readonly writeJson: <T>(path: string, data: T) => Promise<ApiResponse<undefined>>;
+  /**
+   * @deprecated Use readDirectories() and readImages() instead
+   */
+  readonly readGalleryLocation: (path: string) => Promise<ApiResponse<FileInfo[]>>;
+  readonly readDirectories: (path: string) => Promise<ApiResponse<FileInfo[]>>;
+  readonly readImages: (path: string) => Promise<ApiResponse<FileInfo[]>>;
+}
+
+export interface DesktopDialogs {
+  readonly openFolder: () => Promise<ApiResponse<string>>;
+}
+
+export interface DesktopExif {
+  readonly read: (path: string) => Promise<ApiResponse<ExifTags>>;
+}
+
 export interface Desktop {
-  ProcessManager: {
-    getAppVersion: () => Promise<string>;
-    isPackaged: () => Promise<boolean>;
-    getPlatform: () => Promise<string>;
-    argv: () => Promise<Arguments>;
-    getSystemPaths: () => Promise<SystemPathMapping>;
-  };
-
-  FileSystem: {
-    join: (...paths: string[]) => Promise<string>;
-    readDir: (path: string) => Promise<FileInfo[]>;
-    readJson: <T>(path: string) => Promise<ApiResponse<T>>;
-    writeJson: <T>(path: string, data: T) => Promise<ApiResponse<undefined>>;
-    readGalleryLocation: (path: string) => Promise<ApiResponse<FileInfo[]>>;
-  };
-
-  Dialogs: {
-    openFolder: () => Promise<ApiResponse<string>>;
-  };
-
-  Exif: {
-    read: (path: string) => Promise<ApiResponse<ExifTags>>;
-  };
+  readonly ProcessManager: DesktopProcessManager;
+  readonly FileSystem: DesktopFileSystem;
+  readonly Dialogs: DesktopDialogs;
+  readonly Exif: DesktopExif;
 
   openFolder: () => Promise<FileListing>;
   openFile: () => Promise<FileListing>;

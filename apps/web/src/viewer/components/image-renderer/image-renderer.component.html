@@ -1,9 +1,15 @@
 @let imageUrl = displayUrl();
+@let loading = isLoading();
 @let location = imageLocation$ | async | default:defaultImageLocation;
+
+<div class="loading-indicator" [class.visible]="loading">
+  <ui-icon icon="arrowClockwise" size="x-large" />
+</div>
 
 <div #surface
      class="surface"
-     [style.zoom]="location.pixelRatio">
+     [style.zoom]="location.pixelRatio"
+     [class.visible]="!loading">
 
   @if (imageUrl !== null) {
     <img alt=""

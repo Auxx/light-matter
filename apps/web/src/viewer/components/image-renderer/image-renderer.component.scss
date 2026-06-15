@@ -9,6 +9,11 @@
     top: 0;
     right: 0;
     bottom: 0;
+    opacity: 0.2;
+
+    &.visible {
+      opacity: 1;
+    }
   }
 
   img {
@@ -16,6 +21,22 @@
 
     &.pannable {
       cursor: all-scroll;
+    }
+  }
+
+  .loading-indicator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    &.visible {
+      display: flex;
     }
   }
 }

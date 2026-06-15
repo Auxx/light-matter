@@ -1,15 +1,44 @@
-@let locations = locations$ | async | default:[];
-@let selected = selectedLocation();
+@let galleryRoot = galleryRoot$ | async;
+@let selectedLocation = selectedLocation$ | async;
+@let images = images$ | async;
 
 <ui-side-panel>
+
   <aside>
-    <app-location-listing [locations]="locations"
-                          [selectedLocation]="selected"
-                          (locationClicked)="onLocationSelected($event)" />
+    @if (galleryRoot !== null) {
+      <ui-tree #tree
+               [root]="galleryRoot"
+               [menu]="galleryMenu"
+               [enableLoading]="true"
+               (loadRequested)="loadTreeNode($event)"
+               (selected)="selectLocation($event)" />
+    }
   </aside>
 
-  <app-image-grid [selectedPath]="selectedPath()"
-                  [contents]="contents()"
-                  (folderPushed)="onFolderPush($event)"
-                  (folderPopped)="onFolderPop()" />
+  <app-image-grid [selectedLocation]="selectedLocation"
+                  [images]="images"
+                  (selected)="onImageSelected($event)" />
+
 </ui-side-panel>
+
+<ng-template #galleryMenu let-data="data">
+  <ui-popup-menu cdkMenu>
+
+    @if (data.id === '') {
+      <ui-action-button cdkMenuItem
+                        (pressed)="onAddLocation()">
+        <ui-icon icon="folderAdd" [inherit]="true" />
+        <ui-text [inherit]="true">Add new location</ui-text>
+      </ui-action-button>
+    } @else {
+
+      <ui-action-button cdkMenuItem
+                        variant="warn"
+                        (pressed)="onRemoveLocation(data)">
+        <ui-icon icon="folderProhibited" [inherit]="true" />
+        <ui-text [inherit]="true">Remove</ui-text>
+      </ui-action-button>
+    }
+
+  </ui-popup-menu>
+</ng-template>
