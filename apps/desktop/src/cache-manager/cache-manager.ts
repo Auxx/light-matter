@@ -1,5 +1,5 @@
 import { app } from 'electron';
-import { createHash } from 'node:crypto';
+import { nanoid } from 'nanoid/non-secure';
 import { copyFile, mkdir, stat } from 'node:fs/promises';
 import { DatabaseSync, SQLOutputValue } from 'node:sqlite';
 import { dirname, join } from 'path';
@@ -25,36 +25,38 @@ export class CacheManager {
     this.init();
   }
 
-  readonly exists = (sourceName: string): Record<string, SQLOutputValue> | null => {
-    const row = this.db.prepare(findCacheFile).get({ sourceName });
+  readonly exists = (sourceName: string, sourceTag: string): Record<string, SQLOutputValue> | null => {
+    const row = this.db.prepare(findCacheFile).get({ sourceName, sourceTag });
     return row ? row : null;
   };
 
   readonly get = async (
     sourceName: string,
+    sourceTag: string,
     callback?: (cachePath: string) => Promise<boolean>
   ): Promise<string | null> => {
     const stats = await stat(sourceName);
     const sourceSize = stats.size;
     const updatedAt = stats.mtimeMs;
 
-    const existing = this.exists(sourceName);
+    const existing = this.exists(sourceName, sourceTag);
 
     if (existing && existing['source_size'] === sourceSize && existing['updated_at'] === updatedAt) {
       return existing['target_path'] as string;
     }
 
-    const hash = this.hashName(sourceName);
+    const hash = this.generateCacheName();
     const targetPath = this.getCacheItemPath(hash);
 
     if (callback) {
       const result = await callback(targetPath);
-      return result ? this.addEntry(sourceName, sourceSize, updatedAt, targetPath) : null;
+      return result ? this.addEntry(sourceName, sourceTag, sourceSize, updatedAt, targetPath) : null;
     }
 
     await mkdir(dirname(targetPath), { recursive: true });
     await copyFile(sourceName, targetPath);
-    return this.addEntry(sourceName, sourceSize, updatedAt, targetPath);
+
+    return this.addEntry(sourceName, sourceTag, sourceSize, updatedAt, targetPath);
   };
 
   private readonly init = () => {
@@ -72,13 +74,14 @@ export class CacheManager {
     });
   };
 
-  private readonly hashName = (name: string): string => createHash('sha512').update(name).digest('hex');
+  private readonly generateCacheName = (): string => nanoid(32);
 
   private readonly getCacheItemPath = (hash: string): string =>
     join(this.cacheDir, hash[0], hash.substring(0, 2), hash);
 
   private readonly addEntry = (
     sourceName: string,
+    sourceTag: string,
     sourceSize: number,
     updatedAt: number,
     targetPath: string
@@ -87,6 +90,7 @@ export class CacheManager {
 
     this.db.prepare(insertCacheFile).run({
       sourceName,
+      sourceTag,
       sourceSize,
       updatedAt,
       targetPath,
