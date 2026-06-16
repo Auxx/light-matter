@@ -10,10 +10,13 @@ import {
 } from 'internal-api';
 import { ReplaySubject } from 'rxjs';
 import { FileSystem } from '../../../ipc/file-system';
+import { ProcessManager } from '../../../ipc/process-manager';
 
 @Injectable({ providedIn: 'root' })
 export class Configuration {
   private readonly fileSystem = inject(FileSystem);
+
+  private readonly processManager = inject(ProcessManager);
 
   private readonly config$ = new ReplaySubject<AppConfigV1>(1);
 
@@ -43,7 +46,7 @@ export class Configuration {
   };
 
   private readonly init = async () => {
-    const paths = await window.desktop.ProcessManager.getSystemPaths();
+    const paths = await this.processManager.getSystemPaths();
     this._defaultConfig = this.defaultConfig(paths);
     this._configPath = paths.appConfig;
     const existing = await this.fileSystem.readJson<AppConfigV1 | unknown>(this._configPath);

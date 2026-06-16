@@ -25,4 +25,10 @@ export interface AppConfigV1System {
   };
 }
 
+export interface CacheConfigV1 {
+  version: 1;
+}
+
 export const isAppConfig: (input: unknown) => input is AppConfigV1 = typia.createIs<AppConfigV1>();
+
+export const isCacheConfig: (input: unknown) => input is CacheConfigV1 = typia.createIs<CacheConfigV1>();
