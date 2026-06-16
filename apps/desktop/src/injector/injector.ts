@@ -1,3 +1,4 @@
+import { CacheManager } from '../cache-manager/cache-manager';
 import { Dialogs } from '../dialogs/dialogs';
 import { Exif } from '../exif/exif';
 import { FileSystem } from '../file-system/file-system';
@@ -13,7 +14,8 @@ export class Injector {
     Dialogs: new Dialogs(),
     Exif: new Exif(),
     FileSystem: new FileSystem(),
-    ProcessManager: new ProcessManager()
+    ProcessManager: new ProcessManager(),
+    CacheManager: new CacheManager()
   } as const;
 
   private constructor() {
