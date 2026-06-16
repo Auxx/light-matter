@@ -1,7 +1,8 @@
 import { app } from 'electron';
 import { createHash } from 'node:crypto';
-import { DatabaseSync } from 'node:sqlite';
-import { join } from 'path';
+import { copyFile, mkdir, stat } from 'node:fs/promises';
+import { DatabaseSync, SQLOutputValue } from 'node:sqlite';
+import { dirname, join } from 'path';
 import {
   createMigrationTable,
   dbMigrations,
@@ -24,9 +25,36 @@ export class CacheManager {
     this.init();
   }
 
-  readonly exists = (sourceName: string): string | null => {
+  readonly exists = (sourceName: string): Record<string, SQLOutputValue> | null => {
     const row = this.db.prepare(findCacheFile).get({ sourceName });
-    return row ? row['target_path'] as string : null;
+    return row ? row : null;
+  };
+
+  readonly get = async (
+    sourceName: string,
+    callback?: (cachePath: string) => Promise<boolean>
+  ): Promise<string | null> => {
+    const stats = await stat(sourceName);
+    const sourceSize = stats.size;
+    const updatedAt = stats.mtimeMs;
+
+    const existing = this.exists(sourceName);
+
+    if (existing && existing['source_size'] === sourceSize && existing['updated_at'] === updatedAt) {
+      return existing['target_path'] as string;
+    }
+
+    const hash = this.hashName(sourceName);
+    const targetPath = this.getCacheItemPath(hash);
+
+    if (callback) {
+      const result = await callback(targetPath);
+      return result ? this.addEntry(sourceName, sourceSize, updatedAt, targetPath) : null;
+    }
+
+    await mkdir(dirname(targetPath), { recursive: true });
+    await copyFile(sourceName, targetPath);
+    return this.addEntry(sourceName, sourceSize, updatedAt, targetPath);
   };
 
   private readonly init = () => {
@@ -49,19 +77,22 @@ export class CacheManager {
   private readonly getCacheItemPath = (hash: string): string =>
     join(this.cacheDir, hash[0], hash.substring(0, 2), hash);
 
-  private readonly addEntry = (name: string, size: number, updatedAt: number): string => {
-    const hash = this.hashName(name);
-    const path = this.getCacheItemPath(hash);
+  private readonly addEntry = (
+    sourceName: string,
+    sourceSize: number,
+    updatedAt: number,
+    targetPath: string
+  ): string => {
     const ttl = Date.now();
 
     this.db.prepare(insertCacheFile).run({
-      sourceName: name,
-      sourceSize: size,
+      sourceName,
+      sourceSize,
       updatedAt,
-      targetPath: path,
+      targetPath,
       ttl
     });
 
-    return path;
+    return targetPath;
   };
 }
