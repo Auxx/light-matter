@@ -31,6 +31,7 @@
   "dependencies": {
     "exiftool-vendored": "35.21.0",
     "tslib": "2.8.1",
+    "wasm-vips": "^0.0.18",
     "yargs": "18.0.0"
   },
   "devDependencies": {
