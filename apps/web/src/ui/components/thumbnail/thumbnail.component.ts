@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input, output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  ElementRef,
+  inject,
+  input,
+  output,
+  signal
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CaptionComponent } from '@light-matter/ui';
 import { FileInfo } from 'internal-api';
@@ -25,6 +35,8 @@ export class ThumbnailComponent {
 
   private readonly thumbnailLoader = inject(ThumbnailLoaderService);
 
+  private readonly elementRef = inject(ElementRef);
+
   /* Inputs/outputs */
   readonly image = input.required<FileInfo>();
 
@@ -45,6 +57,8 @@ export class ThumbnailComponent {
 
   readonly isLoading = signal<boolean>(true);
 
+  readonly isVisible = signal<boolean>(false);
+
   readonly hasError = signal<boolean>(false);
 
   protected readonly fit = signal('cover');
@@ -55,6 +69,10 @@ export class ThumbnailComponent {
       this.hasError.set(false);
       this.isLoading.set(true);
 
+      if (!this.isVisible()) {
+        return;
+      }
+
       this.thumbnailLoader
         .add(this.url())
         .subscribe({
@@ -62,5 +80,16 @@ export class ThumbnailComponent {
           complete: () => this.isLoading.set(false)
         });
     });
+
+    const observer = new IntersectionObserver(entries => {
+      if (entries.length === 0 || entries[0].intersectionRatio <= 0) {
+        return;
+      }
+
+      observer.disconnect();
+      this.isVisible.set(true);
+    });
+
+    observer.observe(this.elementRef.nativeElement);
   }
 }
