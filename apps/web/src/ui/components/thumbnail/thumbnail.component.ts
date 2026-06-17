@@ -13,9 +13,10 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CaptionComponent } from '@light-matter/ui';
 import { defaultThumbHeight, defaultThumbWidth, FileInfo } from 'internal-api';
-import { map } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs';
 import { Configuration } from '../../../system/services/configuration/configuration';
-import { imageUrl } from '../../../viewer/utils/image-url';
+import { DevicePixelRatioService } from '../../../system/services/device-pixel-ratio/device-pixel-ratio.service';
+import { thumbUrl } from '../../../viewer/utils/image-url';
 
 @Component({
   selector: 'app-thumbnail',
@@ -30,19 +31,34 @@ import { imageUrl } from '../../../viewer/utils/image-url';
   }
 })
 export class ThumbnailComponent {
+  /* DI */
+  private readonly devicePixelRatioService = inject(DevicePixelRatioService);
+
+  private readonly configuration = inject(Configuration);
+
+  /* Inputs/outputs */
   readonly image = input.required<FileInfo>();
 
-  readonly url = computed(() => imageUrl(this.image().path));
+  readonly clicked = output<FileInfo>();
+
+  /* State */
+  private readonly pixelRatio = toSignal(
+    this.devicePixelRatioService
+      .pixelRatio()
+      .pipe(distinctUntilChanged())
+  );
+
+  readonly url = computed(() => {
+    const image = this.image();
+    const pixelRatio = this.pixelRatio() || 1;
+    return thumbUrl(image.path, 288 / pixelRatio, 192 / pixelRatio);
+  });
 
   readonly isLoading = signal<boolean>(true);
 
   readonly hasError = signal<boolean>(false);
 
-  readonly clicked = output<FileInfo>();
-
   protected readonly fit = signal('cover');
-
-  private readonly configuration = inject(Configuration);
 
   private readonly dimensions = toSignal(
     this.configuration
@@ -55,9 +71,7 @@ export class ThumbnailComponent {
 
   protected readonly imageRef = viewChild<string, ElementRef<HTMLImageElement>>('imageTag', { read: ElementRef });
 
-  // TODO Add zoom tracking service
-  protected readonly zoom = signal(1);
-
+  /* Constructor */
   constructor() {
     effect(() => {
       this.hasError.set(false);
@@ -74,6 +88,7 @@ export class ThumbnailComponent {
     });
   }
 
+  /* Events */
   private readonly onLoad = (event: Event) => {
     this.isLoading.set(false);
     this.hasError.set(false);
