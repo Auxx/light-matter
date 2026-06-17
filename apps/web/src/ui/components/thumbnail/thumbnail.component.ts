@@ -1,21 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  ElementRef,
-  inject,
-  input,
-  output,
-  signal,
-  viewChild
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, output, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CaptionComponent } from '@light-matter/ui';
-import { defaultThumbHeight, defaultThumbWidth, FileInfo } from 'internal-api';
-import { distinctUntilChanged, map } from 'rxjs';
-import { Configuration } from '../../../system/services/configuration/configuration';
+import { FileInfo } from 'internal-api';
+import { distinctUntilChanged } from 'rxjs';
 import { DevicePixelRatioService } from '../../../system/services/device-pixel-ratio/device-pixel-ratio.service';
+import { ThumbnailLoaderService } from '../../../system/services/thumbnail-loader/thumbnail-loader.service';
 import { thumbUrl } from '../../../viewer/utils/image-url';
 
 @Component({
@@ -34,7 +23,7 @@ export class ThumbnailComponent {
   /* DI */
   private readonly devicePixelRatioService = inject(DevicePixelRatioService);
 
-  private readonly configuration = inject(Configuration);
+  private readonly thumbnailLoader = inject(ThumbnailLoaderService);
 
   /* Inputs/outputs */
   readonly image = input.required<FileInfo>();
@@ -60,58 +49,18 @@ export class ThumbnailComponent {
 
   protected readonly fit = signal('cover');
 
-  private readonly dimensions = toSignal(
-    this.configuration
-      .config()
-      .pipe(map(cfg => ({
-        width: cfg.gallery.thumbWidth ?? defaultThumbWidth,
-        height: cfg.gallery.thumbHeight ?? defaultThumbHeight
-      })))
-  );
-
-  protected readonly imageRef = viewChild<string, ElementRef<HTMLImageElement>>('imageTag', { read: ElementRef });
-
   /* Constructor */
   constructor() {
     effect(() => {
       this.hasError.set(false);
       this.isLoading.set(true);
 
-      const img = this.imageRef()?.nativeElement;
-
-      if (img === undefined) {
-        return;
-      }
-
-      img.addEventListener('load', this.onLoad);
-      img.addEventListener('error', this.onError);
+      this.thumbnailLoader
+        .add(this.url())
+        .subscribe({
+          next: success => this.hasError.set(!success),
+          complete: () => this.isLoading.set(false)
+        });
     });
   }
-
-  /* Events */
-  private readonly onLoad = (event: Event) => {
-    this.isLoading.set(false);
-    this.hasError.set(false);
-
-    if (event.target instanceof HTMLImageElement) {
-      const dimensions = this.dimensions();
-
-      if (dimensions === undefined) {
-        return;
-      }
-
-      this.fit.set(
-        dimensions.width > event.target.naturalWidth && dimensions.height > event.target.naturalHeight
-          ? 'none'
-          : 'cover'
-      );
-    }
-  };
-
-  private readonly onError = (event: ErrorEvent) => {
-    console.log('onError', event);
-
-    this.isLoading.set(false);
-    this.hasError.set(true);
-  };
 }
