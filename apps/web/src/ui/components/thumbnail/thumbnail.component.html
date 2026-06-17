@@ -1,22 +1,25 @@
-@if (isLoading()) {
+@let loading = isLoading();
+@let error = hasError();
+
+@if (loading) {
   <div class="message">
     <ui-caption>Loading...</ui-caption>
   </div>
 }
 
-@if (hasError()) {
+@if (error) {
   <div class="message">
     <ui-caption variant="warn">Failed to load an image</ui-caption>
   </div>
 }
 
-<button [title]="image().name"
-        (click)="clicked.emit(image())">
+@if (!loading && !error) {
+  <button [title]="image().name"
+          (click)="clicked.emit(image())">
 
-  <img #imageTag
-       loading="lazy"
-       [alt]="image().name"
-       [style.zoom]="zoom()"
-       [src]="url()" />
+    <img loading="lazy"
+         [alt]="image().name"
+         [src]="url()" />
 
-</button>
+  </button>
+}

@@ -7,15 +7,15 @@ import {
   inject,
   input,
   output,
-  signal,
-  viewChild
+  signal
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CaptionComponent } from '@light-matter/ui';
-import { defaultThumbHeight, defaultThumbWidth, FileInfo } from 'internal-api';
-import { map } from 'rxjs';
-import { Configuration } from '../../../system/services/configuration/configuration';
-import { imageUrl } from '../../../viewer/utils/image-url';
+import { FileInfo } from 'internal-api';
+import { distinctUntilChanged } from 'rxjs';
+import { DevicePixelRatioService } from '../../../system/services/device-pixel-ratio/device-pixel-ratio.service';
+import { ThumbnailLoaderService } from '../../../system/services/thumbnail-loader/thumbnail-loader.service';
+import { thumbUrl } from '../../../viewer/utils/image-url';
 
 @Component({
   selector: 'app-thumbnail',
@@ -30,73 +30,66 @@ import { imageUrl } from '../../../viewer/utils/image-url';
   }
 })
 export class ThumbnailComponent {
+  /* DI */
+  private readonly devicePixelRatioService = inject(DevicePixelRatioService);
+
+  private readonly thumbnailLoader = inject(ThumbnailLoaderService);
+
+  private readonly elementRef = inject(ElementRef);
+
+  /* Inputs/outputs */
   readonly image = input.required<FileInfo>();
-
-  readonly url = computed(() => imageUrl(this.image().path));
-
-  readonly isLoading = signal<boolean>(true);
-
-  readonly hasError = signal<boolean>(false);
 
   readonly clicked = output<FileInfo>();
 
-  protected readonly fit = signal('cover');
-
-  private readonly configuration = inject(Configuration);
-
-  private readonly dimensions = toSignal(
-    this.configuration
-      .config()
-      .pipe(map(cfg => ({
-        width: cfg.gallery.thumbWidth ?? defaultThumbWidth,
-        height: cfg.gallery.thumbHeight ?? defaultThumbHeight
-      })))
+  /* State */
+  private readonly pixelRatio = toSignal(
+    this.devicePixelRatioService
+      .pixelRatio()
+      .pipe(distinctUntilChanged())
   );
 
-  protected readonly imageRef = viewChild<string, ElementRef<HTMLImageElement>>('imageTag', { read: ElementRef });
+  readonly url = computed(() => {
+    const image = this.image();
+    const pixelRatio = this.pixelRatio() || 1;
+    return thumbUrl(image.path, 288 / pixelRatio, 192 / pixelRatio);
+  });
 
-  // TODO Add zoom tracking service
-  protected readonly zoom = signal(1);
+  readonly isLoading = signal<boolean>(true);
 
+  readonly isVisible = signal<boolean>(false);
+
+  readonly hasError = signal<boolean>(false);
+
+  protected readonly fit = signal('cover');
+
+  /* Constructor */
   constructor() {
     effect(() => {
       this.hasError.set(false);
       this.isLoading.set(true);
 
-      const img = this.imageRef()?.nativeElement;
-
-      if (img === undefined) {
+      if (!this.isVisible()) {
         return;
       }
 
-      img.addEventListener('load', this.onLoad);
-      img.addEventListener('error', this.onError);
+      this.thumbnailLoader
+        .add(this.url())
+        .subscribe({
+          next: success => this.hasError.set(!success),
+          complete: () => this.isLoading.set(false)
+        });
     });
-  }
 
-  private readonly onLoad = (event: Event) => {
-    this.isLoading.set(false);
-    this.hasError.set(false);
-
-    if (event.target instanceof HTMLImageElement) {
-      const dimensions = this.dimensions();
-
-      if (dimensions === undefined) {
+    const observer = new IntersectionObserver(entries => {
+      if (entries.length === 0 || entries[0].intersectionRatio <= 0) {
         return;
       }
 
-      this.fit.set(
-        dimensions.width > event.target.naturalWidth && dimensions.height > event.target.naturalHeight
-          ? 'none'
-          : 'cover'
-      );
-    }
-  };
+      observer.disconnect();
+      this.isVisible.set(true);
+    });
 
-  private readonly onError = (event: ErrorEvent) => {
-    console.log('onError', event);
-
-    this.isLoading.set(false);
-    this.hasError.set(true);
-  };
+    observer.observe(this.elementRef.nativeElement);
+  }
 }

@@ -69,9 +69,7 @@ export class ViewNavigator {
     this.images$
       .pipe(
         take(1),
-        tap(images => console.log('images', images)),
         map(images => images.findIndex(image => image.path === path)),
-        tap(index => console.log('index', index)),
         tap(index => this.selectedIndex$.next(index)),
         map(index => index >= 0)
       );

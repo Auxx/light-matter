@@ -1,9 +1,9 @@
-import { BrowserWindow, net, protocol, screen, shell } from 'electron';
+import { BrowserWindow, protocol, screen, shell } from 'electron';
 import { appProtocol } from 'internal-api';
-import * as url from 'node:url';
 import { join } from 'path';
 import { format } from 'url';
 import { environment } from '../environments/environment';
+import { protocolHandler } from '../protocol-handler/protocol-handler';
 import { StartupConfig } from '../startup-config/startup-config';
 import { rendererAppName, rendererAppPort } from './constants';
 
@@ -49,11 +49,7 @@ export default class App {
     // initialization and is ready to create browser windows.
     // Some APIs can only be used after this event occurs.
     if (rendererAppName) {
-      protocol.handle(
-        appProtocol,
-        request =>
-          net.fetch(url.pathToFileURL(decodeURIComponent(request.url.slice(`${appProtocol}://`.length))).toString())
-      );
+      protocol.handle(appProtocol, protocolHandler);
 
       App.initMainWindow();
       App.loadMainWindow();

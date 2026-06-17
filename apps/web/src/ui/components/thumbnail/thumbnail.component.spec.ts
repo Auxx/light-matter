@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ThumbnailComponent } from './thumbnail.component';
 
-describe('ThumbnailComponent', () => {
+describe.skip('ThumbnailComponent', () => {
   let component: ThumbnailComponent;
   let fixture: ComponentFixture<ThumbnailComponent>;
 

@@ -3,6 +3,7 @@ import { Dialogs } from '../dialogs/dialogs';
 import { Exif } from '../exif/exif';
 import { FileSystem } from '../file-system/file-system';
 import { ProcessManager } from '../process-manager/process-manager';
+import { ThumbManager } from '../thumb-manager/thumb-manager';
 
 /**
  * Basic dependency injector. Don't have time to investigate DI solutions for Node/Electron.
@@ -15,7 +16,8 @@ export class Injector {
     Exif: new Exif(),
     FileSystem: new FileSystem(),
     ProcessManager: new ProcessManager(),
-    CacheManager: new CacheManager()
+    CacheManager: new CacheManager(),
+    ThumbManager: new ThumbManager()
   } as const;
 
   private constructor() {
