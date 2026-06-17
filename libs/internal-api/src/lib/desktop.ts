@@ -68,6 +68,11 @@ export const appProtocol = 'atom';
 
 export const appConfigName = 'light-matter.config.json';
 
+export const appPaths = {
+  thumbs: '/thumbs',
+  raw: '/raw'
+};
+
 export type SystemPath =
   | 'home'
   | 'appData'
