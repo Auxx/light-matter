@@ -17,6 +17,7 @@ export const insertMigrationRecord = `INSERT INTO migrations (name) VALUES (:nam
 export const insertCacheFile = `
 INSERT INTO cache_files (
   source_name,
+  source_tag,
   source_size,
   updated_at,
   target_path,
@@ -24,6 +25,7 @@ INSERT INTO cache_files (
 )
 VALUES(
   :sourceName,
+  :sourceTag,
   :sourceSize,
   :updatedAt,
   :targetPath,

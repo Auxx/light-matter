@@ -1,6 +1,7 @@
 import { app } from 'electron';
 import { nanoid } from 'nanoid/non-secure';
 import { copyFile, mkdir, stat } from 'node:fs/promises';
+import { extname } from 'node:path';
 import { DatabaseSync, SQLOutputValue } from 'node:sqlite';
 import { dirname, join } from 'path';
 import {
@@ -17,7 +18,7 @@ export class CacheManager {
 
   private readonly cacheConfigFile = join(this.userData, 'cache.sqlite');
 
-  private readonly cacheDir = join(this.userData, 'cache');
+  private readonly cacheDir = join(this.userData, 'image-cache');
 
   private readonly db = new DatabaseSync(this.cacheConfigFile);
 
@@ -45,12 +46,16 @@ export class CacheManager {
       return existing['target_path'] as string;
     }
 
-    const hash = this.generateCacheName();
+    const hash = this.generateCacheName(extname(sourceName));
     const targetPath = this.getCacheItemPath(hash);
+
+    await mkdir(dirname(targetPath), { recursive: true });
 
     if (callback) {
       const result = await callback(targetPath);
-      return result ? this.addEntry(sourceName, sourceTag, sourceSize, updatedAt, targetPath) : null;
+      return result
+        ? this.addEntry(sourceName, sourceTag, sourceSize, updatedAt, targetPath)
+        : null;
     }
 
     await mkdir(dirname(targetPath), { recursive: true });
@@ -74,7 +79,7 @@ export class CacheManager {
     });
   };
 
-  private readonly generateCacheName = (): string => nanoid(32);
+  private readonly generateCacheName = (ext: string): string => `${nanoid(32)}${ext}`;
 
   private readonly getCacheItemPath = (hash: string): string =>
     join(this.cacheDir, hash[0], hash.substring(0, 2), hash);
