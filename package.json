@@ -30,6 +30,7 @@
   "private": true,
   "dependencies": {
     "exiftool-vendored": "35.21.0",
+    "nanoid": "5.1.11",
     "tslib": "2.8.1",
     "wasm-vips": "^0.0.18",
     "yargs": "18.0.0"
@@ -81,7 +82,6 @@
     "jest-preset-angular": "16.1.1",
     "jest-util": "30.3.0",
     "jsonc-eslint-parser": "3.1.0",
-    "nanoid": "5.1.11",
     "ng-mocks": "14.15.2",
     "ng-packagr": "21.1.0",
     "nx": "22.5.4",
