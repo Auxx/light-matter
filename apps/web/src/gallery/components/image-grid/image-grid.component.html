@@ -10,7 +10,7 @@
   </ui-title>
 </ui-toolbar>
 
-<div class="wrapper">
+<div class="wrapper" #scrollBox>
   <app-images [images]="images()"
               (selected)="selected.emit($event)" />
 </div>
