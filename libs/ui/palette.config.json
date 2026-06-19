@@ -2,17 +2,17 @@
   "surfaces": {
     "colors": {
       "default": {
-        "luma": 0.3,
+        "luma": 0.4,
         "chroma": 0.005,
         "hue": 228
       },
       "primary": {
-        "luma": 0.3,
+        "luma": 0.4,
         "chroma": 0.04,
         "hue": 250
       },
       "warn": {
-        "luma": 0.3,
+        "luma": 0.4,
         "chroma": 0.04,
         "hue": 22
       }
@@ -25,7 +25,7 @@
       "highest"
     ],
     "stepping": {
-      "luma": -0.075,
+      "luma": -0.1,
       "chroma": 0,
       "hue": 0
     },

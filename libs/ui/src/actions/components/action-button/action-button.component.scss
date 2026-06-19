@@ -56,7 +56,7 @@
 
   &:hover {
     button {
-      color: oklch(from var(--color) calc(l - l * 0.08) calc(c + c * 0.3) h);
+      color: oklch(from var(--color) calc(l - l * 0.15) calc(c + c * 0.3) h);
     }
   }
 
