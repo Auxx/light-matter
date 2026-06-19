@@ -1,3 +1,4 @@
+export * from './components/menu-separator/menu-separator.component';
 export * from './components/overlay/overlay.component';
 export * from './components/popup-menu/popup-menu.component';
 export * from './components/side-panel/side-panel.component';
