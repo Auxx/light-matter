@@ -11,6 +11,8 @@ import { arrowCircleRight } from './arrow_circle_right_16_regular';
 import { arrowCircleUpFilled } from './arrow_circle_up_16_filled';
 import { arrowCircleUp } from './arrow_circle_up_16_regular';
 import { arrowClockwise } from './arrow_clockwise_16_regular';
+import { arrowSort } from './arrow_sort_16_regular';
+import { calendar } from './calendar_16_regular';
 import { chevronDown } from './chevron_down_16_regular';
 import { chevronLeft } from './chevron_left_16_regular';
 import { chevronRight } from './chevron_right_16_regular';
@@ -33,9 +35,11 @@ import { moreHorizontal } from './more_horizontal_16_regular';
 import { moreVertical } from './more_vertical_16_regular';
 import { reorderDotsVertical } from './re_order_dots_vertical_16_regular';
 import { reorderVertical } from './re_order_vertical_16_regular';
+import { save } from './save_16_regular';
 import { scaleFill } from './scale_fill_20_regular';
 import { scaleFit } from './scale_fit_16_regular';
 import { scanCamera } from './scan_camera_16_regular';
+import { text } from './text_16_regular';
 import { zoomFitFilled } from './zoom_fit_16_filled';
 import { zoomFit } from './zoom_fit_16_regular';
 import { zoomInFilled } from './zoom_in_16_filled';
@@ -57,6 +61,8 @@ export const allIcons = [
   'arrowCircleUpFilled',
   'arrowCircleUp',
   'arrowClockwise',
+  'arrowSort',
+  'calendar',
   'chevronDown',
   'chevronLeft',
   'chevronRight',
@@ -79,9 +85,11 @@ export const allIcons = [
   'moreVertical',
   'reorderDotsVertical',
   'reorderVertical',
+  'save',
   'scaleFill',
   'scaleFit',
   'scanCamera',
+  'text',
   'zoomFitFilled',
   'zoomFit',
   'zoomInFilled',
@@ -106,6 +114,8 @@ export const iconMapping: Record<IconName, string> = {
   arrowCircleUpFilled,
   arrowCircleUp,
   arrowClockwise,
+  arrowSort,
+  calendar,
   chevronDown,
   chevronLeft,
   chevronRight,
@@ -128,9 +138,11 @@ export const iconMapping: Record<IconName, string> = {
   moreVertical,
   reorderDotsVertical,
   reorderVertical,
+  save,
   scaleFill,
   scaleFit,
   scanCamera,
+  text,
   zoomFitFilled,
   zoomFit,
   zoomInFilled,
