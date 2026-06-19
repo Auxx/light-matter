@@ -1,7 +1,7 @@
 :host {
   display: block;
   position: fixed;
-  left: calc(var(--dim-xx-large) * 2);
+  left: calc(var(--dim-x-large));
   bottom: calc(var(--dim-xx-large) * 2);
 
   background: var(--color-surface-default-medium);
