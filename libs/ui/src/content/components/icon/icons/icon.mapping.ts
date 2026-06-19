@@ -12,11 +12,15 @@ import { arrowCircleUpFilled } from './arrow_circle_up_16_filled';
 import { arrowCircleUp } from './arrow_circle_up_16_regular';
 import { arrowClockwise } from './arrow_clockwise_16_regular';
 import { arrowSort } from './arrow_sort_16_regular';
+import { arrowSortDown } from './arrow_sort_down_16_regular';
+import { arrowSortUp } from './arrow_sort_up_16_regular';
 import { calendar } from './calendar_16_regular';
 import { chevronDown } from './chevron_down_16_regular';
 import { chevronLeft } from './chevron_left_16_regular';
 import { chevronRight } from './chevron_right_16_regular';
 import { chevronUp } from './chevron_up_16_regular';
+import { circleSmallFilled } from './circle_small_20_filled';
+import { circleSmall } from './circle_small_20_regular';
 import { desktopFilled } from './desktop_16_filled';
 import { desktop } from './desktop_16_regular';
 import { dismissCircleFilled } from './dismiss_circle_16_filled';
@@ -62,11 +66,15 @@ export const allIcons = [
   'arrowCircleUp',
   'arrowClockwise',
   'arrowSort',
+  'arrowSortDown',
+  'arrowSortUp',
   'calendar',
   'chevronDown',
   'chevronLeft',
   'chevronRight',
   'chevronUp',
+  'circleSmall',
+  'circleSmallFilled',
   'desktopFilled',
   'desktop',
   'dismissCircleFilled',
@@ -115,11 +123,15 @@ export const iconMapping: Record<IconName, string> = {
   arrowCircleUp,
   arrowClockwise,
   arrowSort,
+  arrowSortDown,
+  arrowSortUp,
   calendar,
   chevronDown,
   chevronLeft,
   chevronRight,
   chevronUp,
+  circleSmall,
+  circleSmallFilled,
   desktopFilled,
   desktop,
   dismissCircleFilled,
