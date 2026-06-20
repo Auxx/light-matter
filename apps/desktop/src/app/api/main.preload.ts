@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import { Desktop } from 'internal-api';
+import { Desktop, SortDirection, SortType } from 'internal-api';
 
 const api: Desktop = {
   ProcessManager: {
@@ -19,7 +19,8 @@ const api: Desktop = {
     writeJson: <T>(path: string, data: T) => ipcRenderer.invoke('FileSystem.writeJson', path, data),
     readGalleryLocation: (path: string) => ipcRenderer.invoke('FileSystem.readGalleryLocation', path),
     readDirectories: (path: string) => ipcRenderer.invoke('FileSystem.readDirectories', path),
-    readImages: (path: string) => ipcRenderer.invoke('FileSystem.readImages', path)
+    readImages: (path: string, sortBy: SortType, sortDir: SortDirection) =>
+      ipcRenderer.invoke('FileSystem.readImages', path, sortBy, sortDir)
   },
 
   Dialogs: {

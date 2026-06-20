@@ -40,7 +40,8 @@ export class MouseTrackerService {
           dx: event.clientX - state.originX,
           dy: event.clientY - state.originY
         })
-      );
+      )
+        .subscribe();
     };
 
     this.document.body.addEventListener('mouseup', mouseUp);

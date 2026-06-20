@@ -42,7 +42,8 @@ export class Configuration {
       const result = structuredClone(config);
       result.gallery = { ...result.gallery, ...options };
       return result;
-    });
+    })
+      .subscribe();
   };
 
   private readonly init = async () => {

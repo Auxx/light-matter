@@ -1,6 +1,7 @@
 @let galleryRoot = galleryRoot$ | async;
 @let selectedLocation = selectedLocation$ | async;
 @let images = images$ | async;
+@let sorting = sortMode$ | async | default:defaultSortMode;
 
 <ui-side-panel>
 
@@ -17,6 +18,10 @@
 
   <app-image-grid [selectedLocation]="selectedLocation"
                   [images]="images"
+                  [sortBy]="sorting.sortBy"
+                  [sortDirection]="sorting.sortDir"
+                  (sortByChanged)="onSortByChange($event)"
+                  (sortDirChanged)="onSortDirChange($event)"
                   (selected)="onImageSelected($event)" />
 
 </ui-side-panel>

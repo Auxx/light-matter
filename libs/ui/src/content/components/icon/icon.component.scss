@@ -6,8 +6,8 @@
   --icon-size-x-large: calc(var(--dim-medium) * 4);
 
   display: block;
-  max-width: fit-content;
-  height: fit-content;
+  width: var(--icon-size);
+  height: var(--icon-size);
 
   ::ng-deep {
     svg {

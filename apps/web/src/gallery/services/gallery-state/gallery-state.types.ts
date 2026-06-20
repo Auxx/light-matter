@@ -1,4 +1,5 @@
 import { TreeNode } from '@light-matter/ui';
+import { allSortDirections, allSortTypes, SortDirection, SortType } from 'internal-api';
 
 export const galleryRoot = (): TreeNode<string> => ({
   id: '',
@@ -18,3 +19,13 @@ export const treeNode = (location: string, hideMenu: boolean): TreeNode<string> 
 });
 
 export const formatLocationName = (value: string): string => value.split(/[/\\]/g).pop() ?? value;
+
+export interface SortMode {
+  sortBy: SortType;
+  sortDir: SortDirection;
+}
+
+export const defaultSortMode = (): SortMode => ({
+  sortBy: allSortTypes[0],
+  sortDir: allSortDirections[0]
+});

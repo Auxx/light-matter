@@ -8,14 +8,7 @@ ui-toolbar {
   margin-bottom: var(--dim-xx-large);
 
   aside {
-    ui-icon {
-      transform: rotate(0deg);
-      transition: transform 250ms ease-in-out;
-
-      &.show-folders {
-        transform: rotate(180deg);
-      }
-    }
+    margin-right: var(--dim-xx-large);
   }
 }
 

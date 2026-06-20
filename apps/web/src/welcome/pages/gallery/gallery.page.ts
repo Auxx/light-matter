@@ -15,12 +15,13 @@ import {
   TreeLoadRequest,
   TreeNode
 } from '@light-matter/ui';
-import { FileInfo } from 'internal-api';
+import { FileInfo, SortDirection, SortType } from 'internal-api';
 import { ImageGridComponent } from '../../../gallery/components/image-grid/image-grid.component';
 import { GalleryLocations } from '../../../gallery/services/gallery-locations/gallery-locations';
 import { GalleryState } from '../../../gallery/services/gallery-state/gallery-state';
-import { treeNode } from '../../../gallery/services/gallery-state/gallery-state.types';
+import { defaultSortMode, treeNode } from '../../../gallery/services/gallery-state/gallery-state.types';
 import { Dialogs } from '../../../ipc/dialogs';
+import { DefaultPipe } from '../../../system/pipes/default/default.pipe';
 import { ImageView } from '../../../viewer/pages/image-view/image-view';
 import { ViewNavigator } from '../../../viewer/services/view-navigator/view-navigator';
 
@@ -36,7 +37,8 @@ import { ViewNavigator } from '../../../viewer/services/view-navigator/view-navi
     CdkMenuItem,
     IconComponent,
     PopupMenuComponent,
-    TextComponent
+    TextComponent,
+    DefaultPipe
   ],
   templateUrl: './gallery.page.html',
   styleUrl: './gallery.page.scss',
@@ -60,6 +62,8 @@ export class GalleryPage {
 
   protected readonly tree = viewChild.required(TreeComponent);
 
+  protected readonly defaultSortMode = defaultSortMode();
+
   /* State */
   readonly galleryRoot$ = this.galleryState.galleryRoot();
 
@@ -67,7 +71,13 @@ export class GalleryPage {
 
   readonly images$ = this.galleryState.images();
 
+  readonly sortMode$ = this.galleryState.sortMode();
+
   /* Event handlers */
+  protected readonly onSortByChange = (value: SortType) => this.galleryState.changeSorting({ sortBy: value });
+
+  protected readonly onSortDirChange = (value: SortDirection) => this.galleryState.changeSorting({ sortDir: value });
+
   protected readonly onAddLocation = async () => {
     const result = await this.dialogs.openFolder();
 

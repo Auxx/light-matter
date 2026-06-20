@@ -1,6 +1,16 @@
+import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
 import { ChangeDetectionStrategy, Component, effect, ElementRef, input, output, viewChild } from '@angular/core';
-import { TitleComponent, ToolbarComponent } from '@light-matter/ui';
-import { FileInfo } from 'internal-api';
+import {
+  ActionButtonComponent,
+  IconComponent,
+  MenuSeparatorComponent,
+  PopupMenuComponent,
+  StopPropagation,
+  TextComponent,
+  TitleComponent,
+  ToolbarComponent
+} from '@light-matter/ui';
+import { allSortDirections, allSortTypes, FileInfo, SortDirection, SortType } from 'internal-api';
 import { ImagesComponent } from '../images/images.component';
 
 @Component({
@@ -8,7 +18,16 @@ import { ImagesComponent } from '../images/images.component';
   imports: [
     ImagesComponent,
     ToolbarComponent,
-    TitleComponent
+    TitleComponent,
+    ActionButtonComponent,
+    IconComponent,
+    StopPropagation,
+    CdkMenuTrigger,
+    CdkMenu,
+    CdkMenuItem,
+    PopupMenuComponent,
+    TextComponent,
+    MenuSeparatorComponent
   ],
   templateUrl: './image-grid.component.html',
   styleUrl: './image-grid.component.scss',
@@ -20,9 +39,18 @@ export class ImageGridComponent {
 
   readonly selectedLocation = input.required<string | null>();
 
+  readonly sortBy = input<SortType>(allSortTypes[0]);
+
+  readonly sortDirection = input<SortDirection>(allSortDirections[0]);
+
   /* Outputs */
   readonly selected = output<FileInfo>();
 
+  readonly sortByChanged = output<SortType>();
+
+  readonly sortDirChanged = output<SortDirection>();
+
+  /* State */
   private readonly scrollBox = viewChild<ElementRef<HTMLDivElement>>('scrollBox');
 
   /* Constructor */

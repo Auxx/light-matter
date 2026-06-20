@@ -1,5 +1,5 @@
 import { IpcMainInvokeEvent } from 'electron';
-import { ApiResponse, FileInfo, supportedFileExtensions } from 'internal-api';
+import { ApiResponse, FileInfo, SortDirection, SortType, supportedFileExtensions } from 'internal-api';
 import { Dirent, statSync } from 'node:fs';
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, extname, join } from 'node:path';
@@ -56,7 +56,7 @@ export class FileSystem {
         data: (await readdir(path, { withFileTypes: true }))
           .filter(file => file.isDirectory())
           .map(this.toFileInfo)
-          .sort(this.sortByName)
+          .sort(this.sortByNameAsc)
       };
     } catch (_) {
       return { success: false, errorMessage: `Failed to read directory at ${path}.` };
@@ -64,7 +64,12 @@ export class FileSystem {
   };
 
   @IpcHandler({ name: 'FileSystem.readImages' })
-  readonly readImages = async (_: IpcMainInvokeEvent, path: string): Promise<ApiResponse<FileInfo[]>> => {
+  readonly readImages = async (
+    _: IpcMainInvokeEvent,
+    path: string,
+    sortBy: SortType,
+    sortDir: SortDirection
+  ): Promise<ApiResponse<FileInfo[]>> => {
     try {
       return {
         success: true,
@@ -73,14 +78,25 @@ export class FileSystem {
             file.isFile() && supportedFileExtensions.includes(extname(file.name).toLowerCase().replace('.', ''))
           )
           .map(this.toFileInfo)
-          .sort(this.softByCreatedDate)
+          .sort(this.sortFiles(sortBy, sortDir))
       };
     } catch (_) {
       return { success: false, errorMessage: `Failed to read directory at ${path}.` };
     }
   };
 
-  private readonly sortByName = (a: FileInfo, b: FileInfo): number => {
+  private readonly sortFiles = (sortBy: SortType, sortDir: SortDirection) => {
+    switch (sortBy) {
+      case 'date':
+        return sortDir === 'asc' ? this.sortByCreatedDateAsc : this.sortByCreatedDateDesc;
+      case 'size':
+        return sortDir === 'asc' ? this.sortBySizeAsc : this.sortBySizeDesc;
+      case 'name':
+        return sortDir === 'asc' ? this.sortByNameAsc : this.sortByNameDesc;
+    }
+  };
+
+  private readonly sortByNameAsc = (a: FileInfo, b: FileInfo): number => {
     if (a.name < b.name) {
       return -1;
     }
@@ -92,7 +108,25 @@ export class FileSystem {
     return 0;
   };
 
-  private readonly softByCreatedDate = (a: FileInfo, b: FileInfo): number => a.createdAt - b.createdAt;
+  private readonly sortByNameDesc = (a: FileInfo, b: FileInfo): number => {
+    if (b.name < a.name) {
+      return -1;
+    }
+
+    if (b.name > a.name) {
+      return 1;
+    }
+
+    return 0;
+  };
+
+  private readonly sortByCreatedDateAsc = (a: FileInfo, b: FileInfo): number => a.createdAt - b.createdAt;
+
+  private readonly sortByCreatedDateDesc = (a: FileInfo, b: FileInfo): number => b.createdAt - a.createdAt;
+
+  private readonly sortBySizeAsc = (a: FileInfo, b: FileInfo): number => a.size - b.size;
+
+  private readonly sortBySizeDesc = (a: FileInfo, b: FileInfo): number => b.size - a.size;
 
   private readonly readGalleryDir = async (path: string): Promise<FileInfo[]> =>
     (await readdir(path, { withFileTypes: true }))
@@ -113,7 +147,6 @@ export class FileSystem {
         return a.createdAt - b.createdAt;
       });
 
-  // TODO Read image dimensions using https://github.com/photostructure/exiftool-vendored.js maybe?
   private readonly toFileInfo = (file: Dirent): FileInfo => {
     const path = join(file.parentPath, file.name);
 
@@ -123,7 +156,8 @@ export class FileSystem {
       parent: file.parentPath,
       isDirectory: file.isDirectory(),
       ext: extname(file.name),
-      createdAt: statSync(path).birthtimeMs
+      createdAt: statSync(path).birthtimeMs,
+      size: statSync(path).size
     };
   };
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApiResponse, DesktopFileSystem } from 'internal-api';
+import { ApiResponse, DesktopFileSystem, SortDirection, SortType } from 'internal-api';
 
 @Injectable({ providedIn: 'root' })
 export class FileSystem implements DesktopFileSystem {
@@ -17,5 +17,6 @@ export class FileSystem implements DesktopFileSystem {
 
   readonly readDirectories = async (path: string) => window.desktop.FileSystem.readDirectories(path);
 
-  readonly readImages = async (path: string) => window.desktop.FileSystem.readImages(path);
+  readonly readImages = async (path: string, sortBy: SortType, sortDir: SortDirection) =>
+    window.desktop.FileSystem.readImages(path, sortBy, sortDir);
 }

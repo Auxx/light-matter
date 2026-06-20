@@ -1,10 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-import { TreeNode } from '@light-matter/ui';
+import { TreeNode, updateSubject } from '@light-matter/ui';
 import { FileInfo } from 'internal-api';
-import { BehaviorSubject, map, Observable, startWith } from 'rxjs';
+import { BehaviorSubject, defer, filter, map, Observable, startWith, switchMap, take } from 'rxjs';
 import { FileSystem } from '../../../ipc/file-system';
 import { GalleryLocations } from '../gallery-locations/gallery-locations';
-import { galleryRoot, treeNode } from './gallery-state.types';
+import { defaultSortMode, galleryRoot, SortMode, treeNode } from './gallery-state.types';
 
 @Injectable({ providedIn: 'root' })
 export class GalleryState {
@@ -20,6 +20,8 @@ export class GalleryState {
 
   private readonly images$ = new BehaviorSubject<FileInfo[]>([]);
 
+  private readonly sortMode$ = new BehaviorSubject<SortMode>(defaultSortMode());
+
   private readonly galleryRoot$: Observable<TreeNode<string>> = this.locations$
     .pipe(
       startWith([]),
@@ -30,7 +32,7 @@ export class GalleryState {
 
           if (i === 0) {
             node.isSelected = true;
-            this.navigateTo(node.id).then();
+            this.navigateTo(node.id);
           }
 
           return node;
@@ -48,14 +50,27 @@ export class GalleryState {
 
   readonly selectedLocation = () => this.selectedLocation$.asObservable();
 
+  readonly sortMode = () => this.sortMode$.asObservable();
+
   /* Modifiers */
-  readonly navigateTo = async (path: string) => {
+  readonly navigateTo = (path: string): void => {
     this.selectedLocation$.next(path);
 
-    const response = await this.fileSystem.readImages(path);
-
-    this.images$.next(response.success ? response.data : []);
+    this.sortMode$
+      .pipe(
+        take(1),
+        switchMap(sortMode => defer(() => this.fileSystem.readImages(path, sortMode.sortBy, sortMode.sortDir)))
+      )
+      .subscribe(response => this.images$.next(response.success ? response.data : []));
   };
+
+  readonly changeSorting = (sortMode: Partial<SortMode>) =>
+    updateSubject(this.sortMode$, sortMode)
+      .pipe(
+        switchMap(() => this.selectedLocation$.pipe(take(1))),
+        filter(path => path !== null)
+      )
+      .subscribe(path => this.navigateTo(path));
 
   /* Misc */
   readonly getDirContents = async (path: string) => await this.fileSystem.readDirectories(path);
