@@ -46,6 +46,10 @@ export class ImageGridComponent {
   /* Outputs */
   readonly selected = output<FileInfo>();
 
+  readonly sortByChanged = output<SortType>();
+
+  readonly sortDirChanged = output<SortDirection>();
+
   /* State */
   private readonly scrollBox = viewChild<ElementRef<HTMLDivElement>>('scrollBox');
 
