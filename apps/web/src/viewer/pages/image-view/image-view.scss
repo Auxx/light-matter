@@ -1,4 +1,9 @@
 :host {
+  --animation-duration: 100ms;
+  --animation-timing: ease-in-out;
+  --animation-position-offset: 15%;
+  --animation-target-scale: 0.85;
+
   display: flex;
   flex-direction: column;
 
@@ -9,6 +14,32 @@
 
   app-image-renderer {
     flex: 1;
+
+    &.leave-left {
+      animation: animation-leave-left var(--animation-duration) var(--animation-timing);
+    }
+
+    &.enter-left {
+      @starting-style {
+        opacity: 0;
+        transform: translateX(calc(-1 * var(--animation-position-offset))) scale(var(--animation-target-scale));
+      }
+
+      animation: animation-enter-left var(--animation-duration) var(--animation-timing);
+    }
+
+    &.leave-right {
+      animation: animation-leave-right var(--animation-duration) var(--animation-timing);
+    }
+
+    &.enter-right {
+      @starting-style {
+        opacity: 0;
+        transform: translateX(var(--animation-position-offset)) scale(var(--animation-target-scale));
+      }
+
+      animation: animation-enter-right var(--animation-duration) var(--animation-timing);
+    }
   }
 
   ui-tool-menu {
@@ -29,5 +60,53 @@
     ui-slider {
       width: 150px;
     }
+  }
+}
+
+@keyframes animation-leave-left {
+  from {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(var(--animation-position-offset)) scale(var(--animation-target-scale));
+  }
+}
+
+@keyframes animation-enter-left {
+  from {
+    opacity: 0;
+    transform: translateX(calc(-1 * var(--animation-position-offset))) scale(var(--animation-target-scale));
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes animation-leave-right {
+  from {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(calc(-1 * var(--animation-position-offset))) scale(var(--animation-target-scale));
+  }
+}
+
+@keyframes animation-enter-right {
+  from {
+    opacity: 0;
+    transform: translateX(var(--animation-position-offset)) scale(var(--animation-target-scale));
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
   }
 }

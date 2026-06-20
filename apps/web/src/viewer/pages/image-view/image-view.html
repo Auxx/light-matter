@@ -20,6 +20,8 @@
   }
 
   <app-image-renderer [url]="selected.url"
+                      [class]="animationState()"
+                      (animationend)="onAnimationEnd($event)"
                       (dimensions)="imageDimensions.set($event)" />
 
   @if (!fullScreen) {
@@ -101,6 +103,7 @@
     </ui-tool-menu>
   }
 
+  <!-- TODO Refactor this mess into a separate component -->
   @if (exifVisible()) {
     <ui-info-overlay>
       <dl>
