@@ -52,7 +52,8 @@ export class GalleryState {
   readonly navigateTo = async (path: string) => {
     this.selectedLocation$.next(path);
 
-    const response = await this.fileSystem.readImages(path);
+    // TODO Update sorting
+    const response = await this.fileSystem.readImages(path, 'date', 'desc');
 
     this.images$.next(response.success ? response.data : []);
   };

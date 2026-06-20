@@ -18,9 +18,3 @@ export const treeNode = (location: string, hideMenu: boolean): TreeNode<string> 
 });
 
 export const formatLocationName = (value: string): string => value.split(/[/\\]/g).pop() ?? value;
-
-export const allSortTypes = [ 'date', 'name', 'size' ] as const;
-export type SortType = typeof allSortTypes[number];
-
-export const allSortDirections = [ 'desc', 'asc' ] as const;
-export type SortDirection = typeof allSortDirections[number];

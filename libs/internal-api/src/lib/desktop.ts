@@ -22,7 +22,7 @@ export interface DesktopFileSystem {
    */
   readonly readGalleryLocation: (path: string) => Promise<ApiResponse<FileInfo[]>>;
   readonly readDirectories: (path: string) => Promise<ApiResponse<FileInfo[]>>;
-  readonly readImages: (path: string) => Promise<ApiResponse<FileInfo[]>>;
+  readonly readImages: (path: string, sortBy: SortType, sortDir: SortDirection) => Promise<ApiResponse<FileInfo[]>>;
 }
 
 export interface DesktopDialogs {
@@ -108,3 +108,9 @@ export type ExifTags =
     ImagePixelDepth?: string;
     ChromaFormat?: string;
   };
+
+export const allSortTypes = [ 'date', 'name', 'size' ] as const;
+export type SortType = typeof allSortTypes[number];
+
+export const allSortDirections = [ 'desc', 'asc' ] as const;
+export type SortDirection = typeof allSortDirections[number];
