@@ -10,13 +10,7 @@ import {
   TitleComponent,
   ToolbarComponent
 } from '@light-matter/ui';
-import { FileInfo } from 'internal-api';
-import {
-  allSortDirections,
-  allSortTypes,
-  SortDirection,
-  SortType
-} from '../../services/gallery-state/gallery-state.types';
+import { allSortDirections, allSortTypes, FileInfo, SortDirection, SortType } from 'internal-api';
 import { ImagesComponent } from '../images/images.component';
 
 @Component({

@@ -32,19 +32,19 @@
     <ui-action-button cdkMenuItem>
       <ui-icon [icon]="sortType === 'date' ? 'circleSmallFilled' : 'EMPTY'" [inherit]="true" />
       <ui-icon icon="calendar" [inherit]="true" />
-      Date
+      <ui-text [inherit]="true">Date</ui-text>
     </ui-action-button>
 
     <ui-action-button cdkMenuItem>
       <ui-icon [icon]="sortType === 'name' ? 'circleSmallFilled' : 'EMPTY'" [inherit]="true" />
       <ui-icon icon="text" [inherit]="true" />
-      Name
+      <ui-text [inherit]="true">Name</ui-text>
     </ui-action-button>
 
     <ui-action-button cdkMenuItem>
       <ui-icon [icon]="sortType === 'size' ? 'circleSmallFilled' : 'EMPTY'" [inherit]="true" />
       <ui-icon icon="save" [inherit]="true" />
-      Size
+      <ui-text [inherit]="true">Size</ui-text>
     </ui-action-button>
 
     <ui-menu-separator />
@@ -52,13 +52,13 @@
     <ui-action-button cdkMenuItem>
       <ui-icon [icon]="sortDir === 'asc' ? 'circleSmallFilled' : 'EMPTY'" [inherit]="true" />
       <ui-icon icon="arrowSortUp" [inherit]="true" />
-      Ascending
+      <ui-text [inherit]="true">Ascending</ui-text>
     </ui-action-button>
 
     <ui-action-button cdkMenuItem>
       <ui-icon [icon]="sortDir === 'desc' ? 'circleSmallFilled' : 'EMPTY'" [inherit]="true" />
       <ui-icon icon="arrowSortDown" [inherit]="true" />
-      Descending
+      <ui-text [inherit]="true">Descending</ui-text>
     </ui-action-button>
 
   </ui-popup-menu>
