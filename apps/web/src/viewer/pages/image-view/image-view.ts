@@ -12,7 +12,7 @@ import {
   ToolMenuComponent
 } from '@light-matter/ui';
 import { ExifTags } from 'internal-api';
-import { fromEvent, map, startWith } from 'rxjs';
+import { filter, fromEvent, map, startWith, take } from 'rxjs';
 import { ExifService } from '../../../ipc/exif';
 import { ProcessManager } from '../../../ipc/process-manager';
 import { VerticalDivider } from '../../../system/components/vertical-divider/vertical-divider';
@@ -26,6 +26,7 @@ import {
   ImageDimensions
 } from '../../services/image-positioning/image-positioning.types';
 import { ViewNavigator } from '../../services/view-navigator/view-navigator';
+import { AnimationState } from './image-view.types';
 
 @Component({
   selector: 'app-image-view',
@@ -80,6 +81,8 @@ export class ImageView {
   protected readonly exifVisible = signal(false);
 
   protected readonly exifState = signal<false | ExifTags>(false);
+
+  protected readonly animationState = signal<AnimationState>('none');
 
   protected readonly zoomSlider = new FormControl(100, { nonNullable: true });
 
@@ -137,15 +140,45 @@ export class ImageView {
   };
 
   protected readonly prevPhoto = () => {
+    this.animationState.set('leave-left');
     this.exifVisible.set(false);
     this.exifState.set(false);
-    this.viewNavigator.previous();
   };
 
   protected readonly nextPhoto = () => {
+    this.animationState.set('leave-right');
     this.exifVisible.set(false);
     this.exifState.set(false);
-    this.viewNavigator.next();
+  };
+
+  protected readonly onAnimationEnd = (event: AnimationEvent) => {
+    const split = event.animationName.split('animation-');
+
+    if (split.length < 2) {
+      return;
+    }
+
+    const name = split[1];
+
+    switch (name) {
+      case 'leave-left':
+        this.viewNavigator.previous();
+        this.animationState.set('enter-left');
+        break;
+      case 'enter-left':
+        this.animationState.set('none');
+        break;
+      case 'leave-right':
+        this.viewNavigator.next();
+        this.animationState.set('enter-right');
+        break;
+      case 'enter-right':
+        this.animationState.set('none');
+        break;
+      default:
+        this.animationState.set('none');
+        break;
+    }
   };
 
   /* Misc */
@@ -159,11 +192,21 @@ export class ImageView {
 
         switch (event.key) {
           case 'ArrowLeft':
-            this.prevPhoto();
+            this.hasPrevious$
+              .pipe(
+                take(1),
+                filter(flag => flag)
+              )
+              .subscribe(() => this.prevPhoto());
             break;
 
           case 'ArrowRight':
-            this.nextPhoto();
+            this.hasNext$
+              .pipe(
+                take(1),
+                filter(flag => flag)
+              )
+              .subscribe(() => this.nextPhoto());
             break;
 
           case 'f':
