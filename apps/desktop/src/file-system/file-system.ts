@@ -120,13 +120,13 @@ export class FileSystem {
     return 0;
   };
 
-  private readonly sortByCreatedDateDesc = (a: FileInfo, b: FileInfo): number => a.createdAt - b.createdAt;
+  private readonly sortByCreatedDateAsc = (a: FileInfo, b: FileInfo): number => a.createdAt - b.createdAt;
 
-  private readonly sortByCreatedDateAsc = (a: FileInfo, b: FileInfo): number => b.createdAt - a.createdAt;
+  private readonly sortByCreatedDateDesc = (a: FileInfo, b: FileInfo): number => b.createdAt - a.createdAt;
 
-  private readonly sortBySizeDesc = (a: FileInfo, b: FileInfo): number => a.size - b.size;
+  private readonly sortBySizeAsc = (a: FileInfo, b: FileInfo): number => a.size - b.size;
 
-  private readonly sortBySizeAsc = (a: FileInfo, b: FileInfo): number => b.size - a.size;
+  private readonly sortBySizeDesc = (a: FileInfo, b: FileInfo): number => b.size - a.size;
 
   private readonly readGalleryDir = async (path: string): Promise<FileInfo[]> =>
     (await readdir(path, { withFileTypes: true }))
