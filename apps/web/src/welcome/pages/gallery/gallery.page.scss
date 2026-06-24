@@ -4,3 +4,11 @@
   justify-content: stretch;
   align-items: stretch;
 }
+
+ui-side-panel {
+  aside {
+    section {
+      padding: var(--dim-small);
+    }
+  }
+}

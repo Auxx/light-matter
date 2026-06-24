@@ -1,6 +1,7 @@
 :host {
   --border-radius: var(--border-radius-x-large);
-  --padding: var(--dim-small);
+  --padding: 0;
+  //--padding: var(--dim-small);
   --margin: var(--dim-large);
   --divider-color: var(--color-content-default-high);
   --background-color: var(--color-surface-default-low);
@@ -25,7 +26,7 @@
 
     ::ng-deep aside {
       height: 100%;
-      overflow: auto;
+      //overflow: auto;
     }
   }
 

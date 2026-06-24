@@ -13,7 +13,8 @@ import {
   TextComponent,
   TreeComponent,
   TreeLoadRequest,
-  TreeNode
+  TreeNode,
+  VerticalStackComponent
 } from '@light-matter/ui';
 import { FileInfo, SortDirection, SortType } from 'internal-api';
 import { ImageGridComponent } from '../../../gallery/components/image-grid/image-grid.component';
@@ -38,7 +39,8 @@ import { ViewNavigator } from '../../../viewer/services/view-navigator/view-navi
     IconComponent,
     PopupMenuComponent,
     TextComponent,
-    DefaultPipe
+    DefaultPipe,
+    VerticalStackComponent
   ],
   templateUrl: './gallery.page.html',
   styleUrl: './gallery.page.scss',
