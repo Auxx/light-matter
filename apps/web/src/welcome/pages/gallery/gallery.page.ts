@@ -11,6 +11,7 @@ import {
   PopupMenuComponent,
   SidePanelComponent,
   TextComponent,
+  ToolbarComponent,
   TreeComponent,
   TreeLoadRequest,
   TreeNode,
@@ -40,7 +41,8 @@ import { ViewNavigator } from '../../../viewer/services/view-navigator/view-navi
     PopupMenuComponent,
     TextComponent,
     DefaultPipe,
-    VerticalStackComponent
+    VerticalStackComponent,
+    ToolbarComponent
   ],
   templateUrl: './gallery.page.html',
   styleUrl: './gallery.page.scss',

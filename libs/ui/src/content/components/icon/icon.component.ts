@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, input } from '@an
 import { DomSanitizer } from '@angular/platform-browser';
 import { allExtendedSizes, ExtendedSize } from '../../types/size.types';
 import { allVariants, Variant } from '../../types/variant.types';
+import { allThicknesses, Thickness } from './icon.component.types';
 import { iconMapping, IconName } from './icons/icon.mapping';
 
 @Component({
@@ -13,6 +14,7 @@ import { iconMapping, IconName } from './icons/icon.mapping';
   host: {
     '[innerHTML]': 'iconCode()',
     '[style.--icon-size]': '`var(--icon-size-${size()})`',
+    '[style.--stroke-width]': 'strokeWidth()',
     '[style.--color]': 'color()'
   }
 })
@@ -22,6 +24,8 @@ export class IconComponent {
   readonly size = input<ExtendedSize>(allExtendedSizes[0]);
 
   readonly variant = input<Variant>(allVariants[0]);
+
+  readonly thickness = input<Thickness>(allThicknesses[0]);
 
   readonly inherit = input(false);
 
@@ -33,6 +37,15 @@ export class IconComponent {
     }
 
     return this.sanitizer.bypassSecurityTrustHtml(iconMapping[icon]);
+  });
+
+  protected readonly strokeWidth = computed(() => {
+    switch (this.thickness()) {
+      case 'medium':
+        return '0.5px';
+      case 'thin':
+        return '0';
+    }
   });
 
   private readonly sanitizer = inject(DomSanitizer);
