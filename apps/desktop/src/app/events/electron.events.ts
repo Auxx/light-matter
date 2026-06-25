@@ -18,7 +18,8 @@ export default class ElectronEvents {
           injector.inject('Dialogs'),
           injector.inject('Exif'),
           injector.inject('FileSystem'),
-          injector.inject('ProcessManager')
+          injector.inject('ProcessManager'),
+          injector.inject('CacheManager')
         ]
       );
 
