@@ -35,6 +35,7 @@ export interface DesktopExif {
 
 export interface DesktopCacheManager {
   readonly clear: () => Promise<void>;
+  readonly cacheSize: () => Promise<number>;
 }
 
 export interface Desktop {

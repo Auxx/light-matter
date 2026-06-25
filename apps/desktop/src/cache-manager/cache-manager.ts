@@ -1,9 +1,8 @@
 import { app } from 'electron';
 import { nanoid } from 'nanoid/non-secure';
-import { copyFile, mkdir, rm, stat } from 'node:fs/promises';
-import { extname } from 'node:path';
+import { copyFile, mkdir, readdir, rm, stat } from 'node:fs/promises';
+import { dirname, extname, join } from 'node:path';
 import { DatabaseSync, SQLOutputValue } from 'node:sqlite';
-import { dirname, join } from 'path';
 import { IpcHandler } from '../app/decorators/ipc-handler';
 import {
   clearCacheRecords,
@@ -33,6 +32,9 @@ export class CacheManager {
     this.db.exec(clearCacheRecords);
     await rm(this.cacheDir, { recursive: true });
   };
+
+  @IpcHandler({ name: 'CacheManager.cacheSize' })
+  readonly cacheSize = async (): Promise<number> => this.getDirSize(this.cacheDir);
 
   readonly exists = (sourceName: string, sourceTag: string): Record<string, SQLOutputValue> | null => {
     const row = this.db.prepare(findCacheFile).get({ sourceName, sourceTag });
@@ -111,5 +113,27 @@ export class CacheManager {
     });
 
     return targetPath;
+  };
+
+  private readonly getDirSize = async (directory: string): Promise<number> => {
+    let size = 0;
+
+    try {
+      const files = await readdir(directory, { withFileTypes: true });
+
+      for (const file of files) {
+        const filePath = join(directory, file.name);
+
+        if (file.isDirectory()) {
+          size += await this.getDirSize(filePath);
+        } else if (file.isFile()) {
+          size += (await stat(filePath)).size;
+        }
+      }
+    } catch {
+      return 0;
+    }
+
+    return size;
   };
 }
