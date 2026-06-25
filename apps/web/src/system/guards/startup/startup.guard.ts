@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import 'internal-api';
-import { firstValueFrom, map } from 'rxjs';
+import { firstValueFrom, map, switchMap } from 'rxjs';
 import { GalleryState } from '../../../gallery/services/gallery-state/gallery-state';
 import { FileSystem } from '../../../ipc/file-system';
 import { ProcessManager } from '../../../ipc/process-manager';
@@ -21,11 +21,15 @@ export const startupGuard: CanActivateFn = async () => {
     const image = argv._[0];
     const dir = await fileSystem.dirname(image);
 
-    await galleryState.navigateTo(dir);
-
     viewNavigator.standalone.set(true);
 
-    return firstValueFrom(viewNavigator.selectImage(image).pipe(map(() => router.createUrlTree([ '/view' ]))));
+    return firstValueFrom(
+      galleryState.navigateTo(dir)
+        .pipe(
+          switchMap(() => viewNavigator.selectImage(image)),
+          map(() => router.createUrlTree([ '/view' ]))
+        )
+    );
   }
 
   return router.createUrlTree([ '/welcome' ]);

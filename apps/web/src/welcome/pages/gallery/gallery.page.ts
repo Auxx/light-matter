@@ -115,7 +115,10 @@ export class GalleryPage {
     this.tree().updateNode(node);
   };
 
-  protected readonly selectLocation = (node: TreeNode<string>) => this.galleryState.navigateTo(node.id);
+  protected readonly selectLocation = (node: TreeNode<string>) =>
+    this.galleryState
+      .navigateTo(node.id)
+      .subscribe();
 
   protected readonly onImageSelected = (file: FileInfo) =>
     this.viewNavigator

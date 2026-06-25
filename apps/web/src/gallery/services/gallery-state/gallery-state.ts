@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { TreeNode, updateSubject } from '@light-matter/ui';
 import { FileInfo } from 'internal-api';
-import { BehaviorSubject, defer, filter, map, Observable, startWith, switchMap, take } from 'rxjs';
+import { BehaviorSubject, defer, filter, map, Observable, startWith, switchMap, take, tap } from 'rxjs';
 import { FileSystem } from '../../../ipc/file-system';
 import { GalleryLocations } from '../gallery-locations/gallery-locations';
 import { defaultSortMode, galleryRoot, SortMode, treeNode } from './gallery-state.types';
@@ -32,7 +32,7 @@ export class GalleryState {
 
           if (i === 0) {
             node.isSelected = true;
-            this.navigateTo(node.id);
+            this.navigateTo(node.id).subscribe();
           }
 
           return node;
@@ -53,15 +53,16 @@ export class GalleryState {
   readonly sortMode = () => this.sortMode$.asObservable();
 
   /* Modifiers */
-  readonly navigateTo = (path: string): void => {
+  readonly navigateTo = (path: string): Observable<boolean> => {
     this.selectedLocation$.next(path);
 
-    this.sortMode$
+    return this.sortMode$
       .pipe(
         take(1),
-        switchMap(sortMode => defer(() => this.fileSystem.readImages(path, sortMode.sortBy, sortMode.sortDir)))
-      )
-      .subscribe(response => this.images$.next(response.success ? response.data : []));
+        switchMap(sortMode => defer(() => this.fileSystem.readImages(path, sortMode.sortBy, sortMode.sortDir))),
+        tap(response => this.images$.next(response.success ? response.data : [])),
+        map(() => true)
+      );
   };
 
   readonly changeSorting = (sortMode: Partial<SortMode>) =>
@@ -70,7 +71,7 @@ export class GalleryState {
         switchMap(() => this.selectedLocation$.pipe(take(1))),
         filter(path => path !== null)
       )
-      .subscribe(path => this.navigateTo(path));
+      .subscribe(path => this.navigateTo(path).subscribe());
 
   /* Misc */
   readonly getDirContents = async (path: string) => await this.fileSystem.readDirectories(path);
