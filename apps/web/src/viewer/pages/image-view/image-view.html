@@ -99,6 +99,15 @@
                    size="large"
                    [inherit]="true" />
         </ui-action-button>
+
+        <ui-action-button title="Transcode"
+                          [compact]="true"
+                          (pressed)="transcode()">
+          <ui-icon icon="save"
+                   size="large"
+                   thickness="thin"
+                   [inherit]="true" />
+        </ui-action-button>
       </section>
     </ui-tool-menu>
   }

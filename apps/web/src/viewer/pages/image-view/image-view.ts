@@ -26,6 +26,7 @@ import {
   ImageDimensions
 } from '../../services/image-positioning/image-positioning.types';
 import { ViewNavigator } from '../../services/view-navigator/view-navigator';
+import { transcodeUrl } from '../../utils/image-url';
 import { AnimationState } from './image-view.types';
 
 @Component({
@@ -112,6 +113,23 @@ export class ImageView {
     } else {
       await this.document.documentElement.requestFullscreen();
     }
+  };
+
+  // TODO Sample code, remove once done
+  protected readonly transcode = async () => {
+    console.log('transcode');
+
+    this.selectedImage$
+      .pipe(take(1))
+      .subscribe(async selected => {
+        if (selected === null) {
+          return;
+        }
+
+        const url = transcodeUrl(selected.path);
+        const response = await fetch(url);
+        console.log(await response.json());
+      });
   };
 
   protected readonly goBack = () => {

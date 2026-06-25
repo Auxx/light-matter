@@ -19,3 +19,13 @@ export function thumbUrl(selectedFile: string, width: number, height: number): s
 
   return result.toString();
 }
+
+// TODO Probably not needed in the future
+export function transcodeUrl(selectedFile: string): string {
+  const result = new URL(`${appProtocol}://app`);
+
+  result.pathname = appPaths.transcode;
+  result.searchParams.set('image', selectedFile);
+
+  return result.toString();
+}
