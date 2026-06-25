@@ -1,0 +1,29 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.header {
+  flex: none;
+
+  &:not(:empty) {
+    height: calc(var(--dim-medium) * 5);
+    margin-bottom: var(--dim-small);
+  }
+}
+
+.content {
+  flex: 1;
+  overflow: auto;
+}
+
+.footer {
+  flex: none;
+
+  &:not(:empty) {
+    height: calc(var(--dim-medium) * 5);
+    margin-top: var(--dim-small);
+    background: var(--color-surface-default-high);
+  }
+}

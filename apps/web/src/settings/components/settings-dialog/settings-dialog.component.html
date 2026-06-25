@@ -1,0 +1,28 @@
+@let totalCacheSize = cacheSize();
+
+<ui-dialog>
+  <header>
+    <ui-title>Light Matter Settings</ui-title>
+  </header>
+  <section>
+    <ui-toolbar>
+      <ui-text [multiLine]="true"
+               [important]="true">
+        Cache size &ndash; {{ totalCacheSize | byteSize }}
+      </ui-text>
+
+      <aside>
+        <ui-flat-button variant="warn"
+                        [disabled]="totalCacheSize === 0"
+                        (pressed)="deleteCache()">
+          Delete cache
+        </ui-flat-button>
+      </aside>
+    </ui-toolbar>
+  </section>
+  <footer>
+    <ui-action-button (pressed)="dialogRef.close(false)">
+      Close
+    </ui-action-button>
+  </footer>
+</ui-dialog>

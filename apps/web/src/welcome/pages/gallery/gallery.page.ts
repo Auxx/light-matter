@@ -11,9 +11,11 @@ import {
   PopupMenuComponent,
   SidePanelComponent,
   TextComponent,
+  ToolbarComponent,
   TreeComponent,
   TreeLoadRequest,
-  TreeNode
+  TreeNode,
+  VerticalStackComponent
 } from '@light-matter/ui';
 import { FileInfo, SortDirection, SortType } from 'internal-api';
 import { ImageGridComponent } from '../../../gallery/components/image-grid/image-grid.component';
@@ -21,6 +23,7 @@ import { GalleryLocations } from '../../../gallery/services/gallery-locations/ga
 import { GalleryState } from '../../../gallery/services/gallery-state/gallery-state';
 import { defaultSortMode, treeNode } from '../../../gallery/services/gallery-state/gallery-state.types';
 import { Dialogs } from '../../../ipc/dialogs';
+import { SettingsDialogComponent } from '../../../settings/components/settings-dialog/settings-dialog.component';
 import { DefaultPipe } from '../../../system/pipes/default/default.pipe';
 import { ImageView } from '../../../viewer/pages/image-view/image-view';
 import { ViewNavigator } from '../../../viewer/services/view-navigator/view-navigator';
@@ -38,7 +41,9 @@ import { ViewNavigator } from '../../../viewer/services/view-navigator/view-navi
     IconComponent,
     PopupMenuComponent,
     TextComponent,
-    DefaultPipe
+    DefaultPipe,
+    VerticalStackComponent,
+    ToolbarComponent
   ],
   templateUrl: './gallery.page.html',
   styleUrl: './gallery.page.scss',
@@ -96,6 +101,8 @@ export class GalleryPage {
         }
       )
       .subscribe(() => this.galleryLocations.removeLocation(data.id));
+
+  protected readonly openSettings = () => SettingsDialogComponent.open(this.dialog);
 
   protected readonly loadTreeNode = async (state: TreeLoadRequest<string>) => {
     const result = await this.galleryState.getDirContents(state.node.id);

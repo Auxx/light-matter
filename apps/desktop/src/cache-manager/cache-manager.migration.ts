@@ -14,6 +14,8 @@ export const getMigrationRecords = `SELECT * FROM migrations ORDER BY rowid;`;
 
 export const insertMigrationRecord = `INSERT INTO migrations (name) VALUES (:name);`;
 
+export const clearCacheRecords = `DELETE FROM cache_files;`;
+
 export const insertCacheFile = `
 INSERT INTO cache_files (
   source_name,

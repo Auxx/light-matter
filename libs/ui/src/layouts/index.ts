@@ -8,4 +8,5 @@ export * from './components/tree-node/tree-node.component';
 export * from './components/tree-node/tree-node.component.types';
 export * from './components/tree/tree.component';
 export * from './components/tree/tree.component.types';
+export * from './components/vertical-stack/vertical-stack.component';
 export * from './services/overlay/overlay.service';

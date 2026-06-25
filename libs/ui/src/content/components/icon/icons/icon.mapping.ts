@@ -43,6 +43,7 @@ import { save } from './save_16_regular';
 import { scaleFill } from './scale_fill_20_regular';
 import { scaleFit } from './scale_fit_16_regular';
 import { scanCamera } from './scan_camera_16_regular';
+import { settings } from './settings_16_regular';
 import { text } from './text_16_regular';
 import { zoomFitFilled } from './zoom_fit_16_filled';
 import { zoomFit } from './zoom_fit_16_regular';
@@ -97,6 +98,7 @@ export const allIcons = [
   'scaleFill',
   'scaleFit',
   'scanCamera',
+  'settings',
   'text',
   'zoomFitFilled',
   'zoomFit',
@@ -154,6 +156,7 @@ export const iconMapping: Record<IconName, string> = {
   scaleFill,
   scaleFit,
   scanCamera,
+  settings,
   text,
   zoomFitFilled,
   zoomFit,

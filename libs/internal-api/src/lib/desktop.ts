@@ -33,11 +33,17 @@ export interface DesktopExif {
   readonly read: (path: string) => Promise<ApiResponse<ExifTags>>;
 }
 
+export interface DesktopCacheManager {
+  readonly clear: () => Promise<void>;
+  readonly cacheSize: () => Promise<number>;
+}
+
 export interface Desktop {
   readonly ProcessManager: DesktopProcessManager;
   readonly FileSystem: DesktopFileSystem;
   readonly Dialogs: DesktopDialogs;
   readonly Exif: DesktopExif;
+  readonly CacheManager: DesktopCacheManager;
 
   openFolder: () => Promise<FileListing>;
   openFile: () => Promise<FileListing>;

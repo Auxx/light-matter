@@ -6,14 +6,31 @@
 <ui-side-panel>
 
   <aside>
-    @if (galleryRoot !== null) {
-      <ui-tree #tree
-               [root]="galleryRoot"
-               [menu]="galleryMenu"
-               [enableLoading]="true"
-               (loadRequested)="loadTreeNode($event)"
-               (selected)="selectLocation($event)" />
-    }
+    <ui-vertical-stack>
+      <section>
+        @if (galleryRoot !== null) {
+          <ui-tree #tree
+                   [root]="galleryRoot"
+                   [menu]="galleryMenu"
+                   [enableLoading]="true"
+                   (loadRequested)="loadTreeNode($event)"
+                   (selected)="selectLocation($event)" />
+        }
+      </section>
+
+      <footer>
+        <ui-toolbar>
+          <aside>
+            <ui-action-button (pressed)="openSettings()">
+              <ui-icon icon="settings"
+                       size="large"
+                       thickness="thin"
+                       [inherit]="true" />
+            </ui-action-button>
+          </aside>
+        </ui-toolbar>
+      </footer>
+    </ui-vertical-stack>
   </aside>
 
   <app-image-grid [selectedLocation]="selectedLocation"

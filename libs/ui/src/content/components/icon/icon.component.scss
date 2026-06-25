@@ -18,7 +18,7 @@
       path {
         fill: var(--color);
         stroke: var(--color);
-        stroke-width: 0.5px;
+        stroke-width: var(--stroke-width);
       }
     }
   }
