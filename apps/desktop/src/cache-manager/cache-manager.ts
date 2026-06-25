@@ -44,6 +44,7 @@ export class CacheManager {
   readonly get = async (
     sourceName: string,
     sourceTag: string,
+    ext: string | null,
     callback?: (cachePath: string) => Promise<boolean>
   ): Promise<string | null> => {
     const stats = await stat(sourceName);
@@ -56,7 +57,7 @@ export class CacheManager {
       return existing['target_path'] as string;
     }
 
-    const hash = this.generateCacheName(extname(sourceName));
+    const hash = this.generateCacheName(ext === null ? extname(sourceName) : ext);
     const targetPath = this.getCacheItemPath(hash);
 
     await mkdir(dirname(targetPath), { recursive: true });

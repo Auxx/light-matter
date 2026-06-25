@@ -4,6 +4,7 @@ import { Exif } from '../exif/exif';
 import { FileSystem } from '../file-system/file-system';
 import { ProcessManager } from '../process-manager/process-manager';
 import { ThumbManager } from '../thumb-manager/thumb-manager';
+import { Transcoder } from '../transcoder/transcoder';
 
 /**
  * Basic dependency injector. Don't have time to investigate DI solutions for Node/Electron.
@@ -17,7 +18,8 @@ export class Injector {
     FileSystem: new FileSystem(),
     ProcessManager: new ProcessManager(),
     CacheManager: new CacheManager(),
-    ThumbManager: new ThumbManager()
+    ThumbManager: new ThumbManager(),
+    Transcoder: new Transcoder()
   } as const;
 
   private constructor() {

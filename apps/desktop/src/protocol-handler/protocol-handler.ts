@@ -13,6 +13,9 @@ export const protocolHandler = async (request: GlobalRequest): Promise<GlobalRes
     case appPaths.raw:
       return await raw(parsed.searchParams);
 
+    case appPaths.transcode:
+      return await transcode(parsed.searchParams);
+
     default:
       return notFound();
   }
@@ -36,6 +39,7 @@ const thumb = async (params: URLSearchParams): Promise<GlobalResponse> => {
     const result = await cacheManager.get(
       fileName,
       tag,
+      null,
       async target => {
         return await thumbManager.generate(
           fileName,
@@ -70,6 +74,37 @@ const raw = async (params: URLSearchParams): Promise<GlobalResponse> => {
     console.log(_error);
     return notFound();
   }
+};
+
+const transcode = async (params: URLSearchParams): Promise<GlobalResponse> => {
+  const injector = Injector.getInstance();
+  const cacheManager = injector.inject('CacheManager');
+  const transcoder = injector.inject('Transcoder');
+  const fileName = params.get('image');
+
+  if (fileName === null) {
+    return notFound();
+  }
+
+  const result = await cacheManager.get(
+    fileName,
+    'transcode',
+    '.jxl',
+    async target => {
+      return await transcoder.generate(
+        fileName,
+        target
+      );
+    }
+  );
+
+  return new Response(
+    JSON.stringify({
+      fileName,
+      result
+    }),
+    { headers: { 'Content-Type': 'application/json; charset=UTF-8' } }
+  );
 };
 
 const notFound = () => new Response('Not found', { status: 404 });

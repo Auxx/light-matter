@@ -76,7 +76,8 @@ export const appConfigName = 'light-matter.config.json';
 
 export const appPaths = {
   thumbs: '/thumbs',
-  raw: '/raw'
+  raw: '/raw',
+  transcode: '/transcode'
 };
 
 export type SystemPath =
