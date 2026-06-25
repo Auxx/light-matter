@@ -1,10 +1,12 @@
 import { app } from 'electron';
 import { nanoid } from 'nanoid/non-secure';
-import { copyFile, mkdir, stat } from 'node:fs/promises';
+import { copyFile, mkdir, rm, stat } from 'node:fs/promises';
 import { extname } from 'node:path';
 import { DatabaseSync, SQLOutputValue } from 'node:sqlite';
 import { dirname, join } from 'path';
+import { IpcHandler } from '../app/decorators/ipc-handler';
 import {
+  clearCacheRecords,
   createMigrationTable,
   dbMigrations,
   findCacheFile,
@@ -25,6 +27,12 @@ export class CacheManager {
   constructor() {
     this.init();
   }
+
+  @IpcHandler({ name: 'CacheManager.clear' })
+  readonly clear = async () => {
+    this.db.exec(clearCacheRecords);
+    await rm(this.cacheDir, { recursive: true });
+  };
 
   readonly exists = (sourceName: string, sourceTag: string): Record<string, SQLOutputValue> | null => {
     const row = this.db.prepare(findCacheFile).get({ sourceName, sourceTag });

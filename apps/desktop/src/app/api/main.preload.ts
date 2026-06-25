@@ -31,6 +31,10 @@ const api: Desktop = {
     read: (path: string) => ipcRenderer.invoke('Exif.read', path)
   },
 
+  CacheManager: {
+    clear: () => ipcRenderer.invoke('CacheManager.clear')
+  },
+
   // TODO: Deprecated methods, should be moved into a handler class in the future
   openFolder: () => ipcRenderer.invoke('openFolder'),
   openFile: () => ipcRenderer.invoke('openFile'),
