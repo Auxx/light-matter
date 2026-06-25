@@ -37,14 +37,16 @@ export class SettingsDialogComponent {
 
   /* Constructor */
   constructor() {
-    this.init().then();
+    this.updateCacheSize().then();
   }
 
   /* State modifiers */
-  private readonly init = async () => {
-    const cacheSize = await this.cacheManager.cacheSize();
-    console.log('cacheSize', cacheSize);
-    this.cacheSize.set(cacheSize);
+  private readonly updateCacheSize = async () => this.cacheSize.set(await this.cacheManager.cacheSize());
+
+  /* Event handlers */
+  protected readonly deleteCache = async () => {
+    await this.cacheManager.clear();
+    await this.updateCacheSize();
   };
 
   /* Static methods */
