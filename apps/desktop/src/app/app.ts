@@ -150,7 +150,14 @@ export default class App {
     App.application.setPath('userData', join(App.application.getPath('appData'), 'light-matter'));
     App.startupConfig = new StartupConfig(app);
 
-    protocol.registerSchemesAsPrivileged([ { scheme: appProtocol, privileges: { bypassCSP: true } } ]);
+    protocol.registerSchemesAsPrivileged([ {
+      scheme: appProtocol,
+      privileges: {
+        bypassCSP: true,
+        corsEnabled: true,
+        supportFetchAPI: true
+      }
+    } ]);
 
     app.commandLine.appendSwitch('enable-features', 'JXLImageFormat');
     app.commandLine.appendSwitch('enable-experimental-web-platform-features');
