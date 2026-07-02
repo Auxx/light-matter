@@ -1,5 +1,6 @@
 import { net } from 'electron';
 import { appPaths } from 'internal-api';
+import { extname } from 'node:path';
 import * as url from 'node:url';
 import { Injector } from '../injector/injector';
 
@@ -67,6 +68,9 @@ const raw = async (params: URLSearchParams): Promise<GlobalResponse> => {
   if (fileName === null) {
     return notFound();
   }
+
+  const ext = extname(fileName);
+  console.log(ext);
 
   try {
     return net.fetch(url.pathToFileURL(fileName).toString());

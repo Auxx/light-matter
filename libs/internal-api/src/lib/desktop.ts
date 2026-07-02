@@ -106,7 +106,32 @@ export const supportedFileExtensions = [
   'svg',
   'webp',
   'avif',
-  'bmp'
+  'bmp',
+  // 'heif',
+  // 'heifs',
+  // 'heic',
+  // 'heics',
+  // 'avci',
+  // 'avcs',
+  // 'hif',
+  'exr'
+];
+
+export const transcodedFileExtensions = [
+  // 'heif',
+  // 'heifs',
+  // 'heic',
+  // 'heics',
+  // 'avci',
+  // 'avcs',
+  // 'hif',
+  // 'heifs',
+  // 'heic',
+  // 'heics',
+  // 'avci',
+  // 'avcs',
+  // 'hif',
+  'exr'
 ];
 
 export type ExifTags =
