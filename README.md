@@ -1,16 +1,23 @@
 # Light Matter
 
-A simple image viewer with HDR photo support for Windows (support for Linux and macOS is coming soon).
+A simple image viewer with HDR photo support for Windows and Linux (macOS support is coming soon).
 
 <a href="https://apps.microsoft.com/detail/9P96SPR78HM8"><img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/></a>
 
 ## Installation
 
-The preferred way to install Light Matter is from [Microsoft Store](https://apps.microsoft.com/detail/9P96SPR78HM8).
+The preferred way to install Light Matter on Windows is from [Microsoft Store](https://apps.microsoft.com/detail/9P96SPR78HM8).
 
 You can alternatively download an unsigned EXE installer from [GitHub Release](https://github.com/Auxx/light-matter/releases) page.
 
-![Light Matter screenshot](https://store-images.s-microsoft.com/image/apps.27459.14077974629932777.28e00b08-4914-4eb2-bfa9-45f69bc6dc32.1b5bf212-4309-4e31-aad9-c655a975aca6 "Light Matter screenshot")
+### Linux
+
+Download the latest `LightMatter-*.AppImage` from the [GitHub Release](https://github.com/Auxx/light-matter/releases) page, make it executable, and run it:
+
+```bash
+chmod +x LightMatter-*.AppImage
+./LightMatter-*.AppImage
+```
 
 ## Features
 

@@ -17,6 +17,7 @@
     "make:prod": "npm run build:all && nx run desktop:make",
     "make:prod-nsis": "nx run desktop:make",
     "make:prod-appx": "nx run desktop:make --makerOptionsPath=apps/desktop/src/app/options/maker-appx.options.json",
+    "make:prod-appimage": "nx run desktop:make --makerOptionsPath=apps/desktop/src/app/options/maker-linux.options.json",
     "postinstall": "electron-builder install-app-deps",
     "nxe:build:frontend": "nx build web",
     "nxe:build:backend": "nx build desktop",
