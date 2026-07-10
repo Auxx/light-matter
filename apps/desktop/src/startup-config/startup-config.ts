@@ -84,8 +84,10 @@ export class StartupConfig {
       const configPath = this.configPath();
       const result = readFileSync(configPath, 'utf-8');
       return JSON.parse(result);
-    } catch (_) {
-      console.log('ERROR: Startup config file not found');
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') {
+        console.error('ERROR: Unable to load startup config file', error);
+      }
       return null;
     }
   };

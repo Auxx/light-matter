@@ -14,9 +14,15 @@
   ],
   "linux": {
     "target": "appimage",
+    "executableName": "light-matter",
     "category": "Graphics",
     "icon": "./apps/desktop/src/assets/icon.png",
-    "maintainer": "hexmode.org"
+    "maintainer": "hexmode.org",
+    "desktop": {
+      "entry": {
+        "StartupWMClass": "light-matter"
+      }
+    }
   },
   "appImage": {
     "artifactName": "LightMatter-${version}.${ext}"

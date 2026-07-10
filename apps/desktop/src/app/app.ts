@@ -80,7 +80,7 @@ export default class App {
       height: height,
       show: false,
       title: 'Light Matter',
-      icon: '/assets/icon.ico',
+      icon: join(__dirname, 'assets', process.platform === 'win32' ? 'icon.ico' : 'icon.png'),
       webPreferences: {
         contextIsolation: true,
         backgroundThrottling: false,
@@ -146,6 +146,11 @@ export default class App {
 
     App.BrowserWindow = browserWindow;
     App.application = app;
+
+    if (process.platform === 'linux') {
+      // Must match the AppImage's light-matter.desktop filename for KDE/Wayland icon lookup.
+      App.application.commandLine.appendSwitch('class', 'light-matter');
+    }
 
     App.application.setPath('userData', join(App.application.getPath('appData'), 'light-matter'));
     App.startupConfig = new StartupConfig(app);
