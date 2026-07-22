@@ -11,7 +11,7 @@ export class Exif {
     try {
       return { success: true, data: await et.read(path) };
     } catch (e) {
-      return { success: false, errorMessage: e.message };
+      return { success: false, errorMessage: e instanceof Error ? e.message : 'Unknown error' };
     }
   };
 }

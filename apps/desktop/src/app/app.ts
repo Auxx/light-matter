@@ -10,15 +10,15 @@ import { rendererAppName, rendererAppPort } from './constants';
 export default class App {
   // Keep a global reference of the window object, if you don't, the window will
   // be closed automatically when the JavaScript object is garbage collected.
-  static mainWindow: Electron.BrowserWindow;
+  static mainWindow: Electron.BrowserWindow | null;
   static application: Electron.App;
-  static BrowserWindow;
+  static BrowserWindow: typeof BrowserWindow;
 
   static startupConfig: StartupConfig;
 
   public static isDevelopmentMode() {
     const isEnvironmentSet: boolean = 'ELECTRON_IS_DEV' in process.env;
-    const getFromEnvironment: boolean = parseInt(process.env.ELECTRON_IS_DEV, 10) === 1;
+    const getFromEnvironment: boolean = parseInt(process.env.ELECTRON_IS_DEV ?? '0', 10) === 1;
 
     return isEnvironmentSet ? getFromEnvironment : !environment.production;
   }
@@ -37,7 +37,7 @@ export default class App {
   }
 
   private static onRedirect(event: Event, url: string) {
-    if (url !== App.mainWindow.webContents.getURL()) {
+    if (url !== App.mainWindow?.webContents.getURL()) {
       // this is a normal external redirect, open it in a new browser window
       event.preventDefault();
       shell.openExternal(url);
@@ -92,6 +92,10 @@ export default class App {
 
     // if main window is ready to show, close the splash window and show the main window
     App.mainWindow.once('ready-to-show', () => {
+      if (App.mainWindow === null) {
+        return;
+      }
+
       App.mainWindow.show();
 
       // In dev mode - show DevTools and minimise the window to avoid interruptions on app reloads after file saves.
@@ -111,6 +115,10 @@ export default class App {
     // });
 
     App.mainWindow.on('close', () => {
+      if (App.mainWindow === null) {
+        return;
+      }
+
       App.startupConfig.saveBounds(App.mainWindow.getBounds());
     });
 
@@ -124,17 +132,23 @@ export default class App {
   }
 
   private static loadMainWindow() {
+    if (App.mainWindow === null) {
+      return;
+    }
+
     // load the index.html of the app.
     if (!App.application.isPackaged) {
-      App.mainWindow.loadURL(`http://localhost:${rendererAppPort}`);
+      App.mainWindow.loadURL(`http://localhost:${rendererAppPort}`).then();
     } else {
-      App.mainWindow.loadURL(
-        format({
-          pathname: join(__dirname, '..', rendererAppName, 'index.html'),
-          protocol: 'file:',
-          slashes: true
-        })
-      );
+      App.mainWindow
+        .loadURL(
+          format({
+            pathname: join(__dirname, '..', rendererAppName, 'index.html'),
+            protocol: 'file:',
+            slashes: true
+          })
+        )
+        .then();
     }
   }
 

@@ -60,7 +60,9 @@ export class StartupConfig {
       return;
     }
 
-    const system = config['system'];
+    // TODO Implement better solution when migrating config manager from UI to Main
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const system: any = config['system' as keyof typeof config];
 
     if (!(system instanceof Object)) {
       return;

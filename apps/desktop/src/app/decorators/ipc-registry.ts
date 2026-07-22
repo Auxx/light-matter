@@ -1,3 +1,5 @@
+import { IpcMainInvokeEvent } from 'electron';
+
 interface ClassDescriptor {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   ctor: Function;
@@ -34,8 +36,14 @@ export class IpcRegistry {
     this.hangingMethods.forEach(method => {
       const instance = instances.find(i => Object.getPrototypeOf(i) === method.proto);
 
-      if (instance instanceof Object && instance !== null && instance[method.methodName] instanceof Function) {
-        ipc.handle(method.handlerName, instance[method.methodName]);
+      if (instance instanceof Object && instance !== null) {
+        const m = instance[method.methodName as keyof typeof instance];
+        if (m instanceof Function) {
+          ipc.handle(
+            method.handlerName,
+            m as (event: IpcMainInvokeEvent, ...args: unknown[]) => (Promise<unknown>) | (unknown)
+          );
+        }
       }
     });
   };

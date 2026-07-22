@@ -1,4 +1,4 @@
-import { AngularProjectConfiguration } from '@nx/angular/internal';
+import { AngularProjectConfiguration } from '@nx/angular/dist/src/utils/types';
 import { generateFiles, joinPathFragments, names, readProjectConfiguration, Tree } from '@nx/devkit';
 import {
   defaultComponentPrefix,
