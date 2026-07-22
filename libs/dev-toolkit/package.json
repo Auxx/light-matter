@@ -8,8 +8,8 @@
   "generators": "./generators.json",
   "executors": "./executors.json",
   "dependencies": {
-    "@nx/angular": "22.5.4",
-    "@nx/devkit": "22.5.4",
+    "@nx/angular": "23.1.0",
+    "@nx/devkit": "23.1.0",
     "tslib": "^2.3.0",
     "ts-morph": "^28.0.0"
   }

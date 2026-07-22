@@ -2,11 +2,11 @@
   "name": "@light-matter/ui",
   "version": "0.0.1",
   "peerDependencies": {
-    "@angular/cdk": "21.2.12",
-    "@angular/common": "21.2.14",
-    "@angular/core": "21.2.14",
-    "@angular/forms": "21.2.14",
-    "@angular/platform-browser": "21.2.14",
+    "@angular/cdk": "22.0.5",
+    "@angular/common": "22.0.7",
+    "@angular/core": "22.0.7",
+    "@angular/forms": "22.0.7",
+    "@angular/platform-browser": "22.0.7",
     "rxjs": "7.8.2"
   },
   "sideEffects": false
