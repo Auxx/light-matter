@@ -6,7 +6,7 @@
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "dependencies": {
-    "exiftool-vendored": "35.21.0",
+    "exiftool-vendored": "37.0.0",
     "tslib": "^2.3.0",
     "typia": "13.2.0",
     "yargs": "^18.0.0"
