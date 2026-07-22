@@ -18,7 +18,14 @@
       "internal-api": ["libs/internal-api/src/index.ts"],
       "@lmgm/dev-toolkit": ["libs/dev-toolkit/src/index.ts"],
       "@light-matter/ui": ["libs/ui/src/index.ts"]
-    }
+    },
+    "strict": true,
+    "noUncheckedSideEffectImports": false,
+    "types": [
+      "*"
+    ],
+    "esModuleInterop": false,
+    "ignoreDeprecations": "6.0"
   },
   "exclude": ["node_modules", "tmp"]
 }
