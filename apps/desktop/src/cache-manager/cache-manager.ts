@@ -1,5 +1,6 @@
 import { app } from 'electron';
 import { nanoid } from 'nanoid/non-secure';
+import { mkdirSync } from 'node:fs';
 import { copyFile, mkdir, readdir, rm, stat } from 'node:fs/promises';
 import { dirname, extname, join } from 'node:path';
 import { DatabaseSync, SQLOutputValue } from 'node:sqlite';
@@ -21,9 +22,12 @@ export class CacheManager {
 
   private readonly cacheDir = join(this.userData, 'image-cache');
 
-  private readonly db = new DatabaseSync(this.cacheConfigFile);
+  private readonly db: DatabaseSync;
 
   constructor() {
+    // SQLite does not create its parent directory, unlike the image cache below.
+    mkdirSync(this.userData, { recursive: true });
+    this.db = new DatabaseSync(this.cacheConfigFile);
     this.init();
   }
 

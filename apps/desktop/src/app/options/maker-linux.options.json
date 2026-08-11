@@ -1,0 +1,33 @@
+{
+  "$schema": "../../../../../node_modules/nx-electron/src/validation/maker.schema.json",
+  "productName": "Light Matter",
+  "fileAssociations": [
+    { "ext": "jpg", "role": "Viewer" },
+    { "ext": "jpeg", "role": "Viewer" },
+    { "ext": "jxl", "role": "Viewer" },
+    { "ext": "png", "role": "Viewer" },
+    { "ext": "gif", "role": "Viewer" },
+    { "ext": "svg", "role": "Viewer" },
+    { "ext": "webp", "role": "Viewer" },
+    { "ext": "avif", "role": "Viewer" },
+    { "ext": "bmp", "role": "Viewer" }
+  ],
+  "linux": {
+    "target": "appimage",
+    "executableName": "light-matter",
+    "category": "Graphics",
+    "icon": "./apps/desktop/src/assets/icon.png",
+    "maintainer": "hexmode.org",
+    "desktop": {
+      "entry": {
+        "StartupWMClass": "light-matter"
+      }
+    }
+  },
+  "appImage": {
+    "artifactName": "LightMatter-${version}.${ext}"
+  },
+  "electronLanguages": [
+    "en-GB"
+  ]
+}

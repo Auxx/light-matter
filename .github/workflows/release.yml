@@ -8,10 +8,10 @@ on:
       - '*'
 
 jobs:
-  build:
+  build-windows:
     permissions:
       contents: write
-    name: Build and release
+    name: Build and release Windows
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v6
@@ -30,3 +30,24 @@ jobs:
           files: |
             dist/executables/*.exe
             dist/executables/*.appx
+
+  build-linux:
+    permissions:
+      contents: write
+    name: Build and release Linux
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24.14.0"
+          cache: 'npm'
+      - run: npm ci --prefer-offline --no-audit --ignore-scripts
+      - run: npm run build:all
+      - run: npm run make:prod-appimage
+      - uses: softprops/action-gh-release@v3
+        with:
+          files: |
+            dist/executables/*.AppImage

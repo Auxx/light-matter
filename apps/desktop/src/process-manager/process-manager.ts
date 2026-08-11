@@ -23,19 +23,29 @@ export class ProcessManager {
   readonly argv = async () => yargs(hideBin(process.argv)).parse();
 
   @IpcHandler({ name: 'ProcessManager.getSystemPaths' })
-  readonly getSystemPaths = async (): Promise<SystemPathMapping> => ({
-    home: App.application.getPath('home'),
-    appData: App.application.getPath('appData'),
-    userData: App.application.getPath('userData'),
-    temp: App.application.getPath('temp'),
-    exe: App.application.getPath('exe'),
-    desktop: App.application.getPath('desktop'),
-    documents: App.application.getPath('documents'),
-    downloads: App.application.getPath('downloads'),
-    music: App.application.getPath('music'),
-    pictures: App.application.getPath('pictures'),
-    videos: App.application.getPath('videos'),
-    recent: App.application.getPath('recent'),
-    appConfig: App.startupConfig.configPath()
-  });
+  readonly getSystemPaths = async (): Promise<SystemPathMapping> => {
+    const getPath = (name: Parameters<typeof app.getPath>[0]): string => {
+      try {
+        return App.application.getPath(name);
+      } catch (_) {
+        return '';
+      }
+    };
+
+    return {
+      home: getPath('home'),
+      appData: getPath('appData'),
+      userData: getPath('userData'),
+      temp: getPath('temp'),
+      exe: getPath('exe'),
+      desktop: getPath('desktop'),
+      documents: getPath('documents'),
+      downloads: getPath('downloads'),
+      music: getPath('music'),
+      pictures: getPath('pictures'),
+      videos: getPath('videos'),
+      recent: getPath('recent'),
+      appConfig: App.startupConfig.configPath()
+    };
+  };
 }
