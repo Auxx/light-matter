@@ -1,7 +1,7 @@
 {
   "name": "@light-matter/source",
   "author": "hexmode.org",
-  "version": "0.1.4",
+  "version": "0.1.5-beta.1",
   "description": "A simple image viewer with HDR photo support for Windows",
   "license": "MIT",
   "scripts": {
