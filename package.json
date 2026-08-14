@@ -74,7 +74,7 @@
     "angular-eslint": "21.3.0",
     "autoprefixer": "10.4.27",
     "dprint": "0.52.0",
-    "electron": "42.2.0",
+    "electron": "43.4.0",
     "eslint": "10.0.3",
     "husky": "9.1.7",
     "jest": "30.3.0",
