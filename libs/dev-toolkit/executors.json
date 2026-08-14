@@ -1,5 +1,10 @@
 {
   "executors": {
+    "build": {
+      "implementation": "./src/executors/build/executor",
+      "schema": "./src/executors/build/schema.json",
+      "description": "Build an Electron application"
+    },
     "palette": {
       "implementation": "./src/executors/palette/palette",
       "schema": "./src/executors/palette/palette.schema.json",
