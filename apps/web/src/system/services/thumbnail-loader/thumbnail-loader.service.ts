@@ -1,72 +1,100 @@
 import { Injectable } from '@angular/core';
-import { filter, map, mergeMap, Observable, ReplaySubject, Subject, take } from 'rxjs';
-
-interface QueueItem {
-  id: string;
-  obs: Observable<boolean>;
-}
-
-interface QueueResult {
-  id: string;
-  status: boolean;
-}
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ThumbnailLoaderService {
-  private readonly queue$ = new Subject<QueueItem>();
-
-  private readonly result$ = new ReplaySubject<QueueResult>(1);
-
-  constructor() {
-    this.queue$
-      .pipe(
-        mergeMap(
-          item =>
-            item.obs
-              .pipe(
-                map(status => ({
-                  id: item.id,
-                  status
-                }))
-              ),
-          4
-        )
-      )
-      .subscribe(result => this.result$.next(result));
-  }
+  private readonly maxConcurrent = 4;
+  private activeCount = 0;
+  private readonly pendingTasks: Array<() => void> = [];
 
   readonly add = (url: string): Observable<boolean> => {
-    const result = this.result$
-      .pipe(
-        filter(r => r.id === url),
-        take(1),
-        map(r => r.status)
-      );
+    return new Observable<boolean>(observer => {
+      let status: 'pending' | 'active' | 'completed' | 'aborted' = 'pending';
+      let image: HTMLImageElement | null = null;
+      let cleanupListeners: (() => void) | null = null;
 
-    this.queue$.next({
-      id: url,
-      obs: this.loadImage(url)
+      const startLoading = () => {
+        if (status !== 'pending') {
+          return;
+        }
+        status = 'active';
+        this.activeCount++;
+
+        image = new Image();
+
+        const onLoad = () => {
+          if (status !== 'active') {
+            return;
+          }
+          status = 'completed';
+          cleanup();
+          this.activeCount--;
+          observer.next(true);
+          observer.complete();
+          this.processQueue();
+        };
+
+        const onError = () => {
+          if (status !== 'active') {
+            return;
+          }
+          status = 'completed';
+          cleanup();
+          this.activeCount--;
+          observer.next(false);
+          observer.complete();
+          this.processQueue();
+        };
+
+        const cleanup = () => {
+          if (image) {
+            image.removeEventListener('load', onLoad);
+            image.removeEventListener('error', onError);
+          }
+        };
+
+        cleanupListeners = cleanup;
+
+        image.addEventListener('load', onLoad);
+        image.addEventListener('error', onError);
+
+        image.src = url;
+      };
+
+      if (this.activeCount < this.maxConcurrent) {
+        startLoading();
+      } else {
+        this.pendingTasks.push(startLoading);
+      }
+
+      return () => {
+        if (status === 'pending') {
+          status = 'aborted';
+          const index = this.pendingTasks.indexOf(startLoading);
+          if (index !== -1) {
+            this.pendingTasks.splice(index, 1);
+          }
+        } else if (status === 'active') {
+          status = 'aborted';
+          if (cleanupListeners) {
+            cleanupListeners();
+          }
+          if (image) {
+            image.src = '';
+          }
+          this.activeCount--;
+          this.processQueue();
+        }
+      };
     });
-
-    return result;
   };
 
-  private readonly loadImage = (url: string) =>
-    new Observable<boolean>(observer => {
-      const image = new Image();
-
-      image.addEventListener('load', () => {
-        observer.next(true);
-        observer.complete();
-      });
-
-      image.addEventListener('error', () => {
-        observer.next(false);
-        observer.complete();
-      });
-
-      observer.add(() => image.src = '');
-
-      image.src = url;
-    });
+  private processQueue(): void {
+    while (this.activeCount < this.maxConcurrent && this.pendingTasks.length > 0) {
+      const nextTask = this.pendingTasks.shift();
+      if (nextTask) {
+        nextTask();
+      }
+    }
+  }
 }

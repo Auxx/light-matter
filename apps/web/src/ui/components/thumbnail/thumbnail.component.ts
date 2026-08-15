@@ -66,6 +66,8 @@ export class ThumbnailComponent implements OnDestroy {
 
   private loaderSubscription: Subscription | null = null;
 
+  private intersectionObserver: IntersectionObserver | null = null;
+
   /* Constructor */
   constructor() {
     effect(() => {
@@ -86,19 +88,20 @@ export class ThumbnailComponent implements OnDestroy {
         });
     });
 
-    const observer = new IntersectionObserver(entries => {
+    this.intersectionObserver = new IntersectionObserver(entries => {
       if (entries.length === 0 || entries[0].intersectionRatio <= 0) {
         return;
       }
 
-      observer.disconnect();
+      this.intersectionObserver?.disconnect();
       this.isVisible.set(true);
     });
 
-    observer.observe(this.elementRef.nativeElement);
+    this.intersectionObserver.observe(this.elementRef.nativeElement);
   }
 
   ngOnDestroy() {
+    this.intersectionObserver?.disconnect();
     this.loaderSubscription?.unsubscribe();
   }
 }
