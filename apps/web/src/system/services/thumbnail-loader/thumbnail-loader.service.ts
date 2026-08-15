@@ -65,6 +65,8 @@ export class ThumbnailLoaderService {
         observer.complete();
       });
 
+      observer.add(() => image.src = '');
+
       image.src = url;
     });
 }
