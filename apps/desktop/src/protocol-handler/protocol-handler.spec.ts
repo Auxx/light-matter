@@ -159,6 +159,96 @@ describe('protocolHandler', () => {
 
         expect(response.status).toBe(404);
       });
+
+      it('should return 404 immediately if request.signal is already aborted', async () => {
+        const controller = new AbortController();
+        controller.abort();
+
+        const encodedPath = encodeURIComponent(testImagePath);
+        const request = new Request(`atom://app/thumbs?image=${encodedPath}&width=200&height=200`, {
+          signal: controller.signal
+        });
+        const response = await protocolHandler(request);
+
+        expect(response.status).toBe(404);
+        expect(mockCacheManager.get).not.toHaveBeenCalled();
+      });
+
+      it('should pass request.signal to cacheManager callback and thumbManager.generate', async () => {
+        const controller = new AbortController();
+        const encodedPath = encodeURIComponent(testImagePath);
+        const request = new Request(`atom://app/thumbs?image=${encodedPath}&width=200&height=200`, {
+          signal: controller.signal
+        });
+
+        mockCacheManager.get.mockImplementation(
+          async (
+            fileName: string,
+            _tag: string,
+            generateCb: (target: string) => Promise<boolean>
+          ) => {
+            const success = await generateCb('generated-target.jpg');
+            return success ? testImagePath : null;
+          }
+        );
+        mockThumbManager.generate.mockResolvedValue(true);
+
+        const response = await protocolHandler(request);
+
+        expect(mockThumbManager.generate).toHaveBeenCalledWith(
+          testImagePath,
+          'generated-target.jpg',
+          200,
+          200,
+          expect.any(AbortSignal)
+        );
+        const passedSignal = mockThumbManager.generate.mock.calls[0][4] as AbortSignal;
+        expect(passedSignal.aborted).toBe(false);
+        controller.abort();
+        expect(passedSignal.aborted).toBe(true);
+        expect(response.status).toBe(200);
+      });
+
+      it('should return false in cache generation callback if signal becomes aborted before generate', async () => {
+        const controller = new AbortController();
+        const encodedPath = encodeURIComponent(testImagePath);
+        const request = new Request(`atom://app/thumbs?image=${encodedPath}&width=200&height=200`, {
+          signal: controller.signal
+        });
+
+        mockCacheManager.get.mockImplementation(
+          async (
+            _fileName: string,
+            _tag: string,
+            generateCb: (target: string) => Promise<boolean>
+          ) => {
+            controller.abort();
+            return await generateCb('generated-target.jpg');
+          }
+        );
+
+        const response = await protocolHandler(request);
+
+        expect(mockThumbManager.generate).not.toHaveBeenCalled();
+        expect(response.status).toBe(404);
+      });
+
+      it('should return 404 and not stream raw fallback if request.signal is aborted after cacheManager.get', async () => {
+        const controller = new AbortController();
+        const encodedPath = encodeURIComponent(testImagePath);
+        const request = new Request(`atom://app/thumbs?image=${encodedPath}&width=200&height=200`, {
+          signal: controller.signal
+        });
+
+        mockCacheManager.get.mockImplementation(async () => {
+          controller.abort();
+          return null;
+        });
+
+        const response = await protocolHandler(request);
+
+        expect(response.status).toBe(404);
+      });
     });
   });
 });

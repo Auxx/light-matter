@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { Worker } from 'node:worker_threads';
-import type { ThumbWorkerRequest, ThumbWorkerResponse } from './thumb-worker';
+import type { ThumbWorkerCancelRequest, ThumbWorkerGenerateRequest, ThumbWorkerResponse } from './thumb-worker';
 
 export class ThumbManager {
   private worker: Worker | null = null;
@@ -29,8 +29,13 @@ export class ThumbManager {
     source: string,
     target: string,
     width: number,
-    height: number
+    height: number,
+    signal?: AbortSignal
   ): Promise<boolean> => {
+    if (signal?.aborted) {
+      return false;
+    }
+
     if (!this.worker) {
       this.initWorker();
 
@@ -42,9 +47,42 @@ export class ThumbManager {
 
     return new Promise<boolean>(resolve => {
       const id = randomUUID();
-      this.pendingRequests.set(id, resolve);
 
-      const request: ThumbWorkerRequest = {
+      let onAbort: (() => void) | undefined;
+
+      const cleanup = () => {
+        if (signal && onAbort) {
+          signal.removeEventListener('abort', onAbort);
+        }
+      };
+
+      const wrappedResolve = (success: boolean) => {
+        cleanup();
+        resolve(success);
+      };
+
+      this.pendingRequests.set(id, wrappedResolve);
+
+      if (signal) {
+        onAbort = () => {
+          this.cancel(id);
+          const callback = this.pendingRequests.get(id);
+          if (callback) {
+            this.pendingRequests.delete(id);
+            callback(false);
+          }
+        };
+
+        if (signal.aborted) {
+          onAbort();
+          return;
+        }
+
+        signal.addEventListener('abort', onAbort, { once: true });
+      }
+
+      const request: ThumbWorkerGenerateRequest = {
+        type: 'generate',
         id,
         source,
         target,
@@ -59,14 +97,30 @@ export class ThumbManager {
           currentWorker.postMessage(request);
         } else {
           this.pendingRequests.delete(id);
+          cleanup();
           resolve(false);
         }
       } catch (err) {
         console.error('[ThumbManager] Failed to post message to worker:', err);
         this.pendingRequests.delete(id);
+        cleanup();
         resolve(false);
       }
     });
+  };
+
+  readonly cancel = (id: string) => {
+    try {
+      if (this.worker) {
+        const request: ThumbWorkerCancelRequest = {
+          type: 'cancel',
+          id
+        };
+        this.worker.postMessage(request);
+      }
+    } catch (err) {
+      console.error('[ThumbManager] Failed to post cancel message to worker:', err);
+    }
   };
 
   readonly terminate = () => {

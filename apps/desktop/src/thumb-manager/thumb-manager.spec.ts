@@ -132,4 +132,133 @@ describe('ThumbManager', () => {
     expect(result).toBe(false);
     expect(worker.terminate).toHaveBeenCalled();
   });
+
+  it('should immediately resolve false without posting to worker if signal is pre-aborted', async () => {
+    const worker = lastMockWorker;
+    if (!worker) {
+      throw new Error('Worker was not initialized');
+    }
+
+    const controller = new AbortController();
+    controller.abort();
+
+    const result = await thumbManager.generate(
+      '/path/to/source.jpg',
+      '/path/to/target.jpg',
+      200,
+      200,
+      controller.signal
+    );
+
+    expect(result).toBe(false);
+    expect(worker.postMessage).not.toHaveBeenCalled();
+  });
+
+  it('should post cancel message and resolve false when signal is aborted in-flight', async () => {
+    const worker = lastMockWorker;
+    if (!worker) {
+      throw new Error('Worker was not initialized');
+    }
+
+    const controller = new AbortController();
+    const generatePromise = thumbManager.generate(
+      '/path/to/source.jpg',
+      '/path/to/target.jpg',
+      200,
+      200,
+      controller.signal
+    );
+
+    expect(worker.postMessage).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'generate',
+        source: '/path/to/source.jpg',
+        target: '/path/to/target.jpg',
+        width: 200,
+        height: 200,
+        id: expect.any(String)
+      })
+    );
+
+    const generatedReq = (worker.postMessage.mock.calls[0] as unknown[])[0] as ThumbWorkerRequest;
+
+    controller.abort();
+
+    expect(worker.postMessage).toHaveBeenCalledWith({
+      type: 'cancel',
+      id: generatedReq.id
+    });
+
+    const result = await generatePromise;
+    expect(result).toBe(false);
+  });
+
+  it('should clean up abort event listener when thumbnail generation resolves successfully', async () => {
+    const worker = lastMockWorker;
+    if (!worker) {
+      throw new Error('Worker was not initialized');
+    }
+
+    const controller = new AbortController();
+    const removeEventListenerSpy = jest.spyOn(controller.signal, 'removeEventListener');
+
+    worker.postMessage.mockImplementation((req: ThumbWorkerRequest) => {
+      setTimeout(() => {
+        const response: ThumbWorkerResponse = {
+          id: req.id,
+          success: true
+        };
+        worker.emit('message', response);
+      }, 10);
+    });
+
+    const result = await thumbManager.generate(
+      '/path/to/source.jpg',
+      '/path/to/target.jpg',
+      200,
+      200,
+      controller.signal
+    );
+
+    expect(result).toBe(true);
+    expect(removeEventListenerSpy).toHaveBeenCalledWith('abort', expect.any(Function));
+  });
+
+  it('should clean up abort event listener when worker emits error', async () => {
+    const worker = lastMockWorker;
+    if (!worker) {
+      throw new Error('Worker was not initialized');
+    }
+
+    const controller = new AbortController();
+    const removeEventListenerSpy = jest.spyOn(controller.signal, 'removeEventListener');
+
+    const generatePromise = thumbManager.generate(
+      '/path/to/source.jpg',
+      '/path/to/target.jpg',
+      200,
+      200,
+      controller.signal
+    );
+
+    worker.emit('error', new Error('Worker crash'));
+
+    const result = await generatePromise;
+    expect(result).toBe(false);
+    expect(removeEventListenerSpy).toHaveBeenCalledWith('abort', expect.any(Function));
+  });
+
+  it('should post cancel message when cancel() is called directly', () => {
+    const worker = lastMockWorker;
+    if (!worker) {
+      throw new Error('Worker was not initialized');
+    }
+
+    thumbManager.cancel('test-id-123');
+
+    expect(worker.postMessage).toHaveBeenCalledWith({
+      type: 'cancel',
+      id: 'test-id-123'
+    });
+  });
 });

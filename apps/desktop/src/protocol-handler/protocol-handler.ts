@@ -49,7 +49,8 @@ export const protocolHandler = async (request: GlobalRequest): Promise<GlobalRes
 
   switch (parsed.pathname) {
     case appPaths.thumbs:
-      return await thumb(parsed.searchParams);
+      console.log('request.signal', request.signal);
+      return await thumb(parsed.searchParams, request.signal);
 
     case appPaths.raw:
       return await raw(parsed.searchParams);
@@ -59,12 +60,12 @@ export const protocolHandler = async (request: GlobalRequest): Promise<GlobalRes
   }
 };
 
-const thumb = async (params: URLSearchParams): Promise<GlobalResponse> => {
+const thumb = async (params: URLSearchParams, signal?: AbortSignal): Promise<GlobalResponse> => {
   const fileName = params.get('image');
   const width = Number(params.get('width'));
   const height = Number(params.get('height'));
 
-  if (fileName === null) {
+  if (fileName === null || signal?.aborted) {
     return notFound();
   }
 
@@ -78,14 +79,23 @@ const thumb = async (params: URLSearchParams): Promise<GlobalResponse> => {
       fileName,
       tag,
       async target => {
+        if (signal?.aborted) {
+          return false;
+        }
+
         return await thumbManager.generate(
           fileName,
           target,
           width,
-          height
+          height,
+          signal
         );
       }
     );
+
+    if (signal?.aborted) {
+      return notFound();
+    }
 
     const filePath = result === null ? fileName : result;
     return streamFile(filePath);
