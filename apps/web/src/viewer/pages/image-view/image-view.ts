@@ -18,6 +18,7 @@ import { ProcessManager } from '../../../ipc/process-manager';
 import { VerticalDivider } from '../../../system/components/vertical-divider/vertical-divider';
 import { DefaultPipe } from '../../../system/pipes/default/default.pipe';
 import { Keyboard } from '../../../system/services/keyboard/keyboard';
+import { ExifInfoComponent } from '../../components/exif-info/exif-info.component';
 import { ImageRendererComponent } from '../../components/image-renderer/image-renderer.component';
 import { FileNamePipe } from '../../pipes/file-name/file-name-pipe';
 import { ImagePositioningService } from '../../services/image-positioning/image-positioning.service';
@@ -43,7 +44,8 @@ import { AnimationState } from './image-view.types';
     SliderComponent,
     ReactiveFormsModule,
     DecimalPipe,
-    InfoOverlayComponent
+    InfoOverlayComponent,
+    ExifInfoComponent
   ],
   templateUrl: './image-view.html',
   styleUrl: './image-view.scss',

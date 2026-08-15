@@ -1,0 +1,110 @@
+@let exifData = exif();
+@let dims = dimensions();
+
+<dl>
+  @if (exifData === false) {
+    <dt>Loading...</dt>
+    <dd></dd>
+  } @else {
+    <dt>File name</dt>
+    <dd>{{ exifData.FileName }}</dd>
+    <dt>File size</dt>
+    <dd>{{ exifData.FileSize }}</dd>
+    <dt>Format</dt>
+    <dd>{{ exifData.FileType }}</dd>
+    <dt>MIME type</dt>
+    <dd>{{ exifData.MIMEType }}</dd>
+    <dt>Dimensions</dt>
+    <dd>{{ dims.width }} x {{ dims.height }}</dd>
+
+    @if (exifData.Comment !== undefined) {
+      <dt>Comment</dt>
+      <dd>{{ exifData.Comment }}</dd>
+    }
+
+    @if (exifData.ColorComponents !== undefined) {
+      <dt>Color components</dt>
+      <dd>{{ exifData.ColorComponents }}</dd>
+    }
+
+    @if (exifData.BitsPerSample !== undefined) {
+      <dt>Bits per sample</dt>
+      <dd>{{ exifData.BitsPerSample }}</dd>
+    }
+
+    @if (exifData.ImagePixelDepth !== undefined) {
+      <dt>Image pixel depth</dt>
+      <dd>{{ exifData.ImagePixelDepth }}</dd>
+    }
+
+    @if (exifData.ChromaFormat !== undefined) {
+      <dt>Chroma format</dt>
+      <dd>{{ exifData.ChromaFormat }}</dd>
+    }
+
+    @if (exifData.YCbCrSubSampling !== undefined) {
+      <dt>YCbCr sub sampling</dt>
+      <dd>{{ exifData.YCbCrSubSampling }}</dd>
+    }
+
+    @if (exifData.EncodingProcess !== undefined) {
+      <dt>Encoding process</dt>
+      <dd>{{ exifData.EncodingProcess }}</dd>
+    }
+
+    @if (exifData.ColorPrimaries !== undefined) {
+      <dt>Color primaries</dt>
+      <dd>{{ exifData.ColorPrimaries }}</dd>
+    }
+
+    @if (exifData.ProfileDescription !== undefined) {
+      <dt>Colour profile</dt>
+      <dd>{{ exifData.ProfileDescription }}</dd>
+    }
+
+    @if (exifData.ColorSpace !== undefined) {
+      <dt>Colour space</dt>
+      <dd>{{ exifData.ColorSpace }}</dd>
+    }
+
+    @if (exifData.GPSLatitude !== undefined && exifData.GPSLongitude !== undefined) {
+      <dt>GPS coordinates</dt>
+      <dd>{{ exifData.GPSLatitude }} {{ exifData.GPSLongitude }}</dd>
+    }
+
+    @if (exifData.Make !== undefined) {
+      <dt>Camera make</dt>
+      <dd>{{ exifData.Make }}</dd>
+    }
+
+    @if (exifData.Model !== undefined) {
+      <dt>Camera model</dt>
+      <dd>{{ exifData.Model }}</dd>
+    }
+
+    @if (exifData.LensID !== undefined) {
+      <dt>Lens</dt>
+      <dd>{{ exifData.LensID }}</dd>
+    }
+
+    @if (exifData.FocalLength !== undefined) {
+      <dt>Focal length</dt>
+      <dd>{{ exifData.FocalLength }}</dd>
+    }
+
+    @if (exifData.ApertureValue !== undefined) {
+      <dt>Aperture</dt>
+      <dd>{{ exifData.ApertureValue }}</dd>
+    }
+
+    @if (exifData.ShutterSpeedValue !== undefined) {
+      <dt>Shutter speed</dt>
+      <dd>{{ exifData.ShutterSpeedValue }}</dd>
+    }
+
+    @if (exifData.ISO !== undefined) {
+      <dt>ISO</dt>
+      <dd>{{ exifData.ISO }}</dd>
+    }
+  }
+</dl>
