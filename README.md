@@ -2,7 +2,9 @@
 
 A simple image viewer with HDR photo support for Windows and Linux (macOS support is coming soon).
 
-<a href="https://apps.microsoft.com/detail/9P96SPR78HM8"><img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/></a>
+<a href="https://apps.microsoft.com/detail/9P96SPR78HM8?cid=github"><img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/></a>
+
+<a href="https://github.com/Auxx/light-matter/releases"><img src="https://docs.appimage.org/_images/download-appimage-banner.svg" width="200" alt="Download Light Matter AppImage for Linux"/></a>
 
 ## Installation
 
