@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { concatMap, filter, map, Observable, ReplaySubject, Subject, take } from 'rxjs';
+import { filter, map, mergeMap, Observable, ReplaySubject, Subject, take } from 'rxjs';
 
 interface QueueItem {
   id: string;
@@ -20,14 +20,16 @@ export class ThumbnailLoaderService {
   constructor() {
     this.queue$
       .pipe(
-        concatMap(item =>
-          item.obs
-            .pipe(
-              map(status => ({
-                id: item.id,
-                status
-              }))
-            )
+        mergeMap(
+          item =>
+            item.obs
+              .pipe(
+                map(status => ({
+                  id: item.id,
+                  status
+                }))
+              ),
+          4
         )
       )
       .subscribe(result => this.result$.next(result));
