@@ -6,13 +6,14 @@ import {
   ElementRef,
   inject,
   input,
+  OnDestroy,
   output,
   signal
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CaptionComponent } from '@light-matter/ui';
 import { FileInfo } from 'internal-api';
-import { distinctUntilChanged } from 'rxjs';
+import { distinctUntilChanged, Subscription } from 'rxjs';
 import { DevicePixelRatioService } from '../../../system/services/device-pixel-ratio/device-pixel-ratio.service';
 import { ThumbnailLoaderService } from '../../../system/services/thumbnail-loader/thumbnail-loader.service';
 import { thumbUrl } from '../../../viewer/utils/image-url';
@@ -29,7 +30,7 @@ import { thumbUrl } from '../../../viewer/utils/image-url';
     '[style.--fit]': 'fit()'
   }
 })
-export class ThumbnailComponent {
+export class ThumbnailComponent implements OnDestroy {
   /* DI */
   private readonly devicePixelRatioService = inject(DevicePixelRatioService);
 
@@ -63,6 +64,10 @@ export class ThumbnailComponent {
 
   protected readonly fit = signal('cover');
 
+  private loaderSubscription: Subscription | null = null;
+
+  private intersectionObserver: IntersectionObserver | null = null;
+
   /* Constructor */
   constructor() {
     effect(() => {
@@ -73,7 +78,9 @@ export class ThumbnailComponent {
         return;
       }
 
-      this.thumbnailLoader
+      this.loaderSubscription?.unsubscribe();
+
+      this.loaderSubscription = this.thumbnailLoader
         .add(this.url())
         .subscribe({
           next: success => this.hasError.set(!success),
@@ -81,15 +88,20 @@ export class ThumbnailComponent {
         });
     });
 
-    const observer = new IntersectionObserver(entries => {
+    this.intersectionObserver = new IntersectionObserver(entries => {
       if (entries.length === 0 || entries[0].intersectionRatio <= 0) {
         return;
       }
 
-      observer.disconnect();
+      this.intersectionObserver?.disconnect();
       this.isVisible.set(true);
     });
 
-    observer.observe(this.elementRef.nativeElement);
+    this.intersectionObserver.observe(this.elementRef.nativeElement);
+  }
+
+  ngOnDestroy() {
+    this.intersectionObserver?.disconnect();
+    this.loaderSubscription?.unsubscribe();
   }
 }
