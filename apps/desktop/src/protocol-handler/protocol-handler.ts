@@ -49,7 +49,6 @@ export const protocolHandler = async (request: GlobalRequest): Promise<GlobalRes
 
   switch (parsed.pathname) {
     case appPaths.thumbs:
-      console.log('request.signal', request.signal);
       return await thumb(parsed.searchParams, request.signal);
 
     case appPaths.raw:

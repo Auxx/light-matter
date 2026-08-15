@@ -41,7 +41,6 @@ getVips().catch(err => {
 });
 
 function cancelRequest(id: string) {
-  console.log('[ThumbWorker] Cancel Request:', id);
   parentPort?.postMessage(
     {
       id,
@@ -54,7 +53,6 @@ function cancelRequest(id: string) {
 if (parentPort) {
   parentPort.on('message', async (request: ThumbWorkerRequest) => {
     if (request.type === 'cancel') {
-      console.log('Add CANCEL, RETURN');
       cancelledRequests.add(request.id);
       return;
     }
