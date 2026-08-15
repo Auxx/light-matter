@@ -22,7 +22,8 @@
   <app-image-renderer [url]="selected.url"
                       [class]="animationState()"
                       (animationend)="onAnimationEnd($event)"
-                      (dimensions)="imageDimensions.set($event)" />
+                      (dimensions)="imageDimensions.set($event)"
+                      (wheel)="onMouseWheel($event)" />
 
   @if (!fullScreen) {
     <ui-tool-menu>
