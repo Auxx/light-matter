@@ -1,48 +1,139 @@
-import { stat } from 'node:fs/promises';
-import Vips from 'wasm-vips';
+import { randomUUID } from 'node:crypto';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { Worker } from 'node:worker_threads';
+import type { ThumbWorkerRequest, ThumbWorkerResponse } from './thumb-worker';
 
 export class ThumbManager {
-  private vips: typeof Vips | null = null;
+  private worker: Worker | null = null;
 
-  constructor() {
-    this.init().then();
+  private readonly workerPath: string;
+
+  private readonly pendingRequests = new Map<string, (success: boolean) => void>();
+
+  private isTerminated = false;
+
+  constructor(customWorkerPath?: string) {
+    if (customWorkerPath) {
+      this.workerPath = customWorkerPath;
+    } else {
+      const jsPath = join(__dirname, 'thumb-worker.js');
+      const tsPath = join(__dirname, 'thumb-worker.ts');
+      this.workerPath = existsSync(jsPath) ? jsPath : tsPath;
+    }
+
+    this.initWorker();
   }
 
-  readonly generate = async (source: string, target: string, width: number, height: number): Promise<boolean> => {
-    if (this.vips === null) {
-      console.error('VIPS instance missing.');
-      return false;
+  private initWorker(): void {
+    if (this.isTerminated) {
+      return;
     }
 
     try {
-      await stat(target);
-      return false;
-    } catch (_) {
-      // Nothing to do here, we just create a new thumbnail
-    }
+      this.worker = new Worker(this.workerPath, {
+        execArgv: this.workerPath.endsWith('.ts') ? [ '--require', 'ts-node/register' ] : undefined
+      });
 
-    try {
-      {
-        using img = this.vips.Image.newFromFile(source);
+      this.worker.on('message', (response: ThumbWorkerResponse) => {
+        const callback = this.pendingRequests.get(response.id);
 
-        using thumb = img.thumbnailImage(
-          width,
-          {
-            height,
-            size: 2,
-            crop: 1
+        if (callback) {
+          this.pendingRequests.delete(response.id);
+          callback(response.success);
+        }
+      });
+
+      this.worker.on('error', err => {
+        console.error('[ThumbManager] Worker error:', err);
+        this.flushPendingRequests(false);
+        this.restartWorker();
+      });
+
+      this.worker.on('exit', code => {
+        if (!this.isTerminated) {
+          if (code !== 0) {
+            console.error(`[ThumbManager] Worker stopped with exit code ${code}`);
           }
-        );
 
-        thumb.writeToFile(target, { Q: 80 });
-      }
-
-      return true;
-    } catch (e) {
-      console.log(e);
-      return false;
+          this.flushPendingRequests(false);
+          this.restartWorker();
+        }
+      });
+    } catch (err) {
+      console.error('[ThumbManager] Failed to create worker:', err);
+      this.worker = null;
     }
+  }
+
+  private restartWorker(): void {
+    if (this.isTerminated) {
+      return;
+    }
+
+    this.worker = null;
+    this.initWorker();
+  }
+
+  private flushPendingRequests(result: boolean): void {
+    for (const [ , resolve ] of this.pendingRequests) {
+      resolve(result);
+    }
+
+    this.pendingRequests.clear();
+  }
+
+  readonly generate = async (
+    source: string,
+    target: string,
+    width: number,
+    height: number
+  ): Promise<boolean> => {
+    if (!this.worker) {
+      this.initWorker();
+
+      if (!this.worker) {
+        console.error('[ThumbManager] Worker instance missing.');
+        return false;
+      }
+    }
+
+    return new Promise<boolean>(resolve => {
+      const id = randomUUID();
+      this.pendingRequests.set(id, resolve);
+
+      const request: ThumbWorkerRequest = {
+        id,
+        source,
+        target,
+        width,
+        height
+      };
+
+      try {
+        const currentWorker = this.worker;
+
+        if (currentWorker) {
+          currentWorker.postMessage(request);
+        } else {
+          this.pendingRequests.delete(id);
+          resolve(false);
+        }
+      } catch (err) {
+        console.error('[ThumbManager] Failed to post message to worker:', err);
+        this.pendingRequests.delete(id);
+        resolve(false);
+      }
+    });
   };
 
-  private readonly init = async () => this.vips = await Vips();
+  public terminate(): void {
+    this.isTerminated = true;
+    this.flushPendingRequests(false);
+
+    if (this.worker) {
+      this.worker.terminate().catch(err => console.error('[ThumbManager] Failed to terminate worker:', err));
+      this.worker = null;
+    }
+  }
 }
