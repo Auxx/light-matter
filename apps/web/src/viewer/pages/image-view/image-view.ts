@@ -196,7 +196,6 @@ export class ImageView {
       const stepCoeff = 0.1;
       const zoomStep = Math.min(Math.max(minStep, Math.round(currentZoom * stepCoeff)), maxStep);
 
-
       let newZoom = currentZoom;
 
       if (event.deltaY < 0) {
