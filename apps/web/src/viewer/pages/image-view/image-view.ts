@@ -189,15 +189,15 @@ export class ImageView {
     this.imageLocation$.pipe(take(1)).subscribe(location => {
       const currentZoom = location.zoom === 'fit' ? location.fitZoom : this.zoomSlider.value;
       // const currentZoom = this.zoomSlider.value;
-      const minZoom = 5;  
-      const maxZoom = 800; 
+      const minZoom = 5;
+      const maxZoom = 800;
       const minStep = 5;
       const maxStep = 25;
       const stepCoeff = 0.1;
       const zoomStep = Math.min(Math.max(minStep, Math.round(currentZoom * stepCoeff)), maxStep);
 
 
-      let newZoom = currentZoom
+      let newZoom = currentZoom;
 
       if (event.deltaY < 0) {
         newZoom = Math.min(currentZoom + zoomStep, maxZoom);
@@ -205,7 +205,7 @@ export class ImageView {
         newZoom = Math.max(currentZoom - zoomStep, minZoom);
       }
 
-      this.zoomSlider.setValue(newZoom)
+      this.zoomSlider.setValue(newZoom);
     });
   };
 
