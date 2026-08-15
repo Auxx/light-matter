@@ -25,64 +25,6 @@ export class ThumbManager {
     this.initWorker();
   }
 
-  private initWorker(): void {
-    if (this.isTerminated) {
-      return;
-    }
-
-    try {
-      this.worker = new Worker(this.workerPath, {
-        execArgv: this.workerPath.endsWith('.ts') ? [ '--require', 'ts-node/register' ] : undefined
-      });
-
-      this.worker.on('message', (response: ThumbWorkerResponse) => {
-        const callback = this.pendingRequests.get(response.id);
-
-        if (callback) {
-          this.pendingRequests.delete(response.id);
-          callback(response.success);
-        }
-      });
-
-      this.worker.on('error', err => {
-        console.error('[ThumbManager] Worker error:', err);
-        this.flushPendingRequests(false);
-        this.restartWorker();
-      });
-
-      this.worker.on('exit', code => {
-        if (!this.isTerminated) {
-          if (code !== 0) {
-            console.error(`[ThumbManager] Worker stopped with exit code ${code}`);
-          }
-
-          this.flushPendingRequests(false);
-          this.restartWorker();
-        }
-      });
-    } catch (err) {
-      console.error('[ThumbManager] Failed to create worker:', err);
-      this.worker = null;
-    }
-  }
-
-  private restartWorker(): void {
-    if (this.isTerminated) {
-      return;
-    }
-
-    this.worker = null;
-    this.initWorker();
-  }
-
-  private flushPendingRequests(result: boolean): void {
-    for (const [ , resolve ] of this.pendingRequests) {
-      resolve(result);
-    }
-
-    this.pendingRequests.clear();
-  }
-
   readonly generate = async (
     source: string,
     target: string,
@@ -127,7 +69,7 @@ export class ThumbManager {
     });
   };
 
-  public terminate(): void {
+  readonly terminate = () => {
     this.isTerminated = true;
     this.flushPendingRequests(false);
 
@@ -135,5 +77,63 @@ export class ThumbManager {
       this.worker.terminate().catch(err => console.error('[ThumbManager] Failed to terminate worker:', err));
       this.worker = null;
     }
-  }
+  };
+
+  private readonly initWorker = () => {
+    if (this.isTerminated) {
+      return;
+    }
+
+    try {
+      this.worker = new Worker(this.workerPath, {
+        execArgv: this.workerPath.endsWith('.ts') ? [ '--require', 'ts-node/register' ] : undefined
+      });
+
+      this.worker.on('message', (response: ThumbWorkerResponse) => {
+        const callback = this.pendingRequests.get(response.id);
+
+        if (callback) {
+          this.pendingRequests.delete(response.id);
+          callback(response.success);
+        }
+      });
+
+      this.worker.on('error', err => {
+        console.error('[ThumbManager] Worker error:', err);
+        this.flushPendingRequests(false);
+        this.restartWorker();
+      });
+
+      this.worker.on('exit', code => {
+        if (!this.isTerminated) {
+          if (code !== 0) {
+            console.error(`[ThumbManager] Worker stopped with exit code ${code}`);
+          }
+
+          this.flushPendingRequests(false);
+          this.restartWorker();
+        }
+      });
+    } catch (err) {
+      console.error('[ThumbManager] Failed to create worker:', err);
+      this.worker = null;
+    }
+  };
+
+  private readonly restartWorker = () => {
+    if (this.isTerminated) {
+      return;
+    }
+
+    this.worker = null;
+    this.initWorker();
+  };
+
+  private readonly flushPendingRequests = (result: boolean) => {
+    for (const [ , resolve ] of this.pendingRequests) {
+      resolve(result);
+    }
+
+    this.pendingRequests.clear();
+  };
 }
