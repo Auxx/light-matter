@@ -34,6 +34,8 @@ if (parentPort) {
   parentPort.on('message', async (request: ThumbWorkerRequest) => {
     const { id, source, target, width, height } = request;
 
+    console.log(`[ThumbWorker] Processing ${source}...`);
+
     try {
       try {
         await stat(target);
@@ -46,13 +48,15 @@ if (parentPort) {
 
       const vips = await getVips();
       {
-        using img = vips.Image.newFromFile(source);
-
-        using thumb = img.thumbnailImage(width, {
-          height,
-          size: 2,
-          crop: 1
-        });
+        using thumb = vips.Image.thumbnail(
+          source,
+          width,
+          {
+            height,
+            size: 2,
+            crop: 1
+          }
+        );
 
         thumb.writeToFile(target, { Q: 80 });
       }
@@ -60,7 +64,7 @@ if (parentPort) {
       parentPort?.postMessage({ id, success: true } satisfies ThumbWorkerResponse);
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : String(err);
-      console.error('[ThumbWorker] Thumbnail generation error:', errorMessage);
+      console.error(`[ThumbWorker] Thumbnail generation error (${source}):`, errorMessage);
       parentPort?.postMessage(
         {
           id,
