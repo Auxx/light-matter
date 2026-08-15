@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
-import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { Worker } from 'node:worker_threads';
+import App from '../app/app';
 import type { ThumbWorkerCancelRequest, ThumbWorkerGenerateRequest, ThumbWorkerResponse } from './thumb-worker';
 
 export class ThumbManager {
@@ -17,9 +17,7 @@ export class ThumbManager {
     if (customWorkerPath) {
       this.workerPath = customWorkerPath;
     } else {
-      const jsPath = join(__dirname, 'thumb-worker.js');
-      const tsPath = join(__dirname, 'thumb-worker.ts');
-      this.workerPath = existsSync(jsPath) ? jsPath : tsPath;
+      this.workerPath = join(__dirname, `thumb-worker.${App.application.isPackaged ? 'js' : 'ts'}`);
     }
 
     this.initWorker();
