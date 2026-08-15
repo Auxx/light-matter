@@ -27,5 +27,14 @@
   },
   "electronLanguages": [
     "en-GB"
+  ],
+  "files": [
+    {
+      "from": "desktop",
+      "to": "desktop",
+      "filter": [
+        "thumb-worker.js"
+      ]
+    }
   ]
 }

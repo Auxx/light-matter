@@ -11,6 +11,15 @@ class MockWorker extends EventEmitter {
 
 let lastMockWorker: MockWorker | null = null;
 
+jest.mock('../app/app', () => ({
+  __esModule: true,
+  default: {
+    application: {
+      isPackaged: false
+    }
+  }
+}));
+
 jest.mock('node:worker_threads', () => {
   return {
     Worker: jest.fn().mockImplementation(() => {
