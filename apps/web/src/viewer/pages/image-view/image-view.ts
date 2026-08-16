@@ -17,6 +17,7 @@ import { ExifService } from '../../../ipc/exif';
 import { ProcessManager } from '../../../ipc/process-manager';
 import { VerticalDivider } from '../../../system/components/vertical-divider/vertical-divider';
 import { DefaultPipe } from '../../../system/pipes/default/default.pipe';
+import { Configuration } from '../../../system/services/configuration/configuration';
 import { Keyboard } from '../../../system/services/keyboard/keyboard';
 import { ExifInfoComponent } from '../../components/exif-info/exif-info.component';
 import { ImageRendererComponent } from '../../components/image-renderer/image-renderer.component';
@@ -67,6 +68,8 @@ export class ImageView {
 
   private readonly overlayService = inject(OverlayService);
 
+  private readonly configuration = inject(Configuration);
+
   /* State */
   protected readonly selectedImage$ = this.viewNavigator.selectedImage();
 
@@ -96,6 +99,8 @@ export class ImageView {
         startWith(this.document.fullscreenElement !== null)
       )
   );
+
+  protected readonly zoomConfig = this.configuration.constants().imageZoom;
 
   /* Constructor */
   constructor() {
@@ -186,29 +191,36 @@ export class ImageView {
   protected readonly onMouseWheel = (event: WheelEvent) => {
     event.preventDefault();
 
-    this.imageLocation$.pipe(take(1)).subscribe(location => {
-      const currentZoom = location.zoom === 'fit' ? location.fitZoom : this.zoomSlider.value;
-      // const currentZoom = this.zoomSlider.value;
-      const minZoom = 5;
-      const maxZoom = 800;
-      const minStep = 5;
-      const maxStep = 25;
-      const stepCoeff = 0.1;
-      const zoomStep = Math.min(Math.max(minStep, Math.round(currentZoom * stepCoeff)), maxStep);
+    this.imageLocation$
+      .pipe(take(1))
+      .subscribe(location => {
+        const currentZoom = location.zoom === 'fit' ? location.fitZoom : this.zoomSlider.value;
 
-      let newZoom = currentZoom;
+        const zoomStep = Math.min(
+          Math.max(
+            this.zoomConfig.scroll.minStep,
+            Math.round(currentZoom * this.zoomConfig.scroll.coefficient)
+          ),
+          this.zoomConfig.scroll.maxStep
+        );
 
-      if (event.deltaY < 0) {
-        newZoom = Math.min(currentZoom + zoomStep, maxZoom);
-      } else if (event.deltaY > 0) {
-        newZoom = Math.max(currentZoom - zoomStep, minZoom);
-      }
-
-      this.zoomSlider.setValue(newZoom);
-    });
+        this.zoomSlider.setValue(this.calculateWheelZoom(event.deltaY, currentZoom, zoomStep));
+      });
   };
 
   /* Misc */
+  private readonly calculateWheelZoom = (deltaY: number, currentZoom: number, zoomStep: number): number => {
+    if (deltaY < 0) {
+      return Math.min(currentZoom + zoomStep, this.zoomConfig.max);
+    }
+
+    if (deltaY > 0) {
+      return Math.max(currentZoom - zoomStep, this.zoomConfig.min);
+    }
+
+    return currentZoom;
+  };
+
   private readonly trackKeyboard = () =>
     this.keyboard.keyup()
       .pipe(takeUntilDestroyed())

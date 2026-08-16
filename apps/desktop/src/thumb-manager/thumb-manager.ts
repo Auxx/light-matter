@@ -1,7 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { join } from 'node:path';
 import { Worker } from 'node:worker_threads';
-import App from '../app/app';
 import type { ThumbWorkerCancelRequest, ThumbWorkerGenerateRequest, ThumbWorkerResponse } from './thumb-worker';
 
 export class ThumbManager {
@@ -14,11 +13,7 @@ export class ThumbManager {
   private isTerminated = false;
 
   constructor(customWorkerPath?: string) {
-    if (customWorkerPath) {
-      this.workerPath = customWorkerPath;
-    } else {
-      this.workerPath = join(__dirname, `thumb-worker.${App.application.isPackaged ? 'js' : 'ts'}`);
-    }
+    this.workerPath = customWorkerPath ? customWorkerPath : join(__dirname, `thumb-worker.js`);
 
     this.initWorker();
   }
