@@ -12,6 +12,20 @@ import { ReplaySubject } from 'rxjs';
 import { FileSystem } from '../../../ipc/file-system';
 import { ProcessManager } from '../../../ipc/process-manager';
 
+// Some constants to be used across the application,
+// but which should not be modified by the user.
+const staticConfig = {
+  imageZoom: {
+    min: 1,
+    max: 800,
+    scroll: {
+      minStep: 5,
+      maxStep: 25,
+      coefficient: 0.1
+    }
+  }
+};
+
 @Injectable({ providedIn: 'root' })
 export class Configuration {
   private readonly fileSystem = inject(FileSystem);
@@ -36,6 +50,8 @@ export class Configuration {
   }
 
   readonly config = () => this.config$.asObservable();
+
+  readonly constants = () => staticConfig;
 
   readonly updateGalleryConfig = (options: Partial<AppConfigV1Gallery>) => {
     updateSubject(this.config$, config => {

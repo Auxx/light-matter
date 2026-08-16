@@ -82,8 +82,8 @@
         </ui-action-button>
 
         <ui-slider [formControl]="zoomSlider"
-                   [min]="1"
-                   [max]="800" />
+                   [min]="zoomConfig.min"
+                   [max]="zoomConfig.max" />
 
         <ui-text class="no-shrink zoom-info">
           @let zoomValue = location.zoom === 'fit' ? location.fitZoom : zoomSlider.value;
