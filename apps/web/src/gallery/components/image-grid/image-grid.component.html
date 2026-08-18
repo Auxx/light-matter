@@ -23,6 +23,7 @@
 
 <div class="wrapper" #scrollBox>
   <app-images [images]="images()"
+              [sortBy]="sortBy()"
               (selected)="selected.emit($event)" />
 </div>
 

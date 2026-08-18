@@ -2,6 +2,45 @@
   display: block;
 }
 
+.gallery-layout {
+  display: flex;
+  gap: var(--dim-large);
+  width: 100%;
+  position: relative;
+}
+
+.groups-container {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--dim-huge);
+}
+
+.year-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dim-large);
+}
+
+.year-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: var(--dim-small) 0;
+  background: var(--color-surface-default-low);
+}
+
+.month-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dim-medium);
+}
+
+.month-header {
+  padding: var(--dim-tiny) 0;
+}
+
 .images {
   display: flex;
   flex-wrap: wrap;

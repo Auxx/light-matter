@@ -1,0 +1,91 @@
+:host {
+  display: block;
+  position: sticky;
+  top: var(--dim-large);
+  align-self: flex-start;
+  user-select: none;
+  z-index: 10;
+}
+
+.timeline-rail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dim-medium);
+  padding: var(--dim-small) var(--dim-tiny);
+  background: var(--color-surface-default-medium);
+  border-radius: var(--border-radius-large);
+  border: 1px solid var(--color-surface-default-high);
+  min-width: 68px;
+}
+
+.timeline-year {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dim-tiny);
+}
+
+.timeline-year-label {
+  font-size: var(--text-font-size-small, 11px);
+  font-weight: 700;
+  color: var(--color-content-default-highest);
+  padding: 0 var(--dim-tiny);
+  text-align: center;
+}
+
+.timeline-months {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.timeline-indicator-btn {
+  all: unset;
+  display: flex;
+  align-items: center;
+  gap: var(--dim-tiny);
+  padding: 3px var(--dim-tiny);
+  border-radius: var(--border-radius-medium);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  font-size: var(--text-font-size-tiny, 10px);
+  color: var(--color-content-default-low);
+
+  &:hover {
+    background: var(--color-surface-default-highest);
+    color: var(--color-content-default-high);
+
+    .timeline-indicator-dot {
+      background: var(--color-content-default-high);
+    }
+  }
+
+  &.active {
+    background: var(--color-surface-primary-medium, var(--color-surface-default-highest));
+    color: var(--color-content-primary-highest, var(--color-content-default-highest));
+    font-weight: 600;
+
+    .timeline-indicator-dot {
+      background: var(--color-content-primary-highest, var(--color-content-default-highest));
+      transform: scale(1.25);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-focus, #3b82f6);
+    outline-offset: 1px;
+  }
+}
+
+.timeline-indicator-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-content-default-lowest);
+  flex-shrink: 0;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.timeline-month-label {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
