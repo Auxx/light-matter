@@ -1,0 +1,69 @@
+:host {
+  display: block;
+  position: sticky;
+  align-self: flex-start;
+  user-select: none;
+  top: 0;
+  z-index: 10;
+  overflow: auto;
+}
+
+.timeline-rail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dim-large);
+  min-width: 48px;
+
+  .timeline-year {
+    display: flex;
+    flex-direction: column;
+    gap: var(--dim-small);
+
+    .timeline-year-label {
+      font-size: var(--text-font-size);
+      color: var(--color-content-default-highest);
+    }
+
+    .timeline-months {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+
+      .timeline-indicator-btn {
+        all: unset;
+        display: flex;
+        align-items: center;
+        gap: var(--dim-small);
+        //padding: 3px var(--dim-small);
+        padding: 2px var(--dim-medium);
+        cursor: pointer;
+        transition: background-color 250ms ease, color 250ms ease;
+        font-size: var(--caption-font-size);
+        color: var(--color-content-default-low);
+
+        &:hover {
+          background: var(--color-surface-default-highest);
+          color: var(--color-content-default-high);
+        }
+
+        &.active {
+          color: var(--color-content-primary-medium);
+          font-weight: 600;
+        }
+
+        &:focus-visible {
+          // TODO WTF?
+          outline: 2px solid var(--color-focus, #3b82f6);
+          outline-offset: 1px;
+        }
+
+        .timeline-month-label {
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+      }
+    }
+  }
+}
+
+

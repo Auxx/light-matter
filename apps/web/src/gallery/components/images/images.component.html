@@ -2,9 +2,44 @@
 
 @if (imageList === null || imageList.length === 0) {
   <p>No images found in this folder.</p>
+} @else if (isDateSorted()) {
+  <div class="gallery-layout">
+    <div class="groups-container">
+      @for (yearGroup of groupedImages(); track yearGroup.year) {
+        <section class="year-group" [attr.data-year]="yearGroup.year">
+          <header class="year-header">
+            <ui-title>{{ yearGroup.year }}</ui-title>
+          </header>
+
+          @for (monthGroup of yearGroup.months; track monthGroup.sectionId) {
+            <section class="month-group"
+                     [id]="monthGroup.sectionId"
+                     [attr.data-section-id]="monthGroup.sectionId">
+              <header class="month-header">
+                <ui-text>{{ monthGroup.monthName }} {{ yearGroup.year }}</ui-text>
+              </header>
+
+              <div class="images">
+                @for (image of monthGroup.images; track image.path) {
+                  <app-thumbnail [image]="image"
+                                 (clicked)="this.selected.emit($event)" />
+                }
+              </div>
+            </section>
+          }
+        </section>
+      }
+    </div>
+
+    <app-timeline-indicators
+      [groups]="groupedImages()"
+      [activeSectionId]="activeSectionId()"
+      (sectionSelect)="scrollToSection($event)"
+    />
+  </div>
 } @else {
   <div class="images">
-    @for (image of imageList; track image.name) {
+    @for (image of imageList; track image.path) {
       <app-thumbnail [image]="image"
                      (clicked)="this.selected.emit($event)" />
     }
