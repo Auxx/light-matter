@@ -248,6 +248,10 @@ export class ImageView {
               .subscribe(() => this.nextPhoto());
             break;
 
+          case 'Escape':
+            this.goBack();
+            break;
+
           case 'f':
           case 'F':
           case 'F11':
