@@ -13,7 +13,7 @@ export interface YearGroup {
   readonly months: MonthGroup[];
 }
 
-export const MONTH_NAMES: readonly string[] = [
+export const monthNames: readonly string[] = [
   'January',
   'February',
   'March',
@@ -67,7 +67,7 @@ export function groupImagesByYearAndMonth(images: FileInfo[] | null): YearGroup[
   return yearOrder.map(year => {
     const monthsMap = yearMap.get(year);
     const months = (monthOrder.get(year) ?? []).map(month => {
-      const monthName = MONTH_NAMES[month] ?? 'Unknown';
+      const monthName = monthNames[month] ?? 'Unknown';
       const sectionId = `date-group-${year}-${month}`;
       return {
         year,
