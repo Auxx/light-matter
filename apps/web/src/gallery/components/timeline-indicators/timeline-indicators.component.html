@@ -1,22 +1,24 @@
 <nav class="timeline-rail" aria-label="Date timeline navigation">
   @for (yearGroup of groups(); track yearGroup.year) {
     <div class="timeline-year">
+
       <span class="timeline-year-label">{{ yearGroup.year }}</span>
+
       <div class="timeline-months">
+
         @for (monthGroup of yearGroup.months; track monthGroup.sectionId) {
-          <button
-            type="button"
-            class="timeline-indicator-btn"
-            [class.active]="activeSectionId() === monthGroup.sectionId"
-            [title]="monthGroup.monthName + ' ' + yearGroup.year"
-            [attr.aria-label]="monthGroup.monthName + ' ' + yearGroup.year"
-            (click)="onSectionClick(monthGroup.sectionId)"
-          >
-            <span class="timeline-indicator-dot"></span>
+          <button type="button"
+                  class="timeline-indicator-btn"
+                  [class.active]="activeSectionId() === monthGroup.sectionId"
+                  [title]="monthGroup.monthName + ' ' + yearGroup.year"
+                  [attr.aria-label]="monthGroup.monthName + ' ' + yearGroup.year"
+                  (click)="onSectionClick(monthGroup.sectionId)">
             <span class="timeline-month-label">{{ monthGroup.monthName | slice:0:3 }}</span>
           </button>
         }
+
       </div>
+
     </div>
   }
 </nav>
