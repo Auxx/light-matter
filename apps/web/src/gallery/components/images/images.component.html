@@ -12,11 +12,11 @@
           </header>
 
           @for (monthGroup of yearGroup.months; track monthGroup.sectionId) {
-            <section [id]="monthGroup.sectionId"
-                     class="month-group"
+            <section class="month-group"
+                     [id]="monthGroup.sectionId"
                      [attr.data-section-id]="monthGroup.sectionId">
               <header class="month-header">
-                <ui-caption>{{ monthGroup.monthName }}</ui-caption>
+                <ui-text>{{ monthGroup.monthName }}</ui-text>
               </header>
 
               <div class="images">

@@ -14,7 +14,7 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--dim-huge);
+  gap: calc(var(--dim-large) * 2);
 }
 
 .year-group {

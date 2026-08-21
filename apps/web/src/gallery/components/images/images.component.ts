@@ -10,7 +10,7 @@ import {
   output,
   signal
 } from '@angular/core';
-import { CaptionComponent, TitleComponent } from '@light-matter/ui';
+import { TextComponent, TitleComponent } from '@light-matter/ui';
 import { allSortTypes, FileInfo, SortType } from 'internal-api';
 import { ThumbnailComponent } from '../../../ui/components/thumbnail/thumbnail.component';
 import { TimelineIndicatorsComponent } from '../timeline-indicators/timeline-indicators.component';
@@ -21,8 +21,8 @@ import { groupImagesByYearAndMonth, YearGroup } from './images.component.types';
   imports: [
     ThumbnailComponent,
     TitleComponent,
-    CaptionComponent,
-    TimelineIndicatorsComponent
+    TimelineIndicatorsComponent,
+    TextComponent
   ],
   templateUrl: './images.component.html',
   styleUrl: './images.component.scss',
