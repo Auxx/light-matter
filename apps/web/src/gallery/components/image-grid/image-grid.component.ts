@@ -10,7 +10,15 @@ import {
   TitleComponent,
   ToolbarComponent
 } from '@light-matter/ui';
-import { allSortDirections, allSortTypes, FileInfo, SortDirection, SortType } from 'internal-api';
+import {
+  allSortDirections,
+  allSortTypes,
+  defaultThumbnailSize,
+  FileInfo,
+  SortDirection,
+  SortType,
+  ThumbnailSize
+} from 'internal-api';
 import { ImagesComponent } from '../images/images.component';
 
 @Component({
@@ -43,12 +51,16 @@ export class ImageGridComponent {
 
   readonly sortDirection = input<SortDirection>(allSortDirections[0]);
 
+  readonly thumbSize = input<ThumbnailSize>(defaultThumbnailSize);
+
   /* Outputs */
   readonly selected = output<FileInfo>();
 
   readonly sortByChanged = output<SortType>();
 
   readonly sortDirChanged = output<SortDirection>();
+
+  readonly thumbSizeChanged = output<ThumbnailSize>();
 
   /* State */
   private readonly scrollBox = viewChild<ElementRef<HTMLDivElement>>('scrollBox');

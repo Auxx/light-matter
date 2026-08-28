@@ -17,7 +17,7 @@ import {
   TreeNode,
   VerticalStackComponent
 } from '@light-matter/ui';
-import { FileInfo, SortDirection, SortType } from 'internal-api';
+import { defaultThumbnailSize, FileInfo, SortDirection, SortType, ThumbnailSize } from 'internal-api';
 import { ImageGridComponent } from '../../../gallery/components/image-grid/image-grid.component';
 import { GalleryLocations } from '../../../gallery/services/gallery-locations/gallery-locations';
 import { GalleryState } from '../../../gallery/services/gallery-state/gallery-state';
@@ -69,6 +69,8 @@ export class GalleryPage {
 
   protected readonly defaultSortMode = defaultSortMode();
 
+  protected readonly defaultThumbnailSize = defaultThumbnailSize;
+
   /* State */
   readonly galleryRoot$ = this.galleryState.galleryRoot();
 
@@ -78,10 +80,14 @@ export class GalleryPage {
 
   readonly sortMode$ = this.galleryState.sortMode();
 
+  readonly thumbSize$ = this.galleryState.thumbSize();
+
   /* Event handlers */
   protected readonly onSortByChange = (value: SortType) => this.galleryState.changeSorting({ sortBy: value });
 
   protected readonly onSortDirChange = (value: SortDirection) => this.galleryState.changeSorting({ sortDir: value });
+
+  protected readonly onThumbSizeChange = (value: ThumbnailSize) => this.galleryState.changeThumbnailSize(value);
 
   protected readonly onAddLocation = async () => {
     const result = await this.dialogs.openFolder();

@@ -1,5 +1,26 @@
 import typia from 'typia';
 
+export type ThumbnailSize = 'small' | 'medium' | 'large';
+export const allThumbnailSizes = [ 'small', 'medium', 'large' ] as const;
+export const defaultThumbnailSize: ThumbnailSize = 'small';
+export const thumbnailDimensions: Record<ThumbnailSize, { width: number; height: number; }> = {
+  small: { width: 192, height: 128 },
+  medium: { width: 288, height: 192 },
+  large: { width: 384, height: 256 }
+};
+
+export const getThumbnailSize = (width?: number, height?: number): ThumbnailSize => {
+  if (width === thumbnailDimensions.large.width && height === thumbnailDimensions.large.height) {
+    return 'large';
+  }
+
+  if (width === thumbnailDimensions.medium.width && height === thumbnailDimensions.medium.height) {
+    return 'medium';
+  }
+
+  return 'small';
+};
+
 export const defaultThumbWidth = 192;
 export const defaultThumbHeight = 128;
 

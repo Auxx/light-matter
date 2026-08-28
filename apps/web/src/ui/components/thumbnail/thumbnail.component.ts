@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CaptionComponent } from '@light-matter/ui';
-import { FileInfo } from 'internal-api';
+import { defaultThumbHeight, defaultThumbWidth, FileInfo } from 'internal-api';
 import { distinctUntilChanged, Subscription } from 'rxjs';
 import { DevicePixelRatioService } from '../../../system/services/device-pixel-ratio/device-pixel-ratio.service';
 import { ThumbnailLoaderService } from '../../../system/services/thumbnail-loader/thumbnail-loader.service';
@@ -41,6 +41,10 @@ export class ThumbnailComponent implements OnDestroy {
   /* Inputs/outputs */
   readonly image = input.required<FileInfo>();
 
+  readonly width = input<number>(defaultThumbWidth);
+
+  readonly height = input<number>(defaultThumbHeight);
+
   readonly clicked = output<FileInfo>();
 
   /* State */
@@ -53,7 +57,7 @@ export class ThumbnailComponent implements OnDestroy {
   readonly url = computed(() => {
     const image = this.image();
     const pixelRatio = this.pixelRatio() || 1;
-    return thumbUrl(image.path, 288 / pixelRatio, 192 / pixelRatio);
+    return thumbUrl(image.path, this.width() / pixelRatio, this.height() / pixelRatio);
   });
 
   readonly isLoading = signal<boolean>(true);

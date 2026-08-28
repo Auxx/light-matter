@@ -2,6 +2,7 @@
 @let selectedLocation = selectedLocation$ | async;
 @let images = images$ | async;
 @let sorting = sortMode$ | async | default:defaultSortMode;
+@let thumbSize = thumbSize$ | async | default:defaultThumbnailSize;
 
 <ui-side-panel>
 
@@ -37,8 +38,10 @@
                   [images]="images"
                   [sortBy]="sorting.sortBy"
                   [sortDirection]="sorting.sortDir"
+                  [thumbSize]="thumbSize"
                   (sortByChanged)="onSortByChange($event)"
                   (sortDirChanged)="onSortDirChange($event)"
+                  (thumbSizeChanged)="onThumbSizeChange($event)"
                   (selected)="onImageSelected($event)" />
 
 </ui-side-panel>

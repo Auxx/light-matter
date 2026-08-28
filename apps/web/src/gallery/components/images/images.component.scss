@@ -52,8 +52,7 @@
     border-radius: var(--border-radius-large);
     overflow: hidden;
 
-    // TODO Obtain dimensions from configuration
-    width: 192px;
-    height: 128px;
+    width: var(--thumb-width, 192px);
+    height: var(--thumb-height, 128px);
   }
 }

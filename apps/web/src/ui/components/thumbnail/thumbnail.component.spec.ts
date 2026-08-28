@@ -54,7 +54,12 @@ describe('ThumbnailComponent', () => {
 
   const mockImage: FileInfo = {
     path: '/path/to/test.jpg',
-    name: 'test.jpg'
+    name: 'test.jpg',
+    parent: '',
+    ext: '.jpg',
+    size: 1000000,
+    isDirectory: false,
+    createdAt: Date.now()
   };
 
   beforeEach(async () => {
@@ -179,5 +184,26 @@ describe('ThumbnailComponent', () => {
     button.nativeElement.click();
 
     expect(clickedSpy).toHaveBeenCalledWith(mockImage);
+  });
+
+  it('should calculate url with default dimensions', () => {
+    expect(component.url()).toContain('width=192');
+    expect(component.url()).toContain('height=128');
+  });
+
+  it('should calculate url with custom dimensions', () => {
+    fixture.componentRef.setInput('width', 288);
+    fixture.componentRef.setInput('height', 192);
+    fixture.detectChanges();
+
+    expect(component.url()).toContain('width=288');
+    expect(component.url()).toContain('height=192');
+
+    fixture.componentRef.setInput('width', 384);
+    fixture.componentRef.setInput('height', 256);
+    fixture.detectChanges();
+
+    expect(component.url()).toContain('width=384');
+    expect(component.url()).toContain('height=256');
   });
 });
