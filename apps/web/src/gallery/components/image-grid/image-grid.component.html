@@ -1,6 +1,7 @@
 @let location = selectedLocation();
 @let sortType = sortBy();
 @let sortDir = sortDirection();
+@let currentThumbSize = thumbSize();
 
 <ui-toolbar>
   <ui-title>
@@ -13,6 +14,13 @@
 
   <aside>
     <ui-action-button class="action"
+                      [cdkMenuTriggerFor]="thumbSizeMenu"
+                      uiStopPropagation>
+      <ui-icon icon="scaleFit" [inherit]="true" />
+      <ui-icon icon="chevronDown" [inherit]="true" size="small" />
+    </ui-action-button>
+
+    <ui-action-button class="action"
                       [cdkMenuTriggerFor]="sortMenu"
                       uiStopPropagation>
       <ui-icon icon="arrowSort" [inherit]="true" />
@@ -24,8 +32,33 @@
 <div class="wrapper" #scrollBox>
   <app-images [images]="images()"
               [sortBy]="sortBy()"
+              [thumbSize]="thumbSize()"
               (selected)="selected.emit($event)" />
 </div>
+
+<ng-template #thumbSizeMenu>
+  <ui-popup-menu cdkMenu>
+
+    <ui-action-button cdkMenuItem
+                      (pressed)="thumbSizeChanged.emit('small')">
+      <ui-icon [icon]="currentThumbSize === 'small' ? 'circleSmallFilled' : 'EMPTY'" [inherit]="true" />
+      <ui-text [inherit]="true">Small</ui-text>
+    </ui-action-button>
+
+    <ui-action-button cdkMenuItem
+                      (pressed)="thumbSizeChanged.emit('medium')">
+      <ui-icon [icon]="currentThumbSize === 'medium' ? 'circleSmallFilled' : 'EMPTY'" [inherit]="true" />
+      <ui-text [inherit]="true">Medium</ui-text>
+    </ui-action-button>
+
+    <ui-action-button cdkMenuItem
+                      (pressed)="thumbSizeChanged.emit('large')">
+      <ui-icon [icon]="currentThumbSize === 'large' ? 'circleSmallFilled' : 'EMPTY'" [inherit]="true" />
+      <ui-text [inherit]="true">Large</ui-text>
+    </ui-action-button>
+
+  </ui-popup-menu>
+</ng-template>
 
 <ng-template #sortMenu>
   <ui-popup-menu cdkMenu>

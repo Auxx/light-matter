@@ -11,7 +11,14 @@ import {
   signal
 } from '@angular/core';
 import { TextComponent, TitleComponent } from '@light-matter/ui';
-import { allSortTypes, FileInfo, SortType } from 'internal-api';
+import {
+  allSortTypes,
+  defaultThumbnailSize,
+  FileInfo,
+  SortType,
+  thumbnailDimensions,
+  ThumbnailSize
+} from 'internal-api';
 import { ThumbnailComponent } from '../../../ui/components/thumbnail/thumbnail.component';
 import { TimelineIndicatorsComponent } from '../timeline-indicators/timeline-indicators.component';
 import { groupImagesByYearAndMonth, YearGroup } from './images.component.types';
@@ -26,7 +33,11 @@ import { groupImagesByYearAndMonth, YearGroup } from './images.component.types';
   ],
   templateUrl: './images.component.html',
   styleUrl: './images.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[style.--thumb-width.px]': 'dimensions().width',
+    '[style.--thumb-height.px]': 'dimensions().height'
+  }
 })
 export class ImagesComponent {
   private readonly elementRef = inject(ElementRef);
@@ -36,8 +47,10 @@ export class ImagesComponent {
   /* Inputs */
   readonly images = input.required<FileInfo[] | null>();
   readonly sortBy = input<SortType>(allSortTypes[0]);
+  readonly thumbSize = input<ThumbnailSize>(defaultThumbnailSize);
 
   /* Computed */
+  readonly dimensions = computed(() => thumbnailDimensions[this.thumbSize()]);
   readonly isDateSorted = computed(() => this.sortBy() === 'date');
   readonly groupedImages = computed<YearGroup[]>(() => {
     if (!this.isDateSorted()) {

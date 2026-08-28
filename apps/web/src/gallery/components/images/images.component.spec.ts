@@ -176,4 +176,33 @@ describe('ImagesComponent', () => {
       expect(scrollSpy).toHaveBeenCalledWith({ behavior: 'smooth', block: 'start' });
     });
   });
+
+  describe('thumbnail sizing and styling', () => {
+    it('should default thumbSize to small and set small dimensions', () => {
+      expect(component.thumbSize()).toBe('small');
+      expect(component.dimensions()).toEqual({ width: 192, height: 128 });
+      fixture.detectChanges();
+      const host = fixture.nativeElement as HTMLElement;
+      expect(host.style.getPropertyValue('--thumb-width')).toBe('192px');
+      expect(host.style.getPropertyValue('--thumb-height')).toBe('128px');
+    });
+
+    it('should update dimensions and CSS variables when thumbSize is medium', () => {
+      componentRef.setInput('thumbSize', 'medium');
+      fixture.detectChanges();
+      expect(component.dimensions()).toEqual({ width: 288, height: 192 });
+      const host = fixture.nativeElement as HTMLElement;
+      expect(host.style.getPropertyValue('--thumb-width')).toBe('288px');
+      expect(host.style.getPropertyValue('--thumb-height')).toBe('192px');
+    });
+
+    it('should update dimensions and CSS variables when thumbSize is large', () => {
+      componentRef.setInput('thumbSize', 'large');
+      fixture.detectChanges();
+      expect(component.dimensions()).toEqual({ width: 384, height: 256 });
+      const host = fixture.nativeElement as HTMLElement;
+      expect(host.style.getPropertyValue('--thumb-width')).toBe('384px');
+      expect(host.style.getPropertyValue('--thumb-height')).toBe('256px');
+    });
+  });
 });

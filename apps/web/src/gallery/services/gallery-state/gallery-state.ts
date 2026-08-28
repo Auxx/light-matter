@@ -1,8 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { TreeNode, updateSubject } from '@light-matter/ui';
-import { FileInfo } from 'internal-api';
+import { FileInfo, getThumbnailSize, thumbnailDimensions, ThumbnailSize } from 'internal-api';
 import { BehaviorSubject, defer, filter, map, Observable, startWith, switchMap, take, tap } from 'rxjs';
 import { FileSystem } from '../../../ipc/file-system';
+import { Configuration } from '../../../system/services/configuration/configuration';
 import { GalleryLocations } from '../gallery-locations/gallery-locations';
 import { defaultSortMode, galleryRoot, SortMode, treeNode } from './gallery-state.types';
 
@@ -11,10 +12,16 @@ export class GalleryState {
   /* DI */
   private readonly galleryLocations = inject(GalleryLocations);
 
+  private readonly configuration = inject(Configuration);
+
   private readonly fileSystem = inject(FileSystem);
 
   /* State */
   private readonly locations$ = this.galleryLocations.locations();
+
+  private readonly thumbSize$ = this.configuration.config().pipe(
+    map(config => getThumbnailSize(config.gallery.thumbWidth, config.gallery.thumbHeight))
+  );
 
   private readonly selectedLocation$ = new BehaviorSubject<string | null>(null);
 
@@ -44,6 +51,8 @@ export class GalleryState {
   /* Getters */
   readonly locations = () => this.locations$;
 
+  readonly thumbSize = () => this.thumbSize$;
+
   readonly images = () => this.images$.asObservable();
 
   readonly galleryRoot = () => this.galleryRoot$;
@@ -72,6 +81,15 @@ export class GalleryState {
         filter(path => path !== null)
       )
       .subscribe(path => this.navigateTo(path).subscribe());
+
+  readonly changeThumbnailSize = (size: ThumbnailSize) => {
+    const dimensions = thumbnailDimensions[size];
+
+    this.configuration.updateGalleryConfig({
+      thumbWidth: dimensions.width,
+      thumbHeight: dimensions.height
+    });
+  };
 
   /* Misc */
   readonly getDirContents = async (path: string) => await this.fileSystem.readDirectories(path);
