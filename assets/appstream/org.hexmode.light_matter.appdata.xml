@@ -45,6 +45,15 @@
   </screenshots>
 
   <releases>
+    <release version="0.2.1" date="2026-10-07">
+      <description>
+        <ul>
+          <li>Added AppStream metadata to AppImage package.</li>
+          <li>Added missing MIME types to Linux build.</li>
+          <li>Added zsync support.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.2.0" date="2026-08-28">
       <description>
         <ul>
