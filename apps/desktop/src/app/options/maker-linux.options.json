@@ -22,7 +22,13 @@
       "entry": {
         "StartupWMClass": "light-matter"
       }
-    }
+    },
+    "extraFiles": [
+      {
+        "from": "assets/appstream/org.hexmode.light_matter.appdata.xml",
+        "to": "usr/share/metainfo/org.hexmode.light_matter.appdata.xml"
+      }
+    ]
   },
   "appImage": {
     "artifactName": "LightMatter-${version}.${ext}"
