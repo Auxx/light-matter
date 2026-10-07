@@ -51,3 +51,4 @@ jobs:
         with:
           files: |
             dist/executables/*.AppImage
+            dist/executables/*.AppImage.zsync

@@ -1,6 +1,11 @@
 {
   "$schema": "../../../../../node_modules/nx-electron/src/validation/maker.schema.json",
   "productName": "Light Matter",
+  "publish": {
+    "provider": "github",
+    "owner": "Auxx",
+    "repo": "light-matter"
+  },
   "fileAssociations": [
     { "ext": "jpg", "role": "Viewer", "mimeType": "image/jpeg" },
     { "ext": "jpeg", "role": "Viewer", "mimeType": "image/jpeg" },
