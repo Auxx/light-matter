@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.hexmode.light_matter</id>
+  <launchable type="desktop-id">light-matter.desktop</launchable>
+
+  <metadata_license>MIT</metadata_license>
+  <project_license>MIT</project_license>
+
+  <name>Light Matter</name>
+  <summary>Light Matter is an HDR image and photo viewer.</summary>
+  <description>
+    <p>Supported image formats: JPEG, JPEG UltraHDR, JPEG XL, AVIF, PNG, WebP, GIF.</p>
+    <p>Supported colour gamuts: sRGB, AdobeRGB, P3, BT.2020/BT.2100, custom colour primaries.</p>
+    <p>Supported HDR EOTF: PQ (SMPTE ST 2084), HLG (ARIB STD-B67).</p>
+  </description>
+
+  <url type="homepage">https://blog.hexmode.org/software/light-matter/</url>
+  <url type="bugtracker">https://github.com/Auxx/light-matter/issues</url>
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>Gallery view</caption>
+      <image>https://images.hexmode.org/light-matter/linux-020-01.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Image view</caption>
+      <image>https://images.hexmode.org/light-matter/linux-020-02.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>EXIF data display</caption>
+      <image>https://images.hexmode.org/light-matter/linux-020-03.png</image>
+    </screenshot>
+  </screenshots>
+</component>
