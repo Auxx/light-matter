@@ -17,12 +17,12 @@ Use the `@Component` decorator to define a component's metadata.
     img {
       border-radius: 50%;
     }
-  `,
+  `
 })
 export class Profile {
   readonly save = () => {
     /* ... */
-  }
+  };
 }
 ```
 
@@ -42,8 +42,8 @@ To use a component, add it to the `imports` array of the consuming component and
 ```ts
 @Component({
   selector: 'app-root',
-  imports: [Profile],
-  template: `<app-profile />`,
+  imports: [ Profile ],
+  template: `<app-profile />`
 })
 export class App {}
 ```

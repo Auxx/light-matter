@@ -11,11 +11,11 @@ The `RouterTestingHarness` is the primary tool for testing routing scenarios. Yo
 ### Example Setup
 
 ```ts
-import {TestBed} from '@angular/core/testing';
-import {provideRouter} from '@angular/router';
-import {RouterTestingHarness} from '@angular/router/testing';
-import {Dashboard} from './dashboard.component';
-import {HeroDetail} from './hero-detail.component';
+import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { RouterTestingHarness } from '@angular/router/testing';
+import { Dashboard } from './dashboard.component';
+import { HeroDetail } from './hero-detail.component';
 
 describe('Dashboard Component Routing', () => {
   let harness: RouterTestingHarness;
@@ -26,10 +26,10 @@ describe('Dashboard Component Routing', () => {
       providers: [
         // Use provideRouter with your test-specific routes
         provideRouter([
-          {path: '', component: Dashboard},
-          {path: 'heroes/:id', component: HeroDetail},
-        ]),
-      ],
+          { path: '', component: Dashboard },
+          { path: 'heroes/:id', component: HeroDetail }
+        ])
+      ]
     });
 
     // 2. Create the RouterTestingHarness
@@ -40,8 +40,8 @@ describe('Dashboard Component Routing', () => {
 
 ### Key Concepts
 
-1.  **`provideRouter([...])`**: Provide a test-specific routing configuration. This should include the routes necessary for the component-under-test to function correctly.
-2.  **`RouterTestingHarness.create()`**: Asynchronously creates and initializes the harness and performs an initial navigation to the root URL (`/`).
+1. **`provideRouter([...])`**: Provide a test-specific routing configuration. This should include the routes necessary for the component-under-test to function correctly.
+2. **`RouterTestingHarness.create()`**: Asynchronously creates and initializes the harness and performs an initial navigation to the root URL (`/`).
 
 ## Writing Router Tests
 
@@ -55,7 +55,7 @@ it('should navigate to a hero detail when a hero is selected', async () => {
   const dashboard = await harness.navigateByUrl('/', Dashboard);
 
   // Suppose the dashboard has a method to select a hero
-  const heroToSelect = {id: 42, name: 'Test Hero'};
+  const heroToSelect = { id: 42, name: 'Test Hero' };
   dashboard.selectHero(heroToSelect);
 
   // Wait for stability after the action that triggers navigation

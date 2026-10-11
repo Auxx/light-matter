@@ -103,4 +103,3 @@ When working with Angular tooling, consult the following references:
 - **Angular CLI**: Creating applications, generating code (components, routes, services), serving, and building. Read [cli.md](references/cli.md)
 - **Code Modernization**: Automatically refactoring to modern standards using migrations. Read [migrations.md](references/migrations.md)
 - **Angular MCP Server**: Available tools, configuration, and experimental features. Read [mcp.md](references/mcp.md)
-

@@ -17,9 +17,9 @@ The `TestbedHarnessEnvironment` is the entry point for using harnesses in unit t
 ### Example: Testing with a `MatButtonHarness`
 
 ```ts
-import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
-import {MatButtonHarness} from '@angular/material/button/testing';
-import {MyButtonContainerComponent} from './my-button-container.component';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { MatButtonHarness } from '@angular/material/button/testing';
+import { MyButtonContainerComponent } from './my-button-container.component';
 
 describe('MyButtonContainerComponent', () => {
   let fixture: ComponentFixture<MyButtonContainerComponent>;
@@ -35,7 +35,7 @@ describe('MyButtonContainerComponent', () => {
 
   it('should find a button with specific text', async () => {
     // Load the harness for a MatButton with the text "Submit"
-    const submitButton = await loader.getHarness(MatButtonHarness.with({text: 'Submit'}));
+    const submitButton = await loader.getHarness(MatButtonHarness.with({ text: 'Submit' }));
 
     // Use the harness API to interact with the component
     expect(await submitButton.isDisabled()).toBe(false);
@@ -48,10 +48,10 @@ describe('MyButtonContainerComponent', () => {
 
 ### Key Concepts
 
-1.  **`HarnessLoader`**: An object used to find and create harness instances. Get a loader for your component's fixture using `TestbedHarnessEnvironment.loader(fixture)`.
+1. **`HarnessLoader`**: An object used to find and create harness instances. Get a loader for your component's fixture using `TestbedHarnessEnvironment.loader(fixture)`.
 
-2.  **`loader.getHarness(HarnessClass)`**: Asynchronously finds and returns a harness instance for the first matching component.
+2. **`loader.getHarness(HarnessClass)`**: Asynchronously finds and returns a harness instance for the first matching component.
 
-3.  **`HarnessClass.with({ ... })`**: Many harnesses provide a static `with` method that returns a `HarnessPredicate`. This allows you to filter and find components based on their properties, like text, selector, or disabled state. Always use this to precisely target the component you want to test.
+3. **`HarnessClass.with({ ... })`**: Many harnesses provide a static `with` method that returns a `HarnessPredicate`. This allows you to filter and find components based on their properties, like text, selector, or disabled state. Always use this to precisely target the component you want to test.
 
-4.  **Harness API:** Once you have a harness instance, use its methods (e.g., `.click()`, `.getText()`, `.getValue()`) to interact with the component. These methods automatically handle waiting for async operations and change detection.
+4. **Harness API:** Once you have a harness instance, use its methods (e.g., `.click()`, `.getText()`, `.getValue()`) to interact with the component. These methods automatically handle waiting for async operations and change detection.

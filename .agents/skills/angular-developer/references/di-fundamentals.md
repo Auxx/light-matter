@@ -6,8 +6,8 @@ Dependency Injection (DI) is a design pattern used to organize and share code ac
 
 There are two primary ways code interacts with Angular's DI system:
 
-1.  **Providing**: Making values (objects, functions, primitives) available to the DI system.
-2.  **Injecting**: Asking the DI system for those values.
+1. **Providing**: Making values (objects, functions, primitives) available to the DI system.
+2. **Injecting**: Asking the DI system for those values.
 
 Angular components, directives, and services automatically participate in DI.
 
@@ -20,12 +20,12 @@ A **service** is the most common way to share data and functionality across an a
 Use the `@Service()` decorator to make the service a singleton available throughout the entire application. This is the recommended approach for most services.
 
 ```ts
-import {Service} from '@angular/core';
+import { Service } from '@angular/core';
 
 @Service()
 export class AnalyticsLogger {
   trackEvent(category: string, value: string) {
-    console.log('Analytics event logged:', {category, value});
+    console.log('Analytics event logged:', { category, value });
   }
 }
 ```
@@ -47,13 +47,13 @@ Use Angular's `inject()` function to request dependencies.
 You can use the `inject()` function to get an instance of a service (or any other provided token).
 
 ```ts
-import {Component, inject} from '@angular/core';
-import {Router} from '@angular/router';
-import {AnalyticsLogger} from './analytics-logger.service';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { AnalyticsLogger } from './analytics-logger.service';
 
 @Component({
   selector: 'app-navbar',
-  template: `<a href="#" (click)="navigateToDetail($event)">Detail Page</a>`,
+  template: `<a href="#" (click)="navigateToDetail($event)">Detail Page</a>`
 })
 export class Navbar {
   // Injecting dependencies using class field initializers
@@ -63,7 +63,7 @@ export class Navbar {
   navigateToDetail(event: Event) {
     event.preventDefault();
     this.analytics.trackEvent('navigation', '/details');
-    this.router.navigate(['/details']);
+    this.router.navigate([ '/details' ]);
   }
 }
 ```
@@ -74,14 +74,14 @@ You can call `inject()` in an **injection context**. The most common injection c
 
 Valid places to call `inject()`:
 
-1.  **Class field initializers** (Recommended)
-2.  **Constructor body**
-3.  **Route guards and resolvers** (which are executed in an injection context)
-4.  **Factory functions** used in providers
+1. **Class field initializers** (Recommended)
+2. **Constructor body**
+3. **Route guards and resolvers** (which are executed in an injection context)
+4. **Factory functions** used in providers
 
 ```typescript
-import {Component, Directive, Service, inject, ElementRef} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { Component, Directive, ElementRef, inject, Service } from '@angular/core';
 
 // 1. In a Component (Field Initializer & Constructor)
 @Component({

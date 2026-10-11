@@ -16,7 +16,7 @@ Styles can be defined inline or in separate files.
     }
   `,
   // OR external file
-  styleUrl: 'photo.component.css',
+  styleUrl: 'photo.component.css'
 })
 export class Photo {}
 ```

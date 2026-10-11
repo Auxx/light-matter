@@ -7,11 +7,11 @@ Outputs allow a child component to emit custom events that a parent component ca
 Declare outputs using the `output()` function. This returns an `OutputEmitterRef`.
 
 ```ts
-import {Component, output} from '@angular/core';
+import { Component, output } from '@angular/core';
 
 @Component({
   selector: 'custom-slider',
-  template: `<button (click)="changeValue(50)">Set to 50</button>`,
+  template: `<button (click)="changeValue(50)">Set to 50</button>`
 })
 export class CustomSlider {
   // Output without event data
@@ -54,7 +54,7 @@ When creating components dynamically, you can subscribe to outputs programmatica
 ```ts
 const componentRef = viewContainerRef.createComponent(CustomSlider);
 
-const subscription = componentRef.instance.valueChanged.subscribe((val) => {
+const subscription = componentRef.instance.valueChanged.subscribe(val => {
   console.log('Value changed:', val);
 });
 

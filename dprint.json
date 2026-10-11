@@ -59,7 +59,9 @@
     "**/test.ts",
     "**/*-lock.json",
     "**/*.d.ts",
-    "**/.*"
+    "**/.idea",
+    "**/.nx",
+    "**/.vscode"
   ],
   "plugins": [
     "https://plugins.dprint.dev/typescript-0.95.15.wasm",

@@ -9,15 +9,15 @@ This project follows a modern, zoneless testing approach. State changes schedule
 **Do NOT** use `fixture.detectChanges()` to manually trigger updates.
 **ALWAYS** use the "Act, Wait, Assert" pattern:
 
-1.  **Act:** Update state or perform an action (e.g., set a component input, click a button).
-2.  **Wait:** Use `await fixture.whenStable()` to allow the framework to process the scheduled update and render the changes.
-3.  **Assert:** Verify the outcome.
+1. **Act:** Update state or perform an action (e.g., set a component input, click a button).
+2. **Wait:** Use `await fixture.whenStable()` to allow the framework to process the scheduled update and render the changes.
+3. **Assert:** Verify the outcome.
 
 ### Basic Test Structure Example
 
 ```ts
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {MyComponent} from './my.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MyComponent } from './my.component';
 
 describe('MyComponent', () => {
   let component: MyComponent;
