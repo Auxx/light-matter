@@ -45,6 +45,14 @@
   </screenshots>
 
   <releases>
+    <release version="0.2.2" date="2026-10-11">
+      <description>
+        <ul>
+          <li>Updated dependencies to fix security vulnerabilities.</li>
+          <li>Fixed auto-update for AppImage build.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.2.1" date="2026-10-07">
       <description>
         <ul>
