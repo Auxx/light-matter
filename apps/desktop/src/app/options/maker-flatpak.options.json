@@ -1,0 +1,62 @@
+{
+  "$schema": "../../../../../node_modules/nx-electron/src/validation/maker.schema.json",
+  "appId": "org.hexmode.light_matter",
+  "productName": "Light Matter",
+  "fileAssociations": [
+    { "ext": "jpg", "role": "Viewer", "mimeType": "image/jpeg" },
+    { "ext": "jpeg", "role": "Viewer", "mimeType": "image/jpeg" },
+    { "ext": "jxl", "role": "Viewer", "mimeType": "image/jxl" },
+    { "ext": "png", "role": "Viewer", "mimeType": "image/png" },
+    { "ext": "gif", "role": "Viewer", "mimeType": "image/gif" },
+    { "ext": "svg", "role": "Viewer", "mimeType": "image/svg+xml" },
+    { "ext": "webp", "role": "Viewer", "mimeType": "image/webp" },
+    { "ext": "avif", "role": "Viewer", "mimeType": "image/avif" },
+    { "ext": "bmp", "role": "Viewer", "mimeType": "image/bmp" }
+  ],
+  "linux": {
+    "target": "flatpak",
+    "executableName": "light-matter",
+    "category": "Graphics",
+    "icon": "./apps/desktop/src/assets/icon.png",
+    "maintainer": "hexmode.org",
+    "desktop": {
+      "entry": {
+        "StartupWMClass": "org.hexmode.light-matter"
+      }
+    }
+  },
+  "flatpak": {
+    "artifactName": "LightMatter-${version}.${ext}",
+    "runtime": "org.freedesktop.Platform",
+    "runtimeVersion": "25.08",
+    "sdk": "org.freedesktop.Sdk",
+    "base": "org.electronjs.Electron2.BaseApp",
+    "baseVersion": "25.08",
+    "finishArgs": [
+      "--socket=wayland",
+      "--socket=x11",
+      "--share=ipc",
+      "--device=dri",
+      "--filesystem=home",
+      "--talk-name=org.freedesktop.Notifications"
+    ],
+    "files": [
+      [
+        "assets/appstream/org.hexmode.light_matter.appdata.xml",
+        "/share/metainfo/org.hexmode.light_matter.metainfo.xml"
+      ]
+    ]
+  },
+  "electronLanguages": [
+    "en-GB"
+  ],
+  "files": [
+    {
+      "from": "desktop",
+      "to": "desktop",
+      "filter": [
+        "thumb-worker.js"
+      ]
+    }
+  ]
+}

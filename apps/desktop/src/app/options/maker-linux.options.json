@@ -1,5 +1,6 @@
 {
   "$schema": "../../../../../node_modules/nx-electron/src/validation/maker.schema.json",
+  "appId": "org.hexmode.light_matter",
   "productName": "Light Matter",
   "publish": {
     "provider": "github",
@@ -25,7 +26,7 @@
     "maintainer": "hexmode.org",
     "desktop": {
       "entry": {
-        "StartupWMClass": "light-matter"
+        "StartupWMClass": "org.hexmode.light-matter"
       }
     },
     "extraFiles": [

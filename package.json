@@ -19,6 +19,7 @@
     "make:prod-nsis": "nx run desktop:make",
     "make:prod-appx": "nx run desktop:make --makerOptionsPath=apps/desktop/src/app/options/maker-appx.options.json",
     "make:prod-appimage": "nx run desktop:make --makerOptionsPath=apps/desktop/src/app/options/maker-linux.options.json",
+    "make:prod-flatpak": "nx run desktop:make --makerOptionsPath=apps/desktop/src/app/options/maker-flatpak.options.json",
     "postinstall": "electron-builder install-app-deps",
     "nxe:build:frontend": "nx build web",
     "nxe:build:backend": "nx build desktop",
@@ -101,5 +102,9 @@
     "typescript-eslint": "8.57.0",
     "typia": "12.0.2",
     "zone.js": "0.16.1"
+  },
+  "desktopName": "org.hexmode.light_matter",
+  "linux": {
+    "syncDesktopName": true
   }
 }
