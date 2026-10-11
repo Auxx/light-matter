@@ -1,13 +1,15 @@
 # Angular Signals Overview
 
-Signals are the foundation of reactivity in modern Angular applications. A **signal** is a wrapper around a value that notifies interested consumers when that value changes.
+Signals are the foundation of reactivity in modern Angular applications. A
+**signal** is a wrapper around a value that notifies interested consumers when
+that value changes.
 
 ## Writable Signals (`signal`)
 
 Use `signal()` to create state that can be directly updated.
 
 ```ts
-import {signal} from '@angular/core';
+import { signal } from '@angular/core';
 
 // Create a writable signal
 const count = signal(0);
@@ -19,12 +21,13 @@ console.log(count());
 count.set(3);
 
 // Update based on the previous value
-count.update((value) => value + 1);
+count.update(value => value + 1);
 ```
 
 ### Exposing as Readonly
 
-When exposing state from a service, it is a best practice to expose a readonly version to prevent external mutation.
+When exposing state from a service, it is a best practice to expose a readonly
+version to prevent external mutation.
 
 ```ts
 private readonly _count = signal(0);
@@ -34,14 +37,18 @@ readonly count = this._count.asReadonly();
 
 ## Computed Signals (`computed`)
 
-Use `computed()` to create read-only signals that derive their value from other signals.
+Use `computed()` to create read-only signals that derive their value from other
+signals.
 
-- **Lazily Evaluated**: The derivation function doesn't run until the computed signal is read.
-- **Memoized**: The result is cached. It only recalculates when one of the signals it depends on changes.
-- **Dynamic Dependencies**: Only the signals _actually read_ during the derivation are tracked.
+- **Lazily Evaluated**: The derivation function doesn't run until the computed
+  signal is read.
+- **Memoized**: The result is cached. It only recalculates when one of the
+  signals it depends on changes.
+- **Dynamic Dependencies**: Only the signals _actually read_ during the
+  derivation are tracked.
 
 ```ts
-import {signal, computed} from '@angular/core';
+import { computed, signal } from '@angular/core';
 
 const count = signal(0);
 const doubleCount = computed(() => count() * 2);
@@ -51,7 +58,8 @@ const doubleCount = computed(() => count() * 2);
 
 ## Reactive Contexts
 
-A **reactive context** is a runtime state where Angular monitors signal reads to establish a dependency.
+A **reactive context** is a runtime state where Angular monitors signal reads to
+establish a dependency.
 
 Angular automatically enters a reactive context when evaluating:
 
@@ -62,10 +70,12 @@ Angular automatically enters a reactive context when evaluating:
 
 ### Untracked Reads (`untracked`)
 
-If you need to read a signal inside a reactive context _without_ creating a dependency (so that the context doesn't re-run when the signal changes), use `untracked()`.
+If you need to read a signal inside a reactive context _without_ creating a
+dependency (so that the context doesn't re-run when the signal changes), use
+`untracked()`.
 
 ```ts
-import {effect, untracked} from '@angular/core';
+import { effect, untracked } from '@angular/core';
 
 effect(() => {
   // This effect only runs when currentUser changes.
@@ -76,7 +86,9 @@ effect(() => {
 
 ### Async Operations in Reactive Contexts
 
-The reactive context is only active for **synchronous** code. Signal reads after an `await` will not be tracked. **Always read signals before asynchronous boundaries.**
+The reactive context is only active for **synchronous** code. Signal reads after
+an `await` will not be tracked. **Always read signals before asynchronous
+boundaries.**
 
 ```ts
 // ❌ INCORRECT: theme() is not tracked because it is read after await

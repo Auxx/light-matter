@@ -46,7 +46,11 @@
     "trailingCommas": "never"
   },
   "markdown": {
-    "newLineKind": "auto"
+    "lineWidth": 80,
+    "newLineKind": "auto",
+    "textWrap": "always",
+    "codeBlock.skipFormat": true,
+    "codeBlock.preserveIndentation": true
   },
   "includes": [
     "**/*.{ts,tsx,js,jsx,json,md}"
@@ -59,11 +63,13 @@
     "**/test.ts",
     "**/*-lock.json",
     "**/*.d.ts",
-    "**/.*"
+    "**/.idea",
+    "**/.nx",
+    "**/.vscode"
   ],
   "plugins": [
-    "https://plugins.dprint.dev/typescript-0.95.15.wasm",
-    "https://plugins.dprint.dev/json-0.21.1.wasm",
-    "https://plugins.dprint.dev/markdown-0.21.1.wasm"
+    "npm:@dprint/typescript@0.96.1",
+    "npm:@dprint/json@0.25.2",
+    "npm:@dprint/markdown@0.26.0"
   ]
 }

@@ -17,16 +17,16 @@ Example:
 ```ts
 export class Profile {
   readonly save = (data: string): boolean => {
-    if(!this.isDataValid(data)) {
+    if (!this.isDataValid(data)) {
       return false;
     }
-    
+
     /* ... */
-  }
-  
+  };
+
   private readonly isDataValid = (data: string): boolean => {
     return data.length > 0;
-  }
+  };
 }
 ```
 

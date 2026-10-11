@@ -1,12 +1,15 @@
 # Async Reactivity with `resource`
 
-A `Resource` incorporates asynchronous data fetching into Angular's signal-based reactivity. It executes an async loader function whenever its dependencies change, exposing the status and result as synchronous signals.
+A `Resource` incorporates asynchronous data fetching into Angular's signal-based
+reactivity. It executes an async loader function whenever its dependencies
+change, exposing the status and result as synchronous signals.
 
 ## Basic Usage
 
 The `resource` function accepts an options object with two main properties:
 
-1. `params`: A reactive computation (like `computed`). When signals read here change, the resource re-fetches.
+1. `params`: A reactive computation (like `computed`). When signals read here
+   change, the resource re-fetches.
 2. `loader`: An async function that fetches data based on the parameters.
 
 ```ts
@@ -41,11 +44,14 @@ export class UserProfile {
 
 ## Aborting Requests
 
-If the `params` signal changes while a previous loader is still running, the `Resource` will attempt to abort the outstanding request using the provided `abortSignal`. **Always pass `abortSignal` to your `fetch` calls.**
+If the `params` signal changes while a previous loader is still running, the
+`Resource` will attempt to abort the outstanding request using the provided
+`abortSignal`. **Always pass `abortSignal` to your `fetch` calls.**
 
 ## Reloading Data
 
-You can imperatively force the resource to re-run the loader without the params changing by calling `.reload()`.
+You can imperatively force the resource to re-run the loader without the params
+changing by calling `.reload()`.
 
 ```ts
 this.userResource.reload();
@@ -59,16 +65,20 @@ The `Resource` object provides several signals to read its current state:
 - `hasValue()`: Type-guard boolean. `true` if a value exists.
 - `isLoading()`: Boolean indicating if the loader is currently running.
 - `error()`: The error thrown by the loader, or `undefined`.
-- `status()`: A string constant representing the exact state (`'idle'`, `'loading'`, `'resolved'`, `'error'`, `'reloading'`, `'local'`).
+- `status()`: A string constant representing the exact state (`'idle'`,
+  `'loading'`, `'resolved'`, `'error'`, `'reloading'`, `'local'`).
 
 ## Local Mutation
 
-You can optimistically update the resource's value directly. This changes the status to `'local'`.
+You can optimistically update the resource's value directly. This changes the
+status to `'local'`.
 
 ```ts
-this.userResource.value.set({name: 'Optimistic Update'});
+this.userResource.value.set({ name: 'Optimistic Update' });
 ```
 
 ## Reactive Data Fetching with `httpResource`
 
-If you are using Angular's `HttpClient`, prefer using `httpResource`. It is a specialized wrapper that leverages the Angular HTTP stack (including interceptors) while providing the same signal-based resource API.
+If you are using Angular's `HttpClient`, prefer using `httpResource`. It is a
+specialized wrapper that leverages the Angular HTTP stack (including
+interceptors) while providing the same signal-based resource API.

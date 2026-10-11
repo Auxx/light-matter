@@ -4,10 +4,15 @@ Create a new Angular services and scaffold service code.
 
 ## Key Principles
 
-1. **Always use `--no-interactive`** - Prevents prompts that would hang execution
-2. Angular service generator is invoked using `nx g @lmgm/dev-toolkit:service` followed by required arguments
-3. **Match existing repo patterns** - Study similar artifacts in the repo and follow their conventions
-4. **Verify with lint/test/build/typecheck etc.** - Generated code must pass verification. The listed targets are just an example, use what's appropriate for this workspace.
+1. **Always use `--no-interactive`** - Prevents prompts that would hang
+   execution
+2. Angular service generator is invoked using `nx g @lmgm/dev-toolkit:service`
+   followed by required arguments
+3. **Match existing repo patterns** - Study similar artifacts in the repo and
+   follow their conventions
+4. **Verify with lint/test/build/typecheck etc.** - Generated code must pass
+   verification. The listed targets are just an example, use what's appropriate
+   for this workspace.
 
 ## Steps
 
@@ -15,19 +20,24 @@ Create a new Angular services and scaffold service code.
 
 A user must specify the following:
 
-- Project name: must be a non-empty string (convert to camel case and pass to generator as `--project` argument)
-- Feature name: must be a non-empty string (convert to camel case and pass to generator as `--feature` argument)
-- New service name: must be a non-empty string (convert to camel case and pass to generator as `--name` argument)
+- Project name: must be a non-empty string (convert to camel case and pass to
+  generator as `--project` argument)
+- Feature name: must be a non-empty string (convert to camel case and pass to
+  generator as `--feature` argument)
+- New service name: must be a non-empty string (convert to camel case and pass
+  to generator as `--name` argument)
 
 ### 2. Dry-Run to Verify File Placement
 
-**Always run with `--dry-run` first** to verify files will be created in the correct location:
+**Always run with `--dry-run` first** to verify files will be created in the
+correct location:
 
 ```bash
 nx g @lmgm/dev-toolkit:service --project=<project-name> --feature=<feature-name> --name=<service-name> --no-interactive --dry-run
 ```
 
-Review the output carefully. If files are created in the wrong location, adjust your options.
+Review the output carefully. If files are created in the wrong location, adjust
+your options.
 
 ### 3. Run the Generator
 
@@ -53,11 +63,16 @@ Format all generated/modified files:
 npm run format
 ```
 
-Then verify the generated code works. Keep in mind that the changes you make with a generator or subsequent modifications might impact various projects, so it's usually not enough to only run targets for the artefact you just created.
+Then verify the generated code works. Keep in mind that the changes you make
+with a generator or subsequent modifications might impact various projects, so
+it's usually not enough to only run targets for the artefact you just created.
 
 ```bash
 # these targets are just an example!
 nx run-many -t lint,test
 ```
 
-If verification fails with manageable issues (a few lint errors, minor type issues), fix them. If issues are extensive, attempt obvious fixes first, then escalate to the user with details about what was generated, what's failing, and what you've attempted.
+If verification fails with manageable issues (a few lint errors, minor type
+issues), fix them. If issues are extensive, attempt obvious fixes first, then
+escalate to the user with details about what was generated, what's failing, and
+what you've attempted.

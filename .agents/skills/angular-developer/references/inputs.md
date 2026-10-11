@@ -1,17 +1,18 @@
 # Inputs
 
-Inputs allow data to flow from a parent component to a child component. Angular recommends using the signal-based `input` API for modern applications.
+Inputs allow data to flow from a parent component to a child component. Angular
+recommends using the signal-based `input` API for modern applications.
 
 ## Signal-based Inputs
 
 Declare inputs using the `input()` function. This returns an `InputSignal`.
 
 ```ts
-import {Component, input, computed} from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 
 @Component({
   selector: 'app-user',
-  template: `<p>{{ label() }} ({{ age() }})</p>`,
+  template: `<p>{{ label() }} ({{ age() }})</p>`
 })
 export class User {
   // Optional input with default value
@@ -58,13 +59,13 @@ Use `model()` to create an input that supports two-way data binding.
 ```ts
 @Component({
   selector: 'custom-counter',
-  template: `<button (click)="increment()">+</button>`,
+  template: `<button (click)="increment()">+</button>`
 })
 export class CustomCounter {
   readonly value = model(0);
 
   increment() {
-    this.value.update((v) => v + 1);
+    this.value.update(v => v + 1);
   }
 }
 ```
@@ -95,7 +96,11 @@ export class Legacy {
 
 ## Best Practices
 
-- **Prefer Signals**: Use `input()` instead of `@Input()` for better reactivity and type safety.
-- **Required Inputs**: Use `input.required()` for mandatory data to get build-time errors.
-- **Pure Transforms**: Ensure input transform functions are pure and statically analyzable.
-- **Avoid Collisions**: Do not use input names that collide with standard DOM properties (e.g., `id`, `title`).
+- **Prefer Signals**: Use `input()` instead of `@Input()` for better reactivity
+  and type safety.
+- **Required Inputs**: Use `input.required()` for mandatory data to get
+  build-time errors.
+- **Pure Transforms**: Ensure input transform functions are pure and statically
+  analyzable.
+- **Avoid Collisions**: Do not use input names that collide with standard DOM
+  properties (e.g., `id`, `title`).

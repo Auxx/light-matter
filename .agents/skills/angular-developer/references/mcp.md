@@ -1,6 +1,9 @@
 # Angular CLI MCP Server
 
-The Angular CLI includes a Model Context Protocol (MCP) server that enables AI assistants (like Cursor, Gemini CLI, JetBrains AI, etc.) to interact directly with the Angular CLI. It provides tools for project analysis, guided migrations, and running builds/tests.
+The Angular CLI includes a Model Context Protocol (MCP) server that enables AI
+assistants (like Cursor, Gemini CLI, JetBrains AI, etc.) to interact directly
+with the Angular CLI. It provides tools for project analysis, guided migrations,
+and running builds/tests.
 
 ## Available Tools (Default)
 
@@ -16,7 +19,8 @@ When the MCP server is enabled, AI agents have access to the following tools:
 
 ## Experimental Tools
 
-Some tools must be enabled explicitly using the `--experimental-tool` (or `-E`) flag.
+Some tools must be enabled explicitly using the `--experimental-tool` (or `-E`)
+flag.
 
 | Name                       | Description                                                           |
 | :------------------------- | :-------------------------------------------------------------------- |
@@ -29,7 +33,8 @@ Some tools must be enabled explicitly using the `--experimental-tool` (or `-E`) 
 
 ## Configuration
 
-To use the MCP server, you configure your host environment (IDE or CLI) to run `npx @angular/cli mcp`.
+To use the MCP server, you configure your host environment (IDE or CLI) to run
+`npx @angular/cli mcp`.
 
 ### Antigravity IDE
 
@@ -63,7 +68,8 @@ Create `.gemini/settings.json` in the project root:
 
 ### Cursor
 
-Create `.cursor/mcp.json` in the project root (or globally at `~/.cursor/mcp.json`):
+Create `.cursor/mcp.json` in the project root (or globally at
+`~/.cursor/mcp.json`):
 
 ```json
 {
@@ -93,11 +99,14 @@ Create `.vscode/mcp.json`:
 
 ## Command Options
 
-You can pass arguments to the MCP server in the `args` array of your configuration:
+You can pass arguments to the MCP server in the `args` array of your
+configuration:
 
 - `--read-only`: Only registers tools that do not modify the project.
-- `--local-only`: Only registers tools that do not require an internet connection.
-- `--experimental-tool` (`-E`): Enables specific experimental tools (e.g., `-E build`, `-E devserver`).
+- `--local-only`: Only registers tools that do not require an internet
+  connection.
+- `--experimental-tool` (`-E`): Enables specific experimental tools (e.g., `-E
+  build`, `-E devserver`).
 
 Example for read-only mode with experimental tools enabled:
 

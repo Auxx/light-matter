@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
   <id>org.hexmode.light_matter</id>
-  <launchable type="desktop-id">light-matter.desktop</launchable>
+  <launchable type="desktop-id">org.hexmode.light_matter.desktop</launchable>
 
   <metadata_license>MIT</metadata_license>
   <project_license>MIT</project_license>

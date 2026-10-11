@@ -1,22 +1,23 @@
 # Navigate to Routes
 
-Angular provides both declarative and programmatic ways to navigate between routes.
+Angular provides both declarative and programmatic ways to navigate between
+routes.
 
 ## Declarative Navigation (`RouterLink`)
 
 Use the `RouterLink` directive on anchor elements.
 
 ```ts
-import {RouterLink, RouterLinkActive} from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
-  imports: [RouterLink, RouterLinkActive],
+  imports: [ RouterLink, RouterLinkActive ],
   template: `
     <nav>
       <a routerLink="/dashboard" routerLinkActive="active-link">Dashboard</a>
       <a [routerLink]="['/user', userId]">Profile</a>
     </nav>
-  `,
+  `
 })
 export class Nav {
   userId = '123';
@@ -59,7 +60,7 @@ Uses a string path. Ideal for absolute navigation or full URLs.
 this.router.navigateByUrl('/products/123?view=details');
 
 // Replace current entry in history
-this.router.navigateByUrl('/login', {replaceUrl: true});
+this.router.navigateByUrl('/login', { replaceUrl: true });
 ```
 
 ## URL Parameters
