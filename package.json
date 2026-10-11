@@ -1,6 +1,6 @@
 {
   "name": "@light-matter/source",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "private": true,
   "description": "A simple image viewer with HDR photo support for Windows and Linux",
   "license": "MIT",
