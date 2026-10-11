@@ -1,6 +1,7 @@
 # Component Styling
 
-Angular components can define styles that apply specifically to their template, enabling encapsulation and modularity.
+Angular components can define styles that apply specifically to their template,
+enabling encapsulation and modularity.
 
 ## Defining Styles
 
@@ -23,7 +24,8 @@ export class Photo {}
 
 ## View Encapsulation
 
-Every component has a view encapsulation setting that determines how styles are scoped.
+Every component has a view encapsulation setting that determines how styles are
+scoped.
 
 | Mode                            | Behavior                                                                                      |
 | :------------------------------ | :-------------------------------------------------------------------------------------------- |
@@ -48,7 +50,8 @@ export class GlobalStyled {}
 
 ### `:host`
 
-Targets the component's host element (the element matching the component's selector).
+Targets the component's host element (the element matching the component's
+selector).
 
 ```css
 :host {
@@ -70,12 +73,14 @@ Targets the host element based on some condition in its ancestry.
 
 ### `::ng-deep`
 
-Disables view encapsulation for a specific rule, allowing it to "leak" into child components.
-**Note: The Angular team strongly discourages the use of `::ng-deep`.** It is supported only for backwards compatibility.
+Disables view encapsulation for a specific rule, allowing it to "leak" into
+child components. **Note: The Angular team strongly discourages the use of
+`::ng-deep`.** It is supported only for backwards compatibility.
 
 ## Styles in Templates
 
-You can use `<style>` elements directly in a component's template. View encapsulation rules still apply.
+You can use `<style>` elements directly in a component's template. View
+encapsulation rules still apply.
 
 ```html
 <style>
@@ -88,4 +93,5 @@ You can use `<style>` elements directly in a component's template. View encapsul
 
 ## External Styles
 
-Using `<link>` or `@import` in CSS is treated as external styles. **External styles are not affected by emulated view encapsulation.**
+Using `<link>` or `@import` in CSS is treated as external styles. **External
+styles are not affected by emulated view encapsulation.**

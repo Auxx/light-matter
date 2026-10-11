@@ -1,6 +1,7 @@
 # Light Matter
 
-A simple image viewer with HDR photo support for Windows and Linux (macOS support is coming soon).
+A simple image viewer with HDR photo support for Windows and Linux (macOS
+support is coming soon).
 
 [Light Matter Home Page](https://blog.hexmode.org/software/light-matter/).
 
@@ -12,13 +13,17 @@ A simple image viewer with HDR photo support for Windows and Linux (macOS suppor
 
 ### Windows
 
-The preferred way to install Light Matter on Windows is from [Microsoft Store](https://apps.microsoft.com/detail/9P96SPR78HM8).
+The preferred way to install Light Matter on Windows is from
+[Microsoft Store](https://apps.microsoft.com/detail/9P96SPR78HM8).
 
-You can alternatively download an unsigned EXE installer from [GitHub Release](https://github.com/Auxx/light-matter/releases) page.
+You can alternatively download an unsigned EXE installer from
+[GitHub Release](https://github.com/Auxx/light-matter/releases) page.
 
 ### Linux
 
-Download the latest `LightMatter-*.AppImage` from the [GitHub Release](https://github.com/Auxx/light-matter/releases) page, make it executable, and run it:
+Download the latest `LightMatter-*.AppImage` from the
+[GitHub Release](https://github.com/Auxx/light-matter/releases) page, make it
+executable, and run it:
 
 ```bash
 chmod +x LightMatter-*.AppImage
@@ -47,9 +52,9 @@ chmod +x LightMatter-*.AppImage
 
 ## Windows 11 ACM note
 
-When using ACM on Windows 11 in SDR display mode (HDR mode is NOT affected!)
-you will need to enable `Use legacy display ICC colour management`
-in Compatibility settings in Light Matter properties.
-To do so, right-click on an app icon in Windows Explorer, then click on Properties.
+When using ACM on Windows 11 in SDR display mode (HDR mode is NOT affected!) you
+will need to enable `Use legacy display ICC colour management` in Compatibility
+settings in Light Matter properties. To do so, right-click on an app icon in
+Windows Explorer, then click on Properties.
 
 Do NOT enable this legacy setting in HDR display mode!

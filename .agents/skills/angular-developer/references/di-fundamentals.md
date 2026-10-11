@@ -1,23 +1,29 @@
 # Dependency Injection (DI) Fundamentals
 
-Dependency Injection (DI) is a design pattern used to organize and share code across an application by allowing you to "inject" features into different parts. This improves code maintainability, scalability, and testability.
+Dependency Injection (DI) is a design pattern used to organize and share code
+across an application by allowing you to "inject" features into different parts.
+This improves code maintainability, scalability, and testability.
 
 ## How DI Works in Angular
 
 There are two primary ways code interacts with Angular's DI system:
 
-1. **Providing**: Making values (objects, functions, primitives) available to the DI system.
+1. **Providing**: Making values (objects, functions, primitives) available to
+   the DI system.
 2. **Injecting**: Asking the DI system for those values.
 
 Angular components, directives, and services automatically participate in DI.
 
 ## Services
 
-A **service** is the most common way to share data and functionality across an application. It is a TypeScript class decorated with `@Service()`.
+A **service** is the most common way to share data and functionality across an
+application. It is a TypeScript class decorated with `@Service()`.
 
 ### Creating a Service
 
-Use the `@Service()` decorator to make the service a singleton available throughout the entire application. This is the recommended approach for most services.
+Use the `@Service()` decorator to make the service a singleton available
+throughout the entire application. This is the recommended approach for most
+services.
 
 ```ts
 import { Service } from '@angular/core';
@@ -44,7 +50,8 @@ Use Angular's `inject()` function to request dependencies.
 
 ### The `inject()` Function
 
-You can use the `inject()` function to get an instance of a service (or any other provided token).
+You can use the `inject()` function to get an instance of a service (or any
+other provided token).
 
 ```ts
 import { Component, inject } from '@angular/core';
@@ -70,7 +77,8 @@ export class Navbar {
 
 ### Where can `inject()` be used? (Injection Context)
 
-You can call `inject()` in an **injection context**. The most common injection contexts are during the construction of a component, directive, or service.
+You can call `inject()` in an **injection context**. The most common injection
+contexts are during the construction of a component, directive, or service.
 
 Valid places to call `inject()`:
 

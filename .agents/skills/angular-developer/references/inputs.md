@@ -1,6 +1,7 @@
 # Inputs
 
-Inputs allow data to flow from a parent component to a child component. Angular recommends using the signal-based `input` API for modern applications.
+Inputs allow data to flow from a parent component to a child component. Angular
+recommends using the signal-based `input` API for modern applications.
 
 ## Signal-based Inputs
 
@@ -95,7 +96,11 @@ export class Legacy {
 
 ## Best Practices
 
-- **Prefer Signals**: Use `input()` instead of `@Input()` for better reactivity and type safety.
-- **Required Inputs**: Use `input.required()` for mandatory data to get build-time errors.
-- **Pure Transforms**: Ensure input transform functions are pure and statically analyzable.
-- **Avoid Collisions**: Do not use input names that collide with standard DOM properties (e.g., `id`, `title`).
+- **Prefer Signals**: Use `input()` instead of `@Input()` for better reactivity
+  and type safety.
+- **Required Inputs**: Use `input.required()` for mandatory data to get
+  build-time errors.
+- **Pure Transforms**: Ensure input transform functions are pure and statically
+  analyzable.
+- **Avoid Collisions**: Do not use input names that collide with standard DOM
+  properties (e.g., `id`, `title`).

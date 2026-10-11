@@ -1,16 +1,20 @@
 # Testing Fundamentals
 
-This guide covers the fundamental principles and practices for writing unit tests in this repository, which uses Vitest as the test runner.
+This guide covers the fundamental principles and practices for writing unit
+tests in this repository, which uses Vitest as the test runner.
 
 ## Core Philosophy: Zoneless & Async-First
 
-This project follows a modern, zoneless testing approach. State changes schedule updates asynchronously, and tests must account for this.
+This project follows a modern, zoneless testing approach. State changes schedule
+updates asynchronously, and tests must account for this.
 
-**Do NOT** use `fixture.detectChanges()` to manually trigger updates.
-**ALWAYS** use the "Act, Wait, Assert" pattern:
+**Do NOT** use `fixture.detectChanges()` to manually trigger updates. **ALWAYS**
+use the "Act, Wait, Assert" pattern:
 
-1. **Act:** Update state or perform an action (e.g., set a component input, click a button).
-2. **Wait:** Use `await fixture.whenStable()` to allow the framework to process the scheduled update and render the changes.
+1. **Act:** Update state or perform an action (e.g., set a component input,
+   click a button).
+2. **Wait:** Use `await fixture.whenStable()` to allow the framework to process
+   the scheduled update and render the changes.
 3. **Assert:** Verify the outcome.
 
 ### Basic Test Structure Example
@@ -56,8 +60,13 @@ describe('MyComponent', () => {
 
 ## TestBed and ComponentFixture
 
-- **`TestBed`**: The primary utility for creating a test-specific Angular module. Use `TestBed.configureTestingModule({...})` in your `beforeEach` to declare components, provide services, and set up imports needed for your test.
-- **`ComponentFixture`**: A handle on the created component instance and its environment.
+- **`TestBed`**: The primary utility for creating a test-specific Angular
+  module. Use `TestBed.configureTestingModule({...})` in your `beforeEach` to
+  declare components, provide services, and set up imports needed for your test.
+- **`ComponentFixture`**: A handle on the created component instance and its
+  environment.
   - `fixture.componentInstance`: Access the component's class instance.
   - `fixture.nativeElement`: Access the component's root DOM element.
-  - `fixture.debugElement`: An Angular-specific wrapper around the `nativeElement` that provides safer, platform-agnostic ways to query the DOM (e.g., `debugElement.query(By.css('p'))`).
+  - `fixture.debugElement`: An Angular-specific wrapper around the
+    `nativeElement` that provides safer, platform-agnostic ways to query the DOM
+    (e.g., `debugElement.query(By.css('p'))`).

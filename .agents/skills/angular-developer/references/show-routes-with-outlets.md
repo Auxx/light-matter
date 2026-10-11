@@ -1,10 +1,12 @@
 # Show Routes with Outlets
 
-The `RouterOutlet` directive is a placeholder where Angular renders the component for the current URL.
+The `RouterOutlet` directive is a placeholder where Angular renders the
+component for the current URL.
 
 ## Basic Usage
 
-Include `<router-outlet />` in your template. Angular inserts the routed component as a sibling immediately following the outlet.
+Include `<router-outlet />` in your template. Angular inserts the routed
+component as a sibling immediately following the outlet.
 
 ```html
 <app-header /> <router-outlet />
@@ -14,7 +16,8 @@ Include `<router-outlet />` in your template. Angular inserts the routed compone
 
 ## Nested Outlets
 
-Child routes require their own `<router-outlet />` within the parent component's template.
+Child routes require their own `<router-outlet />` within the parent component's
+template.
 
 ```ts
 // Parent component template
@@ -24,7 +27,8 @@ Child routes require their own `<router-outlet />` within the parent component's
 
 ## Named Outlets (Secondary Routes)
 
-Pages can have multiple outlets. Assign a `name` to an outlet to target it specifically. The default name is `'primary'`.
+Pages can have multiple outlets. Assign a `name` to an outlet to target it
+specifically. The default name is `'primary'`.
 
 ```html
 <router-outlet />
@@ -57,7 +61,9 @@ Define the `outlet` in the route config:
 
 ## Passing Data via `routerOutletData`
 
-You can pass contextual data to the routed component using the `routerOutletData` input. The component accesses this via the `ROUTER_OUTLET_DATA` injection token as a signal.
+You can pass contextual data to the routed component using the
+`routerOutletData` input. The component accesses this via the
+`ROUTER_OUTLET_DATA` injection token as a signal.
 
 ```ts
 // In Parent

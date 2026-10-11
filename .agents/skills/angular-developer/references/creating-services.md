@@ -1,6 +1,8 @@
 # Creating and Using Services
 
-Services in Angular are reusable pieces of code that handle data fetching, business logic, or state management that multiple components or other services need to access.
+Services in Angular are reusable pieces of code that handle data fetching,
+business logic, or state management that multiple components or other services
+need to access.
 
 ## Creating a Service
 
@@ -31,19 +33,24 @@ export class BasicDataStore {
 
 ### The `@Service` decorator
 
-Using `@Service` is the recommended approach for most services. It tells Angular to:
+Using `@Service` is the recommended approach for most services. It tells Angular
+to:
 
 - **Create a single instance (singleton)** for the entire application.
-- **Make it available everywhere** automatically, without needing to list it in any `providers` array.
-- **Enable tree-shaking**, meaning the service is only included in the final JavaScript bundle if it is actually injected somewhere.
+- **Make it available everywhere** automatically, without needing to list it in
+  any `providers` array.
+- **Enable tree-shaking**, meaning the service is only included in the final
+  JavaScript bundle if it is actually injected somewhere.
 
 #### The `autoProvided` option
 
-If you don't want to create a singleton of your service, you can set `@Service({autoProvided: false})` and declare the service a `providers` array.
+If you don't want to create a singleton of your service, you can set
+`@Service({autoProvided: false})` and declare the service a `providers` array.
 
 ## Injecting a Service
 
-Once a service is created, you can inject it into components, directives, or other services using the `inject()` function.
+Once a service is created, you can inject it into components, directives, or
+other services using the `inject()` function.
 
 ### Injecting into a Component
 
@@ -92,6 +99,9 @@ export class BasicDataStore {
 
 While `@Service` covers most scenarios, you may sometimes need:
 
-- **Component-specific instances**: If a component needs its own isolated instance of a service, provide it directly in the component's `@Component({ providers: [MyService] })` array and set the `autoProvided: false` option: `@Service({autoProvided: false})`
+- **Component-specific instances**: If a component needs its own isolated
+  instance of a service, provide it directly in the component's `@Component({
+  providers: [MyService] })` array and set the `autoProvided: false` option:
+  `@Service({autoProvided: false})`
 - **Factory providers**: For dynamic creation.
 - **Value providers**: For injecting configuration objects.

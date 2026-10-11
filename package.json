@@ -1,9 +1,10 @@
 {
   "name": "@light-matter/source",
-  "author": "hexmode.org",
   "version": "0.2.2",
+  "private": true,
   "description": "A simple image viewer with HDR photo support for Windows and Linux",
   "license": "MIT",
+  "author": "hexmode.org",
   "scripts": {
     "format": "dprint fmt",
     "format:check": "dprint check",
@@ -28,7 +29,7 @@
     "nxe:package:app": "nx run desktop:make --prepackageOnly",
     "nxe:make:app": "nx run desktop:make"
   },
-  "private": true,
+  "overrides": {},
   "dependencies": {
     "electron-updater": "6.8.9",
     "exiftool-vendored": "35.21.0",
@@ -74,7 +75,7 @@
     "@typescript-eslint/utils": "8.57.0",
     "angular-eslint": "21.3.0",
     "autoprefixer": "10.4.27",
-    "dprint": "0.52.0",
+    "dprint": "0.62.0",
     "electron": "44.7.0",
     "eslint": "10.0.3",
     "husky": "9.1.7",
@@ -100,6 +101,5 @@
     "typescript-eslint": "8.57.0",
     "typia": "12.0.2",
     "zone.js": "0.16.1"
-  },
-  "overrides": {}
+  }
 }

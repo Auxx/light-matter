@@ -1,6 +1,7 @@
 # Navigate to Routes
 
-Angular provides both declarative and programmatic ways to navigate between routes.
+Angular provides both declarative and programmatic ways to navigate between
+routes.
 
 ## Declarative Navigation (`RouterLink`)
 

@@ -1,10 +1,13 @@
 # Component Host Elements
 
-The **host element** is the DOM element that matches a component's selector. The component's template renders inside this element.
+The **host element** is the DOM element that matches a component's selector. The
+component's template renders inside this element.
 
 ## Binding to the Host Element
 
-Use the `host` property in the `@Component` decorator to bind properties, attributes, styles, and events to the host element. This is the **preferred approach** over legacy decorators.
+Use the `host` property in the `@Component` decorator to bind properties,
+attributes, styles, and events to the host element. This is the **preferred
+approach** over legacy decorators.
 
 ```ts
 @Component({
@@ -32,7 +35,8 @@ export class CustomSlider {
 
 ## Legacy Decorators
 
-`@HostBinding` and `@HostListener` are supported for backwards compatibility but should be avoided in new code.
+`@HostBinding` and `@HostListener` are supported for backwards compatibility but
+should be avoided in new code.
 
 ```ts
 export class CustomSlider {
@@ -50,7 +54,8 @@ export class CustomSlider {
 
 ## Binding Collisions
 
-If both the component (host binding) and the consumer (template binding) bind to the same property:
+If both the component (host binding) and the consumer (template binding) bind to
+the same property:
 
 1. **Static vs Static**: The instance (consumer) binding wins.
 2. **Static vs Dynamic**: The dynamic binding wins.
@@ -58,7 +63,8 @@ If both the component (host binding) and the consumer (template binding) bind to
 
 ## Injecting Host Attributes
 
-Use `HostAttributeToken` with the `inject` function to read static attributes from the host element at construction time.
+Use `HostAttributeToken` with the `inject` function to read static attributes
+from the host element at construction time.
 
 ```ts
 import { Component, HostAttributeToken, inject } from '@angular/core';

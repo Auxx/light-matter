@@ -1,6 +1,7 @@
 # Data Resolvers
 
-Data resolvers fetch data before a route activates, ensuring components have the necessary data upon rendering.
+Data resolvers fetch data before a route activates, ensuring components have the
+necessary data upon rendering.
 
 ## Creating a Resolver
 
@@ -40,7 +41,8 @@ protected readonly user = computed(() => this.data().user);
 
 ### 2. Via Component Inputs (Modern)
 
-Enable `withComponentInputBinding()` in `provideRouter` to pass resolved data directly to `@Input` or `input()`.
+Enable `withComponentInputBinding()` in `provideRouter` to pass resolved data
+directly to `@Input` or `input()`.
 
 ```ts
 // app.config.ts
@@ -55,7 +57,8 @@ user = input.required<User>();
 Navigation is blocked if a resolver fails.
 
 - Use `withNavigationErrorHandler` for global handling.
-- Use `catchError` within the resolver to return a `RedirectCommand` or fallback data.
+- Use `catchError` within the resolver to return a `RedirectCommand` or fallback
+  data.
 
 ```ts
 return userService
@@ -66,4 +69,6 @@ return userService
 ## Best Practices
 
 - **Keep it lightweight**: Fetch only critical data.
-- **Provide feedback**: Listen to router events to show a global loading bar during navigation, as the UI stays on the old page until the resolver finishes.
+- **Provide feedback**: Listen to router events to show a global loading bar
+  during navigation, as the UI stays on the old page until the resolver
+  finishes.

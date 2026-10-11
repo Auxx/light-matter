@@ -1,10 +1,14 @@
 # Angular CLI Guide for Agents
 
-The Angular CLI (`ng`) is the primary tool for managing an Angular workspace. Always prefer CLI commands over manual file creation or generic `npm` commands when modifying project structure or adding Angular-specific dependencies.
+The Angular CLI (`ng`) is the primary tool for managing an Angular workspace.
+Always prefer CLI commands over manual file creation or generic `npm` commands
+when modifying project structure or adding Angular-specific dependencies.
 
 ## 1. Managing Dependencies
 
-**ALWAYS use `ng add` for Angular libraries** instead of `npm install`. `ng add` installs the package AND runs initialization schematics (e.g., configuring `angular.json`, updating root providers).
+**ALWAYS use `ng add` for Angular libraries** instead of `npm install`. `ng add`
+installs the package AND runs initialization schematics (e.g., configuring
+`angular.json`, updating root providers).
 
 ```bash
 ng add @angular/material
@@ -12,7 +16,8 @@ ng add tailwindcss
 ng add @angular/fire
 ```
 
-To update the application and its dependencies (which automatically runs code migrations):
+To update the application and its dependencies (which automatically runs code
+migrations):
 
 ```bash
 ng update @angular/core@<latest or specific version> @angular/cli<latest or specific version>
@@ -20,7 +25,8 @@ ng update @angular/core@<latest or specific version> @angular/cli<latest or spec
 
 ## 2. Generating Code (`ng generate` or `ng g`)
 
-Always use the CLI to generate code to ensure it adheres to Angular standards and updates necessary configuration files automatically.
+Always use the CLI to generate code to ensure it adheres to Angular standards
+and updates necessary configuration files automatically.
 
 | Target       | Command               | Notes                                                                                          |
 | :----------- | :-------------------- | :--------------------------------------------------------------------------------------------- |
@@ -31,7 +37,8 @@ Always use the CLI to generate code to ensure it adheres to Angular standards an
 | Guard        | `ng g g path/to/name` | Generates a functional route guard.                                                            |
 | Environments | `ng g environments`   | Scaffolds `src/environments/` and updates `angular.json` with file replacements.               |
 
-_Note: There is no command to generate a single route definition. Generate a component, then manually add it to the `Routes` array in `app.routes.ts`._
+_Note: There is no command to generate a single route definition. Generate a
+component, then manually add it to the `Routes` array in `app.routes.ts`._
 
 ## 3. Development Server & Proxying
 
@@ -43,7 +50,8 @@ ng serve
 
 ### Backend API Proxying
 
-To proxy API requests during development (e.g., rerouting `/api` to a local Node server):
+To proxy API requests during development (e.g., rerouting `/api` to a local Node
+server):
 
 1. Create `src/proxy.conf.json`:
    ```json
@@ -61,23 +69,30 @@ To proxy API requests during development (e.g., rerouting `/api` to a local Node
 
 ## 4. Building the Application
 
-Compile the application into an output directory (default: `dist/<project-name>/browser`). Modern Angular uses the `@angular/build:application` builder (esbuild-based).
+Compile the application into an output directory (default:
+`dist/<project-name>/browser`). Modern Angular uses the
+`@angular/build:application` builder (esbuild-based).
 
 ```bash
 ng build
 ```
 
-- `ng build` defaults to the production configuration, which enables Ahead-of-Time (AOT) compilation, minification, and tree-shaking.
-- Target specific configurations defined in `angular.json` using `--configuration`: `ng build --configuration=staging`.
+- `ng build` defaults to the production configuration, which enables
+  Ahead-of-Time (AOT) compilation, minification, and tree-shaking.
+- Target specific configurations defined in `angular.json` using
+  `--configuration`: `ng build --configuration=staging`.
 
 ## 5. Testing
 
-- **Unit Tests**: Run `ng test` to execute unit tests via the configured test runner (e.g., Karma or Vitest).
-- **End-to-End (E2E)**: Run `ng e2e`. If no E2E framework is configured, the CLI will prompt to install one (Cypress, Playwright, Puppeteer, etc.).
+- **Unit Tests**: Run `ng test` to execute unit tests via the configured test
+  runner (e.g., Karma or Vitest).
+- **End-to-End (E2E)**: Run `ng e2e`. If no E2E framework is configured, the CLI
+  will prompt to install one (Cypress, Playwright, Puppeteer, etc.).
 
 ## 6. Deployment
 
-To deploy an application, you must first add a deployment builder, then run the deploy command:
+To deploy an application, you must first add a deployment builder, then run the
+deploy command:
 
 ```bash
 # Example for Firebase
