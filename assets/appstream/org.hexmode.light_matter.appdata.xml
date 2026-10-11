@@ -45,6 +45,13 @@
   </screenshots>
 
   <releases>
+    <release version="0.2.3" date="2026-10-11">
+      <description>
+        <ul>
+          <li>Added Flatpak build support.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.2.2" date="2026-10-11">
       <description>
         <ul>
