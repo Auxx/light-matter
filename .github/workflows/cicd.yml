@@ -25,3 +25,9 @@ jobs:
       - run: npm run lint
       - run: npm run build:ci
       - run: npm run test:ci
+      - name: Run Trivy vulnerability scanner in fs mode
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          trivy-config: trivy.yaml

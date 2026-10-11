@@ -51,4 +51,4 @@ jobs:
         with:
           files: |
             dist/executables/*.AppImage
-            dist/executables/*.AppImage.zsync
+            dist/executables/latest-linux.yml
