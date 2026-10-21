@@ -16,6 +16,12 @@
     { "ext": "svg", "role": "Viewer", "mimeType": "image/svg+xml" },
     { "ext": "webp", "role": "Viewer", "mimeType": "image/webp" },
     { "ext": "avif", "role": "Viewer", "mimeType": "image/avif" },
+    { "ext": "heif", "role": "Viewer", "mimeType": "image/heif" },
+    { "ext": "heic", "role": "Viewer", "mimeType": "image/heic" },
+    { "ext": "exr", "role": "Viewer", "mimeType": "image/x-exr" },
+    { "ext": "hdr", "role": "Viewer", "mimeType": "image/vnd.radiance" },
+    { "ext": "tif", "role": "Viewer", "mimeType": "image/tiff" },
+    { "ext": "tiff", "role": "Viewer", "mimeType": "image/tiff" },
     { "ext": "bmp", "role": "Viewer", "mimeType": "image/bmp" }
   ],
   "linux": {

@@ -1,7 +1,7 @@
 import { IpcMainInvokeEvent } from 'electron';
 import { ApiResponse, FileInfo, SortDirection, SortType, supportedFileExtensions } from 'internal-api';
 import { Dirent, statSync } from 'node:fs';
-import { readdir, readFile, writeFile } from 'node:fs/promises';
+import { readdir, readFile, unlink, writeFile } from 'node:fs/promises';
 import { dirname, extname, join } from 'node:path';
 import { IpcHandler } from '../app/decorators/ipc-handler';
 
@@ -85,6 +85,16 @@ export class FileSystem {
     }
   };
 
+  @IpcHandler({ name: 'FileSystem.deleteFile' })
+  readonly deleteFile = async (_: IpcMainInvokeEvent, path: string): Promise<ApiResponse<undefined>> => {
+    try {
+      await unlink(path);
+      return { success: true, data: undefined };
+    } catch (_) {
+      return { success: false, errorMessage: `Failed to delete file ${path}.` };
+    }
+  };
+
   private readonly sortFiles = (sortBy: SortType, sortDir: SortDirection) => {
     switch (sortBy) {
       case 'date':
@@ -149,6 +159,7 @@ export class FileSystem {
 
   private readonly toFileInfo = (file: Dirent): FileInfo => {
     const path = join(file.parentPath, file.name);
+    const stats = statSync(path);
 
     return {
       path,
@@ -156,8 +167,9 @@ export class FileSystem {
       parent: file.parentPath,
       isDirectory: file.isDirectory(),
       ext: extname(file.name),
-      createdAt: statSync(path).birthtimeMs,
-      size: statSync(path).size
+      createdAt: stats.birthtimeMs,
+      size: stats.size,
+      modifiedAt: stats.mtimeMs
     };
   };
 }

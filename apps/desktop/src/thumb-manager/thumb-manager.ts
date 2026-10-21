@@ -1,14 +1,28 @@
 import { randomUUID } from 'node:crypto';
-import { join } from 'node:path';
+import { extname, join } from 'node:path';
 import { Worker } from 'node:worker_threads';
-import type { ThumbWorkerCancelRequest, ThumbWorkerGenerateRequest, ThumbWorkerResponse } from './thumb-worker';
+import type { ImageHistogram } from 'internal-api';
+import type {
+  ThumbWorkerCancelRequest,
+  ThumbWorkerGenerateRequest,
+  ThumbWorkerHistogramRequest,
+  ThumbWorkerResponse
+} from './thumb-worker';
 
 export class ThumbManager {
+  private static readonly workerRecycleAfterHeavyImages = 8;
+
+  private static readonly heavyExtensions = new Set([ '.jxr', '.avif', '.heif', '.heic', '.exr', '.hdr', '.tif', '.tiff' ]);
+
   private worker: Worker | null = null;
 
   private readonly workerPath: string;
 
-  private readonly pendingRequests = new Map<string, (success: boolean) => void>();
+  private readonly pendingRequests = new Map<string, (response: ThumbWorkerResponse) => void>();
+
+  private workerQueue: Promise<void> = Promise.resolve();
+
+  private heavyImagesSinceRestart = 0;
 
   private isTerminated = false;
 
@@ -18,7 +32,18 @@ export class ThumbManager {
     this.initWorker();
   }
 
-  readonly generate = async (
+  readonly generate = (
+    source: string,
+    target: string,
+    width: number,
+    height: number,
+    signal?: AbortSignal
+  ): Promise<boolean> => this.enqueue(() => this.runWorkerOperation(
+    source,
+    () => this.generateQueued(source, target, width, height, signal)
+  ));
+
+  private readonly generateQueued = async (
     source: string,
     target: string,
     width: number,
@@ -49,9 +74,9 @@ export class ThumbManager {
         }
       };
 
-      const wrappedResolve = (success: boolean) => {
+      const wrappedResolve = (response: ThumbWorkerResponse) => {
         cleanup();
-        resolve(success);
+        resolve(response.success);
       };
 
       this.pendingRequests.set(id, wrappedResolve);
@@ -59,11 +84,8 @@ export class ThumbManager {
       if (signal) {
         onAbort = () => {
           this.cancel(id);
-          const callback = this.pendingRequests.get(id);
-          if (callback) {
-            this.pendingRequests.delete(id);
-            callback(false);
-          }
+          // Keep the queue occupied until the worker acknowledges cancellation
+          // or finishes the active decode; otherwise later jobs overlap it.
         };
 
         if (signal.aborted) {
@@ -102,6 +124,40 @@ export class ThumbManager {
     });
   };
 
+  readonly histogram = (source: string): Promise<ImageHistogram | null> =>
+    this.enqueue(() => this.runWorkerOperation(source, () => this.histogramQueued(source)));
+
+  private readonly histogramQueued = async (source: string): Promise<ImageHistogram | null> => {
+    if (!this.worker) {
+      this.initWorker();
+    }
+
+    if (!this.worker) {
+      return null;
+    }
+
+    return new Promise((resolve, reject) => {
+      const id = randomUUID();
+      this.pendingRequests.set(id, response => {
+        if (!response.success) {
+          reject(new Error(response.error ?? 'Histogram worker failed.'));
+          return;
+        }
+
+        resolve(response.histogram ?? null);
+      });
+
+      const request: ThumbWorkerHistogramRequest = { type: 'histogram', id, source };
+      try {
+        this.worker?.postMessage(request);
+      } catch (error) {
+        console.error('[ThumbManager] Failed to request image histogram:', error);
+        this.pendingRequests.delete(id);
+        reject(error);
+      }
+    });
+  };
+
   readonly cancel = (id: string) => {
     try {
       if (this.worker) {
@@ -132,6 +188,7 @@ export class ThumbManager {
     }
 
     try {
+      this.heavyImagesSinceRestart = 0;
       this.worker = new Worker(this.workerPath, {
         execArgv: this.workerPath.endsWith('.ts') ? [ '--require', 'ts-node/register' ] : undefined
       });
@@ -141,7 +198,7 @@ export class ThumbManager {
 
         if (callback) {
           this.pendingRequests.delete(response.id);
-          callback(response.success);
+          callback(response);
         }
       });
 
@@ -167,6 +224,43 @@ export class ThumbManager {
     }
   };
 
+  private readonly enqueue = <T>(operation: () => Promise<T>): Promise<T> => {
+    const result = this.workerQueue.then(operation, operation);
+    this.workerQueue = result.then(() => undefined, () => undefined);
+    return result;
+  };
+
+  private readonly runWorkerOperation = async <T>(source: string, operation: () => Promise<T>): Promise<T> => {
+    try {
+      return await operation();
+    } finally {
+      if (ThumbManager.heavyExtensions.has(extname(source).toLowerCase())) {
+        this.heavyImagesSinceRestart++;
+
+        if (this.heavyImagesSinceRestart >= ThumbManager.workerRecycleAfterHeavyImages) {
+          await this.recycleWorker();
+        }
+      }
+    }
+  };
+
+  private readonly recycleWorker = async () => {
+    const worker = this.worker;
+    this.worker = null;
+
+    if (worker) {
+      worker.removeAllListeners();
+
+      try {
+        await worker.terminate();
+      } catch (error) {
+        console.error('[ThumbManager] Failed to recycle thumbnail worker:', error);
+      }
+    }
+
+    this.initWorker();
+  };
+
   private readonly restartWorker = () => {
     if (this.isTerminated) {
       return;
@@ -178,7 +272,7 @@ export class ThumbManager {
 
   private readonly flushPendingRequests = (result: boolean) => {
     for (const [ , resolve ] of this.pendingRequests) {
-      resolve(result);
+      resolve({ id: '', success: result });
     }
 
     this.pendingRequests.clear();

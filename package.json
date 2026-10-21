@@ -28,12 +28,16 @@
     "nxe:test:frontend": "nx test web",
     "nxe:test:backend": "nx test desktop",
     "nxe:package:app": "nx run desktop:make --prepackageOnly",
+    "prototype:jxr-hdr": "node tools/jxr-prototype/prototype.cjs",
     "nxe:make:app": "nx run desktop:make"
   },
   "overrides": {},
   "dependencies": {
     "electron-updater": "6.8.9",
     "exiftool-vendored": "35.21.0",
+    "exrs": "^1.0.3",
+    "jpegxr": "^0.3.0",
+    "libheif-js": "^1.23.5",
     "nanoid": "5.1.16",
     "tslib": "2.8.1",
     "wasm-vips": "0.0.18",

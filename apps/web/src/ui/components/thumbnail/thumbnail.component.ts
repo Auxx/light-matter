@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CaptionComponent } from '@light-matter/ui';
-import { defaultThumbHeight, defaultThumbWidth, FileInfo } from 'internal-api';
+import { FileInfo, thumbnailDimensions } from 'internal-api';
 import { distinctUntilChanged, Subscription } from 'rxjs';
 import { DevicePixelRatioService } from '../../../system/services/device-pixel-ratio/device-pixel-ratio.service';
 import { ThumbnailLoaderService } from '../../../system/services/thumbnail-loader/thumbnail-loader.service';
@@ -27,7 +27,9 @@ import { thumbUrl } from '../../../viewer/utils/image-url';
   styleUrl: './thumbnail.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    '[style.--fit]': 'fit()'
+    '[style.--fit]': 'fit()',
+    '(mouseenter)': 'hovered.emit(image())',
+    '(mouseleave)': 'hovered.emit(null)'
   }
 })
 export class ThumbnailComponent implements OnDestroy {
@@ -41,11 +43,9 @@ export class ThumbnailComponent implements OnDestroy {
   /* Inputs/outputs */
   readonly image = input.required<FileInfo>();
 
-  readonly width = input<number>(defaultThumbWidth);
-
-  readonly height = input<number>(defaultThumbHeight);
-
   readonly clicked = output<FileInfo>();
+
+  readonly hovered = output<FileInfo | null>();
 
   /* State */
   private readonly pixelRatio = toSignal(
@@ -57,7 +57,8 @@ export class ThumbnailComponent implements OnDestroy {
   readonly url = computed(() => {
     const image = this.image();
     const pixelRatio = this.pixelRatio() || 1;
-    return thumbUrl(image.path, this.width() / pixelRatio, this.height() / pixelRatio);
+    const maxPreview = thumbnailDimensions.large;
+    return thumbUrl(image.path, maxPreview.width / pixelRatio, maxPreview.height / pixelRatio);
   });
 
   readonly isLoading = signal<boolean>(true);

@@ -6,4 +6,5 @@ export interface FileInfo {
   isDirectory: boolean;
   createdAt: number;
   size: number;
+  modifiedAt?: number;
 }

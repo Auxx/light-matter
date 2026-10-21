@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { BehaviorSubject, combineLatest, filter, map, Observable, take, tap } from 'rxjs';
+import { BehaviorSubject, combineLatest, filter, firstValueFrom, map, Observable, take, tap } from 'rxjs';
 import { GalleryState } from '../../../gallery/services/gallery-state/gallery-state';
 import { imageUrl } from '../../utils/image-url';
 import { SelectedImage } from './view-navigator.types';
@@ -28,7 +28,9 @@ export class ViewNavigator {
 
         return {
           path: images[index].path,
-          url: imageUrl(images[index].path)
+          url: imageUrl(images[index].path),
+          size: images[index].size,
+          modifiedAt: images[index].modifiedAt
         };
       })
     );
@@ -41,6 +43,9 @@ export class ViewNavigator {
 
   /* Getters */
   readonly selectedImage = () => this.selectedImage$;
+
+  readonly imagePosition = () => combineLatest([ this.images$, this.selectedIndex$ ])
+    .pipe(map(([ images, index ]) => ({ position: index >= 0 && index < images.length ? index + 1 : 0, total: images.length })));
 
   readonly hasPrevious = () => this.hasPrevious$;
 
@@ -73,4 +78,23 @@ export class ViewNavigator {
         tap(index => this.selectedIndex$.next(index)),
         map(index => index >= 0)
       );
+
+  readonly deleteImage = async (path: string): Promise<boolean> => {
+    const images = await firstValueFrom(this.images$.pipe(take(1)));
+    const deletedIndex = images.findIndex(image => image.path === path);
+
+    if (deletedIndex < 0 || !await this.galleryState.deleteImage(path)) {
+      return false;
+    }
+
+    const selectedIndex = this.selectedIndex$.value;
+
+    if (deletedIndex < selectedIndex) {
+      this.selectedIndex$.next(selectedIndex - 1);
+    } else if (deletedIndex === selectedIndex && deletedIndex >= images.length - 1) {
+      this.selectedIndex$.next(Math.max(0, selectedIndex - 1));
+    }
+
+    return true;
+  };
 }

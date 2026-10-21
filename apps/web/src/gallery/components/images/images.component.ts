@@ -65,6 +65,8 @@ export class ImagesComponent {
   /* Outputs */
   readonly selected = output<FileInfo>();
 
+  readonly hovered = output<FileInfo | null>();
+
   constructor() {
     effect(() => {
       const isDate = this.isDateSorted();

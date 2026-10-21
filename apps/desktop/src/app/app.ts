@@ -94,12 +94,13 @@ export default class App {
     App.mainWindow.once('ready-to-show', () => {
       App.mainWindow.show();
 
-      // In dev mode - show DevTools and minimise the window to avoid interruptions on app reloads after file saves.
-      if (!App.application.isPackaged) {
-        if (App.startupConfig.minimiseOnStart()) {
-          App.mainWindow.minimize();
-        }
+      // In dev mode, optionally minimise the window to avoid interruptions on app reloads after file saves.
+      if (!App.application.isPackaged && App.startupConfig.minimiseOnStart()) {
+        App.mainWindow.minimize();
+      }
 
+      // Restore the persisted DevTools visibility setting in both development and packaged builds.
+      if (App.startupConfig.devToolsOpen()) {
         App.mainWindow.webContents.openDevTools();
       }
     });
@@ -121,6 +122,18 @@ export default class App {
       // when you should delete the corresponding element.
       App.mainWindow = null;
     });
+  }
+
+  static setDevToolsOpen(open: boolean) {
+    if (App.mainWindow !== null && App.mainWindow !== undefined) {
+      if (open) {
+        App.mainWindow.webContents.openDevTools();
+      } else {
+        App.mainWindow.webContents.closeDevTools();
+      }
+    }
+
+    return App.startupConfig.saveDevToolsOpen(open);
   }
 
   private static loadMainWindow() {
@@ -160,6 +173,7 @@ export default class App {
         scheme: appProtocol,
         privileges: {
           bypassCSP: true,
+          corsEnabled: true,
           stream: true,
           supportFetchAPI: true
         }

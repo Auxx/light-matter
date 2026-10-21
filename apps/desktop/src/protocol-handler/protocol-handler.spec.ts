@@ -80,6 +80,7 @@ describe('protocolHandler', () => {
       const response = streamFile(testImagePath);
       expect(response.status).toBe(200);
       expect(response.headers.get('Content-Type')).toBe('image/jpeg');
+      expect(response.headers.get('Access-Control-Allow-Origin')).toBe('*');
       expect(response.body).toBeDefined();
 
       const text = await response.text();

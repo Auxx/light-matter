@@ -19,4 +19,6 @@ export class FileSystem implements DesktopFileSystem {
 
   readonly readImages = async (path: string, sortBy: SortType, sortDir: SortDirection) =>
     window.desktop.FileSystem.readImages(path, sortBy, sortDir);
+
+  readonly deleteFile = async (path: string) => window.desktop.FileSystem.deleteFile(path);
 }

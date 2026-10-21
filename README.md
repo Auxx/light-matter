@@ -40,15 +40,19 @@ chmod +x LightMatter-*.AppImage
 
 ## Supported image formats
 
-- JPEG
-- JPEG with gain maps (UltraHDR)
-- JPEG XL
-- AVIF
-- PNG
-- WebP
-- SVG
-- GIF
-- BMP
+| Format | Decoder used in the app |
+| --- | --- |
+| JPEG | Chromium / Electron native image decoder |
+| JPEG with gain maps (UltraHDR) | Chromium / Electron native image decoder |
+| JPEG XL | Chromium / Electron native image decoder (JXL enabled via Chromium flag) |
+| AVIF | `wasm-vips` / libvips HEIF loader; converted to JPEG for display |
+| PNG | Chromium / Electron native image decoder |
+| WebP | Chromium / Electron native image decoder |
+| SVG | Chromium / Electron native image decoder |
+| GIF | Chromium / Electron native image decoder |
+| BMP | Chromium / Electron native image decoder |
+
+AVIF is decoded and converted by the app's thumbnail worker before it is displayed. The other formats in this list are passed to Chromium / Electron for image decoding.
 
 ## Windows 11 ACM note
 

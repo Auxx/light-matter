@@ -1,6 +1,8 @@
 export interface SelectedImage {
   path: string;
   url: string;
+  size: number;
+  modifiedAt?: number;
 }
 
 export interface ViewNavigatorValidState {

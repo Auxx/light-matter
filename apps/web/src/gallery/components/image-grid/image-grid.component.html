@@ -1,7 +1,6 @@
 @let location = selectedLocation();
 @let sortType = sortBy();
 @let sortDir = sortDirection();
-@let currentThumbSize = thumbSize();
 
 <ui-toolbar>
   <ui-title>
@@ -13,18 +12,40 @@
   </ui-title>
 
   <aside>
+    <div class="thumbnail-size-control" title="Thumbnail size">
+      <ui-text [inherit]="true">Small</ui-text>
+      <button class="zoom-step-button" type="button" title="Smaller thumbnails (-)" aria-label="Smaller thumbnails" (click)="adjustThumbnailSize(-1)">−</button>
+      <ui-slider [formControl]="thumbSizeSlider"
+                 [min]="0"
+                 [max]="8"
+                 aria-label="Thumbnail size" />
+      <button class="zoom-step-button" type="button" title="Larger thumbnails (+)" aria-label="Larger thumbnails" (click)="adjustThumbnailSize(1)">+</button>
+      <ui-text [inherit]="true">Large</ui-text>
+    </div>
+
     <ui-action-button class="action"
-                      [cdkMenuTriggerFor]="thumbSizeMenu"
+                      [title]="'Sort ' + (sortDir === 'asc' ? 'ascending' : 'descending')"
+                      [cdkMenuTriggerFor]="sortDirectionMenu"
                       uiStopPropagation>
-      <ui-icon icon="scaleFit" [inherit]="true" />
+      <ui-icon [icon]="sortDir === 'asc' ? 'arrowSortUp' : 'arrowSortDown'" [inherit]="true" />
+      <ui-text [inherit]="true">{{ sortDir === 'asc' ? 'Ascending' : 'Descending' }}</ui-text>
       <ui-icon icon="chevronDown" [inherit]="true" size="small" />
     </ui-action-button>
 
     <ui-action-button class="action"
+                      [title]="'Sort by ' + (sortType === 'date' ? 'date' : sortType === 'name' ? 'name' : 'size') + ', ' + (sortDir === 'asc' ? 'ascending' : 'descending')"
                       [cdkMenuTriggerFor]="sortMenu"
                       uiStopPropagation>
-      <ui-icon icon="arrowSort" [inherit]="true" />
+      <ui-icon [icon]="sortType === 'date' ? 'calendar' : sortType === 'name' ? 'text' : 'save'" [inherit]="true" />
+      <ui-text [inherit]="true">{{ sortType === 'date' ? 'Date' : sortType === 'name' ? 'Name' : 'Size' }}</ui-text>
       <ui-icon icon="chevronDown" [inherit]="true" size="small" />
+    </ui-action-button>
+
+    <ui-action-button class="action theme-toggle"
+                      [title]="theme.current() === 'light' ? 'Switch to dark mode' : 'Switch to light mode'"
+                      (pressed)="theme.toggle()"
+                      uiStopPropagation>
+      <ui-text [inherit]="true">{{ theme.current() === 'light' ? 'Dark mode' : 'Light mode' }}</ui-text>
     </ui-action-button>
   </aside>
 </ui-toolbar>
@@ -33,32 +54,32 @@
   <app-images [images]="images()"
               [sortBy]="sortBy()"
               [thumbSize]="thumbSize()"
+              (hovered)="onThumbnailHovered($event)"
               (selected)="selected.emit($event)" />
 </div>
 
-<ng-template #thumbSizeMenu>
-  <ui-popup-menu cdkMenu>
-
-    <ui-action-button cdkMenuItem
-                      (pressed)="thumbSizeChanged.emit('small')">
-      <ui-icon [icon]="currentThumbSize === 'small' ? 'circleSmallFilled' : 'EMPTY'" [inherit]="true" />
-      <ui-text [inherit]="true">Small</ui-text>
-    </ui-action-button>
-
-    <ui-action-button cdkMenuItem
-                      (pressed)="thumbSizeChanged.emit('medium')">
-      <ui-icon [icon]="currentThumbSize === 'medium' ? 'circleSmallFilled' : 'EMPTY'" [inherit]="true" />
-      <ui-text [inherit]="true">Medium</ui-text>
-    </ui-action-button>
-
-    <ui-action-button cdkMenuItem
-                      (pressed)="thumbSizeChanged.emit('large')">
-      <ui-icon [icon]="currentThumbSize === 'large' ? 'circleSmallFilled' : 'EMPTY'" [inherit]="true" />
-      <ui-text [inherit]="true">Large</ui-text>
-    </ui-action-button>
-
-  </ui-popup-menu>
-</ng-template>
+<ui-toolbar class="image-status" [class.visible]="(images()?.length ?? 0) > 0">
+  <ui-text>
+    <strong>{{ images()?.length ?? 0 }} images</strong>
+    @if (hoveredImage(); as image) {
+      @let tags = hoveredTags();
+      @let bits = tags?.BitsPerSample ?? tags?.BitDepth ?? tags?.ImagePixelDepth ?? null;
+      ·
+      <strong class="dynamic-range" [class.hdr]="imageDynamicRange(image.path, tags, bits === null ? null : bits + '-bit') === 'HDR'">
+        {{ imageDynamicRange(image.path, tags, bits === null ? null : bits + '-bit') }}
+      </strong>
+      · {{ image.name }}
+      @if (tags?.ImageWidth && tags?.ImageHeight) {
+        · {{ tags?.ImageWidth }} x {{ tags?.ImageHeight }}
+      }
+      · {{ bits ?? '—' }}-bit
+      · {{ image.size | number: '1.0-0' }} bytes
+      @if (image.modifiedAt !== undefined) {
+        · {{ image.modifiedAt | date: 'yyyy-MM-dd HH:mm:ss' }}
+      }
+    }
+  </ui-text>
+</ui-toolbar>
 
 <ng-template #sortMenu>
   <ui-popup-menu cdkMenu>
@@ -84,8 +105,11 @@
       <ui-text [inherit]="true">Size</ui-text>
     </ui-action-button>
 
-    <ui-menu-separator />
+  </ui-popup-menu>
+</ng-template>
 
+<ng-template #sortDirectionMenu>
+  <ui-popup-menu cdkMenu>
     <ui-action-button cdkMenuItem
                       (pressed)="sortDirChanged.emit('asc')">
       <ui-icon [icon]="sortDir === 'asc' ? 'circleSmallFilled' : 'EMPTY'" [inherit]="true" />

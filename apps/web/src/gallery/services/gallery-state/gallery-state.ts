@@ -29,21 +29,40 @@ export class GalleryState {
 
   private readonly sortMode$ = new BehaviorSubject<SortMode>(defaultSortMode());
 
+  constructor() {
+    this.configuration.config()
+      .pipe(take(1))
+      .subscribe(config => {
+        const defaultSort = defaultSortMode();
+        this.sortMode$.next({
+          sortBy: config.gallery.sortBy ?? defaultSort.sortBy,
+          sortDir: config.gallery.sortDir ?? defaultSort.sortDir
+        });
+
+        const selectedLocation = this.selectedLocation$.value;
+        if (selectedLocation !== null) {
+          this.navigateTo(selectedLocation).subscribe();
+        }
+      });
+  }
+
   private readonly galleryRoot$: Observable<TreeNode<string>> = this.locations$
     .pipe(
       startWith([]),
       map(locations => {
         const root = galleryRoot();
-        root.children = locations.map((location, i) => {
+        const selectedLocation = this.selectedLocation$.value ?? locations[0] ?? null;
+        root.children = locations.map(location => {
           const node = treeNode(location, false);
-
-          if (i === 0) {
-            node.isSelected = true;
-            this.navigateTo(node.id).subscribe();
-          }
+          node.isSelected = location === selectedLocation;
 
           return node;
         });
+
+        if (this.selectedLocation$.value === null && locations[0] !== undefined) {
+          this.navigateTo(locations[0]).subscribe();
+        }
+
         return root;
       })
     );
@@ -77,6 +96,10 @@ export class GalleryState {
   readonly changeSorting = (sortMode: Partial<SortMode>) =>
     updateSubject(this.sortMode$, sortMode)
       .pipe(
+        tap(() => {
+          const current = this.sortMode$.value;
+          this.configuration.updateGalleryConfig({ sortBy: current.sortBy, sortDir: current.sortDir });
+        }),
         switchMap(() => this.selectedLocation$.pipe(take(1))),
         filter(path => path !== null)
       )
@@ -89,6 +112,17 @@ export class GalleryState {
       thumbWidth: dimensions.width,
       thumbHeight: dimensions.height
     });
+  };
+
+  readonly deleteImage = async (path: string): Promise<boolean> => {
+    const response = await this.fileSystem.deleteFile(path);
+
+    if (!response.success) {
+      return false;
+    }
+
+    this.images$.next(this.images$.value.filter(image => image.path !== path));
+    return true;
   };
 
   /* Misc */

@@ -3,6 +3,7 @@ import { updateSubject } from '@light-matter/ui';
 import {
   AppConfigV1,
   AppConfigV1Gallery,
+  AppConfigV1System,
   defaultThumbHeight,
   defaultThumbWidth,
   isAppConfig,
@@ -62,6 +63,15 @@ export class Configuration {
       .subscribe();
   };
 
+  readonly updateSystemConfig = (options: Partial<AppConfigV1System>) => {
+    updateSubject(this.config$, config => {
+      const result = structuredClone(config);
+      result.system = { ...result.system, ...options };
+      return result;
+    })
+      .subscribe();
+  };
+
   private readonly init = async () => {
     const paths = await this.processManager.getSystemPaths();
     this._defaultConfig = this.defaultConfig(paths);
@@ -88,7 +98,8 @@ export class Configuration {
         thumbHeight: defaultThumbHeight
       },
       system: {
-        minimiseOnStart: false
+        minimiseOnStart: false,
+        theme: 'dark'
       }
     };
   };

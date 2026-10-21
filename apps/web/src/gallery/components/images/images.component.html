@@ -1,5 +1,4 @@
 @let imageList = images();
-@let dims = dimensions();
 
 @if (imageList === null || imageList.length === 0) {
   <p>No images found in this folder.</p>
@@ -23,8 +22,7 @@
               <div class="images">
                 @for (image of monthGroup.images; track image.path) {
                   <app-thumbnail [image]="image"
-                                 [width]="dims.width"
-                                 [height]="dims.height"
+                                 (hovered)="hovered.emit($event)"
                                  (clicked)="this.selected.emit($event)" />
                 }
               </div>
@@ -44,8 +42,7 @@
   <div class="images">
     @for (image of imageList; track image.path) {
       <app-thumbnail [image]="image"
-                     [width]="dims.width"
-                     [height]="dims.height"
+                     (hovered)="hovered.emit($event)"
                      (clicked)="this.selected.emit($event)" />
     }
   </div>

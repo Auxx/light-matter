@@ -19,7 +19,8 @@ export default class ElectronEvents {
           injector.inject('Exif'),
           injector.inject('FileSystem'),
           injector.inject('ProcessManager'),
-          injector.inject('CacheManager')
+          injector.inject('CacheManager'),
+          injector.inject('Histogram')
         ]
       );
 

@@ -1,28 +1,168 @@
-@let totalCacheSize = cacheSize();
+@let currentCache = cacheInfo();
+@let clearResult = lastClearResult();
 
 <ui-dialog>
-  <header>
+  <header class="settings-header">
     <ui-title>Light Matter Settings</ui-title>
+    <button class="settings-close-button" type="button" title="Close settings" aria-label="Close settings" (click)="dialogRef.close(false)">×</button>
   </header>
   <section>
-    <ui-toolbar>
-      <ui-text [multiLine]="true"
-               [important]="true">
-        Cache size &ndash; {{ totalCacheSize | byteSize }}
-      </ui-text>
-
-      <aside>
-        <ui-flat-button variant="warn"
-                        [disabled]="totalCacheSize === 0"
-                        (pressed)="deleteCache()">
-          Delete cache
-        </ui-flat-button>
-      </aside>
-    </ui-toolbar>
+    <div class="setting-row">
+      <div class="setting-description">
+        <strong>Chromium Developer Tools</strong>
+        <span>Show or hide the Chromium DevTools panel. The setting is saved and restored when Light Matter starts.</span>
+      </div>
+      <label class="setting-toggle">
+        <input type="checkbox"
+               [checked]="devToolsOpen()"
+               [disabled]="devToolsLoading()"
+               (change)="setDevToolsOpen($any($event.target).checked)" />
+        <span>Show DevTools</span>
+      </label>
+    </div>
+    @if (devToolsLoading()) {
+      <p class="cache-status" role="status">Loading DevTools setting…</p>
+    } @else if (devToolsError() !== null) {
+      <p class="cache-status error" role="alert">Could not update DevTools setting: {{ devToolsError() }}</p>
+    }
   </section>
-  <footer>
-    <ui-action-button (pressed)="dialogRef.close(false)">
-      Close
-    </ui-action-button>
-  </footer>
+
+  <section>
+    <div class="setting-row setting-config-path">
+      <div class="cache-path-details">
+        <strong class="setting-section-title">Settings file</strong>
+        <code>{{ configPath() || 'Loading path…' }}</code>
+      </div>
+      <button class="cache-button"
+              type="button"
+              [disabled]="!configPath()"
+              (click)="openConfigFile()">
+        Open settings file
+      </button>
+    </div>
+    @if (configFileError() !== null) {
+      <p class="cache-status error" role="alert">Could not open settings file: {{ configFileError() }}</p>
+    }
+  </section>
+
+  <section>
+    <div class="cache-overview">
+      <strong class="setting-section-title cache-section-title">Cache</strong>
+      <div class="cache-categories">
+        <div class="cache-category">
+          <div>
+            <span>Full-size conversions</span>
+            <strong>{{ currentCache.fullSize.entries }} files · {{ currentCache.fullSize.bytes | byteSize }}</strong>
+            <span class="cache-hint">See the “Full-size cache” column in Supported image formats below.</span>
+          </div>
+          <button class="cache-button warning"
+                  type="button"
+                  [disabled]="currentCache.fullSize.entries === 0 || isClearing()"
+                  (click)="deleteFullSizeCache()">
+            Delete full-size cache
+          </button>
+        </div>
+
+        <div class="cache-category">
+          <div>
+            <span>Thumbnail files</span>
+            <strong>{{ currentCache.thumbnails.entries }} files · {{ currentCache.thumbnails.bytes | byteSize }}</strong>
+          </div>
+          <button class="cache-button warning"
+                  type="button"
+                  [disabled]="currentCache.thumbnails.entries === 0 || isClearing()"
+                  (click)="deleteThumbnailsCache()">
+            Delete thumbnails
+          </button>
+        </div>
+
+        <div class="cache-total">
+          <div>
+            <span>Total cache</span>
+            <strong>{{ currentCache.entries }} files · {{ currentCache.bytes | byteSize }}</strong>
+          </div>
+          <aside class="cache-total-actions">
+            <button class="cache-button warning"
+                    type="button"
+                    [disabled]="currentCache.bytes === 0 || isClearing()"
+                    (click)="deleteCache()">
+              Delete entire cache
+            </button>
+          </aside>
+        </div>
+      </div>
+      <div class="cache-path">
+        <div class="cache-path-details">
+          <span>Cache location</span>
+          <code>{{ currentCache.path }}</code>
+        </div>
+        <button class="cache-button"
+                type="button"
+                [disabled]="isClearing()"
+                (click)="openCacheFolder()">
+          Open cache folder
+        </button>
+      </div>
+    </div>
+
+    @if (openFolderError() !== null) {
+      <p class="cache-status error" role="alert">Could not open cache folder: {{ openFolderError() }}</p>
+    }
+
+    @if (isClearing()) {
+      <p class="cache-status" role="status">Clearing cache…</p>
+    } @else if (clearResult !== null) {
+      <p class="cache-status" role="status">
+        Deleted {{ clearResult.entries }} entries · freed {{ clearResult.bytes | byteSize }}.
+      </p>
+    } @else if (clearError() !== null) {
+      <p class="cache-status error" role="alert">Cache clearing failed: {{ clearError() }}</p>
+    }
+
+    <details class="format-details">
+      <summary>Supported image formats</summary>
+      <p class="format-note">Bit depth is per channel unless noted. Support for optional features can vary by file.</p>
+      <div class="format-list">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Format</th>
+              <th scope="col">HDR</th>
+              <th scope="col">Full-size cache</th>
+              <th scope="col">Bit depth</th>
+              <th scope="col">Decoder</th>
+              <th scope="col">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (format of supportedFormats; track format.name) {
+              <tr>
+                <td>
+                  <strong>{{ format.name }}</strong>
+                  <span class="extensions">{{ format.extensions.join(', ') }}</span>
+                </td>
+                <td>
+                  @if (format.hdr) {
+                    <span class="dynamic-range hdr">HDR</span>
+                  } @else {
+                    <span class="sdr-marker">SDR</span>
+                  }
+                </td>
+                <td>
+                  @if (format.fullSizeCache) {
+                    <span class="cache-marker">Yes</span>
+                  } @else {
+                    <span class="sdr-marker">No</span>
+                  }
+                </td>
+                <td>{{ format.bitDepth }}</td>
+                <td>{{ decoderFor(format.extensions) }}</td>
+                <td>{{ format.details }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </section>
 </ui-dialog>

@@ -16,6 +16,27 @@ export const insertMigrationRecord = `INSERT INTO migrations (name) VALUES (:nam
 
 export const clearCacheRecords = `DELETE FROM cache_files;`;
 
+export const findFullSizeCacheFiles = `
+SELECT source_name, source_tag, target_path
+FROM cache_files
+WHERE source_tag LIKE '%-full-%';
+`;
+
+export const findThumbnailCacheFiles = `
+SELECT source_name, source_tag, target_path
+FROM cache_files
+WHERE source_tag NOT LIKE '%-full-%';
+`;
+
+export const findCacheFiles = `
+SELECT source_name, source_tag, target_path
+FROM cache_files;
+`;
+
+export const deleteCacheFile = `
+DELETE FROM cache_files WHERE source_name = :sourceName AND source_tag = :sourceTag;
+`;
+
 export const insertCacheFile = `
 INSERT INTO cache_files (
   source_name,

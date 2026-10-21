@@ -6,14 +6,32 @@ import { join } from 'node:path';
 export class StartupConfig {
   private _bounds: Electron.Rectangle | null = null;
   private _minimiseOnStart = false;
+  private _devToolsOpen: boolean;
 
   constructor(private readonly app: Electron.App) {
+    this._devToolsOpen = !app.isPackaged;
     this.init();
   }
 
   readonly bounds = () => this._bounds;
 
   readonly minimiseOnStart = () => this._minimiseOnStart;
+
+  readonly devToolsOpen = () => this._devToolsOpen;
+
+  readonly saveDevToolsOpen = async (open: boolean) => {
+    this._devToolsOpen = open;
+    const config = this.load();
+    if (!(config instanceof Object)) {
+      return;
+    }
+
+    if (!(config['system'] instanceof Object)) {
+      config['system'] = {};
+    }
+    config['system'].devToolsOpen = open;
+    await this.save(config);
+  };
 
   readonly configPath = () => join(this.app.getPath('userData'), appConfigName);
 
@@ -67,6 +85,9 @@ export class StartupConfig {
     }
 
     this._minimiseOnStart = system.minimiseOnStart === true;
+    if (typeof system.devToolsOpen === 'boolean') {
+      this._devToolsOpen = system.devToolsOpen;
+    }
 
     const x = system.bounds?.x;
     const y = system.bounds?.y;

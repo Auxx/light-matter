@@ -23,6 +23,7 @@ import { GalleryLocations } from '../../../gallery/services/gallery-locations/ga
 import { GalleryState } from '../../../gallery/services/gallery-state/gallery-state';
 import { defaultSortMode, treeNode } from '../../../gallery/services/gallery-state/gallery-state.types';
 import { Dialogs } from '../../../ipc/dialogs';
+import { ProcessManager } from '../../../ipc/process-manager';
 import { SettingsDialogComponent } from '../../../settings/components/settings-dialog/settings-dialog.component';
 import { DefaultPipe } from '../../../system/pipes/default/default.pipe';
 import { ImageView } from '../../../viewer/pages/image-view/image-view';
@@ -53,6 +54,8 @@ export class GalleryPage {
   /* DI */
   private readonly galleryState = inject(GalleryState);
 
+  private readonly processManager = inject(ProcessManager);
+
   private readonly dialogs = inject(Dialogs);
 
   private readonly dialog = inject(Dialog);
@@ -81,6 +84,12 @@ export class GalleryPage {
   readonly sortMode$ = this.galleryState.sortMode();
 
   readonly thumbSize$ = this.galleryState.thumbSize();
+
+  constructor() {
+    this.processManager.getAppVersion()
+      .then(version => this.processManager.setWindowTitle(`Light Matter - ${version}`))
+      .catch(() => undefined);
+  }
 
   /* Event handlers */
   protected readonly onSortByChange = (value: SortType) => this.galleryState.changeSorting({ sortBy: value });

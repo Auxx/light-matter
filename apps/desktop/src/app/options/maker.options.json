@@ -12,6 +12,12 @@
         "svg",
         "webp",
         "avif",
+        "heif",
+        "heic",
+        "exr",
+        "hdr",
+        "tif",
+        "tiff",
         "bmp"
       ],
       "role": "Viewer"

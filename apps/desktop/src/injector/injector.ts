@@ -2,6 +2,7 @@ import { CacheManager } from '../cache-manager/cache-manager';
 import { Dialogs } from '../dialogs/dialogs';
 import { Exif } from '../exif/exif';
 import { FileSystem } from '../file-system/file-system';
+import { Histogram } from '../histogram/histogram';
 import { ProcessManager } from '../process-manager/process-manager';
 import { ThumbManager } from '../thumb-manager/thumb-manager';
 
@@ -17,7 +18,8 @@ export class Injector {
     FileSystem: new FileSystem(),
     ProcessManager: new ProcessManager(),
     CacheManager: new CacheManager(),
-    ThumbManager: new ThumbManager()
+    ThumbManager: new ThumbManager(),
+    Histogram: new Histogram()
   } as const;
 
   private constructor() {

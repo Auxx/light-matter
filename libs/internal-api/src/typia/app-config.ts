@@ -1,11 +1,13 @@
 import typia from 'typia';
 
-export type ThumbnailSize = 'small' | 'medium' | 'large';
-export const allThumbnailSizes = [ 'small', 'medium', 'large' ] as const;
+export type ThumbnailSize = 'small' | 'smallMedium' | 'medium' | 'mediumLarge' | 'large';
+export const allThumbnailSizes = [ 'small', 'smallMedium', 'medium', 'mediumLarge', 'large' ] as const;
 export const defaultThumbnailSize: ThumbnailSize = 'small';
 export const thumbnailDimensions: Record<ThumbnailSize, { width: number; height: number; }> = {
   small: { width: 192, height: 128 },
+  smallMedium: { width: 240, height: 160 },
   medium: { width: 288, height: 192 },
+  mediumLarge: { width: 336, height: 224 },
   large: { width: 384, height: 256 }
 };
 
@@ -16,6 +18,14 @@ export const getThumbnailSize = (width?: number, height?: number): ThumbnailSize
 
   if (width === thumbnailDimensions.medium.width && height === thumbnailDimensions.medium.height) {
     return 'medium';
+  }
+
+  if (width === thumbnailDimensions.smallMedium.width && height === thumbnailDimensions.smallMedium.height) {
+    return 'smallMedium';
+  }
+
+  if (width === thumbnailDimensions.mediumLarge.width && height === thumbnailDimensions.mediumLarge.height) {
+    return 'mediumLarge';
   }
 
   return 'small';
@@ -34,10 +44,13 @@ export interface AppConfigV1Gallery {
   locations: string[];
   thumbWidth?: number;
   thumbHeight?: number;
+  sortBy?: 'date' | 'name' | 'size';
+  sortDir?: 'asc' | 'desc';
 }
 
 export interface AppConfigV1System {
   minimiseOnStart: boolean;
+  theme?: 'dark' | 'light';
   bounds?: {
     x: number;
     y: number;
